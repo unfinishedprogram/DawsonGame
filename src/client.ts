@@ -1,10 +1,12 @@
-cubes = [];
+import * as THREE from 'three';
+
+var cubes = new Array();
 var up = 0;
 var right = 0;
 
-websocket = new WebSocket("ws://70.26.238.78:34561/");
+var websocket = new WebSocket("ws://70.26.238.78:34561/");
     websocket.onmessage = function (event) {
-        data = JSON.parse(event.data);
+        let data = JSON.parse(event.data);
         switch (data.type) {
 
             case 'current':
@@ -19,7 +21,7 @@ websocket = new WebSocket("ws://70.26.238.78:34561/");
                 
             case 'mouse_move':
                 if(data.cords.length > cubes.length){
-                    newc = newCube();
+                    let newc = newCube();
                     cubes.push(newc);
                     scene.add(newc);
                 } else if ( cubes.length < data.cords.length ){
@@ -71,14 +73,14 @@ function animate() {
     console.log(up);
 }
 
-function newCube(){
+function newCube(): THREE.Mesh {
     return new THREE.Mesh( geometry, material );
 }
 
 window.addEventListener( "keydown", onKeyDown, false );
 window.addEventListener( "keyup", onKeyUp, false );
 
-function onKeyDown( event ) {
+function onKeyDown( event: any  ) {
     let keyCode = event.which;
     
     if ( keyCode == 87 )        // up
@@ -97,7 +99,7 @@ function onKeyDown( event ) {
     }
 
 };
-function onKeyUp( event ) {
+function onKeyUp( event: any) {
     let keyCode = event.which;
 
     if ( keyCode == 87 || keyCode == 83 )        // up & down
@@ -105,7 +107,8 @@ function onKeyUp( event ) {
     else if ( keyCode == 65 || keyCode == 68 )   // left & right
         right = 0;
 }
-
+/**
+ 
 function addParticle(){
     let tempmat = new THREE.MeshBasicMaterial( { color: new THREE.Color( Math.random(), Math.random(), Math.random() ) } );
 
@@ -116,7 +119,7 @@ function addParticle(){
     particle.scale.z = 0.1;
     particle.position.x = ( Math.random()-0.5 ) * 2 ;  
     particle.position.y = ( Math.random()-0.5 ) * 2;  
-    particles.push( particle );
+    //particles.push( particle );
 }
 
 function getRandomRgb() {
@@ -126,6 +129,9 @@ function getRandomRgb() {
     var b = num & 255;
     return [ r, g, b ];
 }
+
+ **/
+
 
 function sendPosition() {
     websocket.send( JSON.stringify( { "action":"mouse_move", 'value': [ cube.position.x, cube.position.y ] } ) );

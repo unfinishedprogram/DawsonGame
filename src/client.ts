@@ -44,13 +44,14 @@ websocket.onmessage = function (event) {
 };
 
 const scene = new THREE.Scene();
-const width = 2;
-const height = 2;
+const width = 1280;
+const height = 720;
+const zoom = 200;
 const camera = new THREE.OrthographicCamera(
-  width / -2,
-  width / 2,
-  height / 2,
-  height / -2,
+  -width / zoom,
+  width / zoom,
+  height / zoom,
+  - height / zoom,
   1,
   1000
 );
@@ -58,7 +59,7 @@ const camera = new THREE.OrthographicCamera(
 const clock = new THREE.Clock();
 
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(width, height);
 
 const geometry = new THREE.PlaneGeometry();
 

@@ -11,7 +11,25 @@ export abstract class GameObject {
     // its initial state. We can also define another constructor to
     // have a default spawn cords. Like (0, 0, 0).
     // Typescript has a "?" operator and that may be good too.
+
     constructor(transform: Component) {
         this.components.push(transform);
+    }
+
+
+
+    // We should be adding and removing components with a function so we can upadte anything 
+    // nececary and check compatibility with other components
+
+    // Returns true if component can be added, false otherwise 
+    public addComponent(component: Component): boolean{
+        return false;
+    }
+
+    // Returns true if component can be removed, false otherwise 
+    // Mostly this would happen if the component being 
+    // removed is a requirement for another
+    public removeComponent(component: Component): boolean{
+        return false;
     }
 }

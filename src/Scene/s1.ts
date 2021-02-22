@@ -8,15 +8,9 @@ import { Cube } from '../Objects/presets/Cube';
 
 let transform = new Transform(
     new Vector3(0, 0, 5),
-    new Vector3(0, 0, 0),
-    new Vector3(1, 1, 1)
 );
 
-let transforma = new Transform(
-    new Vector3(0, 0, 0),
-    new Vector3(0, 0, 0),
-    new Vector3(1, 1, 1)
-);
+let transforma = new Transform();
 
 let s1 = new Scene(new Camera(transform, 1280, 720, 200));
 let cube = new Cube(transforma);

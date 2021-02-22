@@ -11,7 +11,7 @@ class Main {
     constructor() {
         this.scene = s1;
         this.renderer = new Renderer(1280, 720, this.scene);
-        //this.networkManager = new Networking('127.0.0.1', 8765);
+        this.networkManager = new Networking('127.0.0.1', 8765);
         this.networkManager = null;
         document.body.appendChild(this.renderer.renderer.domElement);
     }

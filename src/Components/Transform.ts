@@ -11,12 +11,12 @@ export class Transform extends Component {
     constructor(
             position: Vector3 = new Vector3( 0, 0, 0 ),
             rotation: Vector3 = new Vector3( 0, 0, 0 ),
-            scale: Vector3 = new Vector3( 1, 1, 1 ))
+            scale: Vector3 = new Vector3( 1, 1, 1 )
+            )
         {
         super(); // Why? Component doesn't have a constructor...
         this.position = position;
-        // In radians
-        this.rotation = rotation;
+        this.rotation = rotation; // In radians
         this.scale = scale;
     }
 

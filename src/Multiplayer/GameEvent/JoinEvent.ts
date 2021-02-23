@@ -1,4 +1,4 @@
-import { GameEvent } from './GameEvent';
+import { GameEvent } from './gameEvent';
 
 export class JoinEvent extends GameEvent {
     name: String = "join";

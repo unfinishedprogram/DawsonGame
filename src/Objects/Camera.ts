@@ -1,7 +1,7 @@
-import { Component } from '../Components/Component';
-import { GameObject } from './GameObject';
+import { Component } from '../components/component';
+import { GameObject } from './gameObject';
 import { OrthographicCamera } from 'three';
-import { Transform } from '../Components/Transform';
+import { Transform } from '../components/transform';
 
 export class Camera extends GameObject {
     components: Component[] = [];

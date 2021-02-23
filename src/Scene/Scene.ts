@@ -1,5 +1,5 @@
-import { GameObject } from '../Objects/GameObject';
-import { Camera } from '../Objects/Camera';
+import { GameObject } from '../objects/gameObject';
+import { Camera } from '../objects/camera';
 
 export class Scene {
     gameObjects: GameObject[] = [];

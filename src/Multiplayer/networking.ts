@@ -1,5 +1,5 @@
-import { create_connection } from '../Utils/websocket_connect';
-import { EventHandler } from './Handler';
+import { create_connection } from '../utils/websocket_connect';
+import { EventHandler } from './handler';
 
 export class Networking {
     websocket: WebSocket;

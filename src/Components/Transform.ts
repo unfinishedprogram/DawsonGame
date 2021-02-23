@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { Component } from './Component';
+import { Component } from './component';
 
 
 export class Transform extends Component {

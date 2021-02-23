@@ -1,6 +1,6 @@
 import { Networking } from './networking';
-import { GameEvent } from './GameEvent/GameEvent';
-import { JoinEvent } from './GameEvent/JoinEvent';
+import { GameEvent } from './gameEvent/gameEvent';
+import { JoinEvent } from './gameEvent/joinEvent';
 
 export class EventHandler {
     parent: Networking;

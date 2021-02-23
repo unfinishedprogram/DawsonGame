@@ -1,7 +1,7 @@
-import { Networking } from './Multiplayer/networking';
-import { Renderer } from './Renderer/Renderer';
-import { Scene } from './Scene/Scene';
-import { s1 } from './Scene/s1'
+import { Networking } from './multiplayer/networking';
+import { Renderer } from './renderer/renderer';
+import { Scene } from './scene/scene';
+import { s1 } from './scene/s1'
 
 class Main {
     renderer: Renderer;

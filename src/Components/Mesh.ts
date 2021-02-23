@@ -1,5 +1,5 @@
-import { Component } from './Component';
-import { GameObject } from '../Objects/GameObject';
+import { Component } from './component';
+import { GameObject } from '../objects/gameObject';
 import { PlaneGeometry, MeshBasicMaterial } from 'three';
 import { Mesh as TMesh } from 'three';
 

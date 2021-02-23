@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Scene } from '../Scene/Scene';
+import { Scene } from '../scene/scene';
 
 export class Renderer {
     width: number;

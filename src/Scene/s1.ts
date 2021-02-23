@@ -1,8 +1,8 @@
-import { Scene } from './Scene';
-import { Camera } from '../Objects/Camera'
-import { Transform } from '../Components/Transform';
+import { Scene } from './scene';
+import { Camera } from '../objects/camera'
+import { Transform } from '../components/transform';
 import { Vector3 } from 'three';
-import { Cube } from '../Objects/presets/Cube';
+import { Cube } from '../objects/presets/cube';
 
 // This is just an example scene. It holds a cube and a camera.
 

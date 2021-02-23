@@ -1,4 +1,4 @@
-import { Component } from '../Components/Component';
+import { Component } from '../components/component';
 import { Object3D } from 'three';
 
 export abstract class GameObject {

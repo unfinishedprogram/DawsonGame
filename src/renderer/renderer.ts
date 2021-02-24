@@ -33,6 +33,10 @@ export class Renderer {
 
     }
 
+    addObject3D(object: any){
+        this.tscene.add(object);
+    }
+
     draw() {
         this.renderer.render(this.tscene, this.scene.camera.camera);
     }
@@ -40,7 +44,8 @@ export class Renderer {
     async load() {
         console.log("Load is executed");
         for (let gameObject of this.scene.gameObjects) {
-            await gameObject.loadModel();
+            //gameObject.loadVOX("./models/chr_knight.vox");
+            gameObject.loadVOX('../public/models/chr_knight.vox', this);
             this.tscene.add(gameObject.object3D);
         }
     }

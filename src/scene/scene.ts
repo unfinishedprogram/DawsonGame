@@ -15,4 +15,9 @@ export class Scene {
         // right.
     }
 
+    update(deltaTime: number){
+        for(let gameObject of this.gameObjects){
+            gameObject.update(deltaTime);
+        }
+    }
 }

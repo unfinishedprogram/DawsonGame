@@ -29,4 +29,5 @@ function animate() {
     game.renderer.draw();
 }
 
+game.renderer.load();
 animate();

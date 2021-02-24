@@ -6,6 +6,8 @@ export abstract class GameObject {
     object3D: Object3D = new Object3D();
 
     abstract update(deltaTime: number): void;
+    loadModel(){
+    };
 
     // Every game object has a transform. This obliges us to specify
     // its initial state. We can also define another constructor to
@@ -15,8 +17,6 @@ export abstract class GameObject {
     constructor(transform: Component) {
         this.components.push(transform);
     }
-
-
 
     // We should be adding and removing components with a function so we can upadte anything 
     // nececary and check compatibility with other components

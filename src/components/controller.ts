@@ -1,5 +1,5 @@
 import { Component } from './component';
-import { Vector2 } from 'three';
+import { Camera, Vector2, Vector3 } from 'three';
 
 // All the controls for all the actions
 export interface Controls {
@@ -11,7 +11,7 @@ export interface Controls {
 // Final output
 export interface Actions {
     movementDirection: Vector2
-    mousePosition: Vector2
+    mouseScreenPosition: Vector2
 }
 
 export class Controller extends Component {
@@ -45,7 +45,7 @@ export class Controller extends Component {
         });
     }
 
-    public getInput() {
+    public getInput() : Actions {
         // Update input array
         Object.keys(this.controls).forEach((action: string) => {
             // This actually works
@@ -62,7 +62,7 @@ export class Controller extends Component {
                 +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
                 ),
             // Raw mouse position
-            mousePosition: this.mousePosition
+            mouseScreenPosition: this.mousePosition
         };
         // Return it
         return finalActions;
@@ -77,5 +77,25 @@ export class Controller extends Component {
         Object.keys(this.controls).forEach((key: string) => {
             this.actions[key] = {};
         });
+    }
+
+    // TODO finish or rewrite
+    public static projectPoint(coords: Vector2, camera: Camera) : Vector3 {
+        let vec = new Vector3();
+        let pos = new Vector3;
+
+        vec.set(
+            coords.x / 1280 * 200 - 100,
+            - coords.y / 720 * 200 + 100,
+            0.5
+        );
+
+        vec.unproject(camera);
+        vec.sub(camera.position).normalize();
+        let distance = - camera.position.z / vec.z;
+        
+        pos.copy(camera.position).add(vec.multiplyScalar(distance));
+
+        return pos;
     }
 }

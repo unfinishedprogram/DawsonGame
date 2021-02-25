@@ -31,6 +31,9 @@ export class Controller extends Component {
         // Add event handlers
         window.addEventListener('keyup', function (e: KeyboardEvent) {
             that.keyStates[e.code] = false;
+            // Clear the array if all the keys are unpressed
+            if (!Object.values(that.keyStates).includes(true))
+                that.keyStates = {};
         });
         window.addEventListener('keydown', function (e: KeyboardEvent) {
             that.keyStates[e.code] = true;

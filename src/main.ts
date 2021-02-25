@@ -24,7 +24,7 @@ let game = new Main();
 //the game loop is outside the Main class because it caused problems
 //w/ requestAnimationFrame and "this". I don't care about it being outside.
 function animate() {
-    s1.gameObjects[0].update(0.1);
+    s1.gameObjects[0].update(0.01);
     requestAnimationFrame(animate);
     game.renderer.draw();
 }

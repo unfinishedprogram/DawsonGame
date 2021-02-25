@@ -17,7 +17,7 @@ export class Controller extends Component {
     // Input array ([actions][keycodes])
     private actions : {[action: string] : {[key: string] : boolean}} = {};
     // Default player controls
-    controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'Arrow'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
+    controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
 
     constructor(controls?: Controls) {
         super();
@@ -43,7 +43,7 @@ export class Controller extends Component {
 
         let finalActions: Actions = {
             // -1 for backward input, 0 for no input, 1 for forward input
-            forward: +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backwards']).includes(true),
+            forward: +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true),
             // -1 for left input, 0 for no input, 1 for right input
             right: +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true)
         };

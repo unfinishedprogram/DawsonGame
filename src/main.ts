@@ -21,16 +21,15 @@ class Main {
 let game = new Main();
 var pressedKeys: { [id: string]: boolean } = {};
 var controller = new Controller();
-console.log(controller);
 
 // Add event handlers
 window.addEventListener('keyup', function (e: KeyboardEvent) {
     pressedKeys[e.code] = false;
-    console.log(controller.getInput(pressedKeys));
+    //controller.getInput(pressedKeys);
 });
 window.addEventListener('keydown', function (e: KeyboardEvent) {
     pressedKeys[e.code] = true;
-    console.log(controller.getInput(pressedKeys));
+    controller.getInput(pressedKeys);
 });
 
 

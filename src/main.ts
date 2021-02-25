@@ -2,7 +2,7 @@ import { Networking } from './multiplayer/networking';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { s1 } from './scene/s1'
-import { Clock, SubtractEquation } from 'three';
+import { Clock } from 'three';
 
 class Main {
     renderer: Renderer;
@@ -23,7 +23,6 @@ class Main {
 }
 
 let game = new Main();
-let clock = new Clock();
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems

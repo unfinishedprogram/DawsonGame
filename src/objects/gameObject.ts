@@ -1,9 +1,6 @@
 import { Component } from '../components/component';
-import { Loader, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry } from 'three';
-import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader';
+import { Mesh, MeshBasicMaterial, Object3D, PlaneGeometry } from 'three';
 import { AssetLoader } from '../utils/assetLoader';
-import { Renderer } from '../renderer/renderer';
-import { s1 } from '../scene/s1';
 
 export abstract class GameObject {
     components: Component[] = [];

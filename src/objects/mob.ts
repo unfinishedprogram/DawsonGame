@@ -1,8 +1,7 @@
 import { GameObject } from './gameObject';
 import { Component } from '../components/component';
-import { Euler, Mesh, Object3D, TetrahedronBufferGeometry, TextureLoader } from 'three';
+import { Mesh } from 'three';
 import { PlaneGeometry, MeshBasicMaterial } from 'three';
-import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader';
 import { Transform } from '../components/transform';
 
 // Move to a specific file

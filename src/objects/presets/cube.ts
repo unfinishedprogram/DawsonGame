@@ -1,5 +1,4 @@
 import { GameObject } from '../gameObject';
-import { Component } from '../../components/component';
 import { PlaneGeometry, MeshBasicMaterial} from 'three';
 import { Mesh } from 'three';
 import { Controller } from '../../components/controller';

@@ -1,6 +1,6 @@
 // Class to load image, 3D, map, or any other async data
 
-import { Mesh} from 'three';
+import { Mesh } from 'three';
 import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader';
 
 export class AssetLoader {

@@ -1,7 +1,7 @@
 import { Scene } from './scene';
 import { Camera } from '../objects/camera'
 import { Transform } from '../components/transform';
-import { Vector3, AmbientLight } from 'three';
+import { Vector3 } from 'three';
 import { Cube } from '../objects/presets/cube';
 import { mob } from '../objects/presets/mob';
 
@@ -15,7 +15,7 @@ let transforma = new Transform();
 
 let s1 = new Scene(new Camera(cameraTransform, 1280, 720, 100));
 let cube = new Cube(transforma);
-//s1.gameObjects.push(cube);
+s1.gameObjects.push(cube);
 
 async function loadMeshes(){
     await mob.loadMesh();

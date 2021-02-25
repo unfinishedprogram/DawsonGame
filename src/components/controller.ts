@@ -21,14 +21,8 @@ export class Controller extends Component {
 
     constructor(controls?: Controls) {
         super();
-        // Get the controls from the constructor or leave them as default
-        if (controls)
-            this.controls = controls;
 
-        // Initialize the boolean array for each action and keycode
-        Object.keys(this.controls).forEach((key: string) => {
-            this.actions[key] = {};
-        });
+        this.updateControls(controls);
     }
 
     public getInput(keyStates: {[id: string]: boolean}) {
@@ -49,5 +43,16 @@ export class Controller extends Component {
         };
         // Return it
         return finalActions;
+    }
+
+    public updateControls(controls?: Controls) {
+        // Set new controls or leave them default
+        if (controls)
+            this.controls = controls;
+        
+        // Initialize the boolean array for each action and keycode
+        Object.keys(this.controls).forEach((key: string) => {
+            this.actions[key] = {};
+        });
     }
 }

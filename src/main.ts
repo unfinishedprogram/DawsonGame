@@ -2,7 +2,7 @@ import { Networking } from './multiplayer/networking';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { s1 } from './scene/s1';
-import { Controller } from './components/controller';
+import { Controller} from './components/controller';
 
 class Main {
     renderer: Renderer;
@@ -25,11 +25,11 @@ var controller = new Controller();
 // Add event handlers
 window.addEventListener('keyup', function (e: KeyboardEvent) {
     pressedKeys[e.code] = false;
-    controller.getInput(pressedKeys);
+    console.log(controller.getInput(pressedKeys));
 });
 window.addEventListener('keydown', function (e: KeyboardEvent) {
     pressedKeys[e.code] = true;
-    controller.getInput(pressedKeys);
+    console.log(controller.getInput(pressedKeys));
 });
 
 

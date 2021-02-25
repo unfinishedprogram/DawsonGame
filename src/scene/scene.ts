@@ -15,4 +15,17 @@ export class Scene {
         // right.
     }
 
+    update(deltaTime: number){
+        for(let gameObject of this.gameObjects){
+            gameObject.update(deltaTime);
+        }
+    }
+
+    async loadObjectMeshes(renderer: any){
+        for (let obj of this.gameObjects){
+            await obj.loadMesh();
+            console.log('Loaded one mesh');
+        }
+        renderer.load();
+    }
 }

@@ -22,24 +22,8 @@ class Main {
     }
 }
 
- var pressedKeys: { [key: number]: boolean; } = {};
- window.onkeyup = function(e: KeyboardEvent) { pressedKeys[e.keyCode] = false; }
- window.onkeydown = function(e: KeyboardEvent) {
-    pressedKeys[e.keyCode] = true; 
-    for(let i = 0; i < 200; i++){
-        if(pressedKeys[i]){
-            var vec = [0,0];
-            if(pressedKeys[87]){vec[0]+=1} //W
-            if(pressedKeys[83]){vec[0]-=1} //S
-            if(pressedKeys[65]){vec[1]+=1} //A
-            if(pressedKeys[68]){vec[1]-=1} //D
-            console.log('y: ', vec[0], ' x: ', vec[1]);
-            //console.log(String.fromCharCode(i));
-        }
-    }
-}
-
 let game = new Main();
+let clock = new Clock();
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems
@@ -47,8 +31,8 @@ let game = new Main();
 let clock = new Clock();
 
 function animate() {
-    
     let deltaTime = clock.getDelta();
+    s1.gameObjects[0].update(deltaTime);
     requestAnimationFrame(animate);
     game.scene.update(deltaTime);
     game.renderer.draw();

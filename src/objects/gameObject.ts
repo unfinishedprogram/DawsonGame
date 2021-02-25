@@ -38,7 +38,8 @@ export abstract class GameObject {
 
     // Returns true if component can be added, false otherwise 
     public addComponent(component: Component): boolean{
-        return false;
+        this.components.push(component);
+        return true;
     }
 
     // Returns true if component can be removed, false otherwise 

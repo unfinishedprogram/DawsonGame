@@ -25,7 +25,7 @@ var controller = new Controller();
 // Add event handlers
 window.addEventListener('keyup', function (e: KeyboardEvent) {
     pressedKeys[e.code] = false;
-    //controller.getInput(pressedKeys);
+    controller.getInput(pressedKeys);
 });
 window.addEventListener('keydown', function (e: KeyboardEvent) {
     pressedKeys[e.code] = true;

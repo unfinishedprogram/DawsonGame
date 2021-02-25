@@ -47,8 +47,6 @@ export class Controller extends Component {
             // -1 for left input, 0 for no input, 1 for right input
             right: +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true)
         };
-
-        console.log(finalActions);
         // Return it
         return finalActions;
     }

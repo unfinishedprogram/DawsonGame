@@ -19,24 +19,12 @@ class Main {
 }
 
 let game = new Main();
-var pressedKeys: { [id: string]: boolean } = {};
-var controller = new Controller();
-
-// Add event handlers
-window.addEventListener('keyup', function (e: KeyboardEvent) {
-    pressedKeys[e.code] = false;
-    console.log(controller.getInput(pressedKeys));
-});
-window.addEventListener('keydown', function (e: KeyboardEvent) {
-    pressedKeys[e.code] = true;
-    console.log(controller.getInput(pressedKeys));
-});
-
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems
 //w/ requestAnimationFrame and "this". I don't care about it being outside.
 function animate() {
+    s1.gameObjects[0].update(0.1);
     requestAnimationFrame(animate);
     game.renderer.draw();
 }

@@ -1,4 +1,5 @@
 import { Component } from './component';
+import { Vector2 } from 'three';
 
 // All the controls for all the actions
 export interface Controls {
@@ -9,8 +10,7 @@ export interface Controls {
 }
 // Final output
 export interface Actions {
-    forward: number,
-    right: number
+    movementDirection: Vector2
 }
 
 export class Controller extends Component {
@@ -19,27 +19,36 @@ export class Controller extends Component {
     // Default player controls
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
 
+    keyStates: { [id: string]: boolean } = {};
+
     constructor(controls?: Controls) {
         super();
-
+        let that = this;
         this.updateControls(controls);
+            // Add event handlers
+            window.addEventListener('keyup', function (e: KeyboardEvent) {
+                that.keyStates[e.code] = false;
+            });
+            window.addEventListener('keydown', function (e: KeyboardEvent) {
+                that.keyStates[e.code] = true;
+            });
     }
 
-    public getInput(keyStates: {[id: string]: boolean}) {
+    public getInput() {
         // Update input array
         Object.keys(this.controls).forEach((action: string) => {
             // This actually works
             let keyAction = action as keyof Controls;
             this.controls[keyAction].forEach((key: string) => {
-                this.actions[action][key] = keyStates[key];
+                this.actions[action][key] = this.keyStates[key];
             });
         });
 
         let finalActions: Actions = {
-            // -1 for backward input, 0 for no input, 1 for forward input
-            forward: +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true),
-            // -1 for left input, 0 for no input, 1 for right input
-            right: +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true)
+            // x, y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
+            movementDirection: new Vector2(
+                +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true),
+                +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true))
         };
         // Return it
         return finalActions;

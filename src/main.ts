@@ -1,7 +1,8 @@
 import { Networking } from './multiplayer/networking';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
-import { s1 } from './scene/s1'
+import { s1 } from './scene/s1';
+import { Controller } from './components/controller';
 
 class Main {
     renderer: Renderer;
@@ -15,11 +16,23 @@ class Main {
         this.networkManager = null;
         document.body.appendChild(this.renderer.renderer.domElement);
     }
-
-
 }
 
 let game = new Main();
+var pressedKeys: { [id: string]: boolean } = {};
+var controller = new Controller();
+console.log(controller);
+
+// Add event handlers
+window.addEventListener('keyup', function (e: KeyboardEvent) {
+    pressedKeys[e.code] = false;
+    console.log(controller.getInput(pressedKeys));
+});
+window.addEventListener('keydown', function (e: KeyboardEvent) {
+    pressedKeys[e.code] = true;
+    console.log(controller.getInput(pressedKeys));
+});
+
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems

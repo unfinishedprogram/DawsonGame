@@ -5,7 +5,7 @@ export interface Controls {
     forward: string[],
     backward: string[], 
     left: string[],
-    right: string[],
+    right: string[]
 }
 // Final output
 export interface Actions {
@@ -15,7 +15,7 @@ export interface Actions {
 
 export class Controller extends Component {
     // Input array ([actions][keycodes])
-    private actions: boolean[][];
+    private actions : {[action: string] : {[key: string] : boolean}} = {};
     // Default player controls
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'Arrow'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
 
@@ -26,26 +26,29 @@ export class Controller extends Component {
             this.controls = controls;
 
         // Initialize the boolean array for each action and keycode
-        Object.keys(this.controls).forEach(key => {
-            this.actions[key] = [];
+        Object.keys(this.controls).forEach((key: string) => {
+            this.actions[key] = {};
         });
     }
 
-    public getControls(keyStates: boolean[]) {
+    public getInput(keyStates: {[id: string]: boolean}) {
         // Update input array
-        Object.keys(this.controls).forEach(key => {
-            this.controls[key].forEach(control => {
-                this.actions[key][control] = keyStates[control];
+        Object.keys(this.controls).forEach((action: string) => {
+            // This actually works
+            let keyAction = action as keyof Controls;
+            this.controls[keyAction].forEach((key: string) => {
+                this.actions[action][key] = keyStates[key];
             });
         });
-        
+
         let finalActions: Actions = {
             // -1 for backward input, 0 for no input, 1 for forward input
-            forward: this.actions['forward'].includes(true) - this.actions['backward'].includes(true),
+            forward: +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backwards']).includes(true),
             // -1 for left input, 0 for no input, 1 for right input
-            right:  this.actions['right'].includes(true) - this.actions['left'].includes(true)
+            right: +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true)
         };
 
+        console.log(finalActions);
         // Return it
         return finalActions;
     }

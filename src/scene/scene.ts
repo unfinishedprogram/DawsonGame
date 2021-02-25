@@ -20,4 +20,12 @@ export class Scene {
             gameObject.update(deltaTime);
         }
     }
+
+    async loadObjectMeshes(renderer: any){
+        for (let obj of this.gameObjects){
+            await obj.loadMesh();
+            console.log('Loaded one mesh');
+        }
+        renderer.load();
+    }
 }

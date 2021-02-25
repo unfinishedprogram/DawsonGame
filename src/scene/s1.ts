@@ -15,9 +15,14 @@ let transforma = new Transform();
 
 let s1 = new Scene(new Camera(cameraTransform, 1280, 720, 100));
 let cube = new Cube(transforma);
-s1.gameObjects.push(cube);
-s1.gameObjects.push(mob);
-console.log(mob.object3D);
+//s1.gameObjects.push(cube);
 
+async function loadMeshes(){
+    await mob.loadMesh();
+    s1.gameObjects.push(mob);
+    console.log(mob.mesh);
+}
+
+loadMeshes();
 
 export { s1 };

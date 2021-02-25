@@ -1,65 +1,27 @@
 import { Component } from '../components/component';
-import { Loader, Mesh, Object3D } from 'three';
+import { Loader, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry } from 'three';
 import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader';
+import { AssetLoader } from '../utils/assetLoader';
 import { Renderer } from '../renderer/renderer';
 import { s1 } from '../scene/s1';
-//THIS IS SKETCH AS HELL I added the objloader from examples to the export list. of Three.d.ts
 
 export abstract class GameObject {
     components: Component[] = [];
     object3D: Object3D = new Object3D();
-
+    VOXName: string = "";
+    mesh: Mesh;
     abstract update(deltaTime: number): void;
 
 
-    loadVOX(url: string, callbackRenderer: Renderer) {
-        var callbackMesh = this.object3D;
-        let loadedMesh: Mesh;
-        // Load STL file
-        const loader = new VOXLoader()
-        loader.load(
-            url,
-            function(chunks) { 
-                console.log("MADE IT")
-                loadedMesh = new VOXMesh(chunks[0]);
-                callbackMesh = loadedMesh;
-                callbackRenderer.addObject3D(callbackMesh);
-                
-                console.log("loaded mesh", callbackMesh);
-                return;
-            },
-            undefined, 
-            function (e) {
-                console.log(e);
-            }
-        )
+    async loadMesh(){
+        if(this.VOXName){
+            var mesh = await AssetLoader.getVOXMesh('models/chr_' + this.VOXName + '.vox');
+            return mesh;
+        } else{
+            console.error("Object must have a VOXName assigned before the mesh can be loaded");
+            return;
+        }
     }
-
-
-    VOXChunkToMesh(chunk: any): Mesh {
-        var mesh = new VOXMesh(chunk);
-        return mesh;
-    }
-    /**
-      async loadVOXModel(url: string){
-        var loadedModel: Mesh;
-        var loader = new VOXLoader();
-        await loader.load(url, this.onVoxLoad);
-        console.log(loadedModel);
-        return loadedModel;
-    };
-
-
-    onVoxLoad(chunks: Array<object>){
-        //this.object3D = await loader.loadAsync(`../models/chr_${this.FBXName}.obj`);
-        console.log("chunks", chunks[0]);
-        var mesh = new VOXMesh(chunks[0]);
-        console.log(mesh);
-        return mesh;
-    }
-
-     **/
-    
 
     // Every game object has a transform. This obliges us to specify
     // its initial state. We can also define another constructor to
@@ -67,6 +29,7 @@ export abstract class GameObject {
     // Typescript has a "?" operator and that may be good too.
 
     constructor(transform: Component) {
+        this.mesh = new Mesh(new PlaneGeometry(), new MeshBasicMaterial({ color: 0x00ff00 }));
         this.components.push(transform);
     }
 

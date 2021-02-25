@@ -14,7 +14,8 @@ export class Renderer {
         this.height = height;
         this.tscene = new THREE.Scene();
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize(width, height)
+        this.renderer.setSize(width, height);
+        //this.scene.loadObjectMeshes();
 
         const color = 0XFFFFFF;
         const intensity = 1;
@@ -30,7 +31,6 @@ export class Renderer {
         // the scene after its creation.
         // 3. How should the scene tell the renderer that it has a new
         // object? scene SHOULDN'T have a reference the renderer.
-
     }
 
     addObject3D(object: any){
@@ -41,14 +41,15 @@ export class Renderer {
         this.renderer.render(this.tscene, this.scene.camera.camera);
     }
 
-    async load() {
+    load() {
         console.log("Load is executed");
         for (let gameObject of this.scene.gameObjects) {
-            //gameObject.loadVOX("./models/chr_knight.vox");
-            gameObject.loadVOX('../public/models/chr_knight.vox', this);
             this.tscene.add(gameObject.object3D);
         }
     }
+
+
+
 
     update() {
         // Check if elements are being added or removed from 

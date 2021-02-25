@@ -15,6 +15,6 @@ export class Cube extends GameObject {
     }
     update(deltaTime: number) {
         let inputDirection = this.controller.getInput().movementDirection;
-        this.geometry.translate(inputDirection.x * deltaTime, inputDirection.y * deltaTime, 0);
+        this.geometry.translate(inputDirection.x * deltaTime * 3, inputDirection.y * deltaTime * 3, 0);
     }
 }

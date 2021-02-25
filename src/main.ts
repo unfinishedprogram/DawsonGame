@@ -2,7 +2,7 @@ import { Networking } from './multiplayer/networking';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { s1 } from './scene/s1';
-import { Controller} from './components/controller';
+import { Clock } from 'three';
 
 class Main {
     renderer: Renderer;
@@ -19,12 +19,14 @@ class Main {
 }
 
 let game = new Main();
+let clock = new Clock();
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems
 //w/ requestAnimationFrame and "this". I don't care about it being outside.
 function animate() {
-    s1.gameObjects[0].update(0.01);
+    let deltaTime = clock.getDelta();
+    s1.gameObjects[0].update(deltaTime);
     requestAnimationFrame(animate);
     game.renderer.draw();
 }

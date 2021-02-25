@@ -14,7 +14,8 @@ export class Cube extends GameObject {
         this.object3D = new Mesh(this.geometry, this.material);
     }
     update(deltaTime: number) {
-        let inputDirection = this.controller.getInput().movementDirection;
-        this.geometry.translate(inputDirection.x * deltaTime * 3, inputDirection.y * deltaTime * 3, 0);
+        let input = this.controller.getInput()
+        this.geometry.translate(input.movementDirection.x * deltaTime * 3, input.movementDirection.y * deltaTime * 3, 0);
+        this.geometry.rotateZ(input.mousePosition.x * 0.01 * deltaTime);
     }
 }

@@ -11,6 +11,7 @@ export interface Controls {
 // Final output
 export interface Actions {
     movementDirection: Vector2
+    mousePosition: Vector2
 }
 
 export class Controller extends Component {
@@ -20,18 +21,25 @@ export class Controller extends Component {
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
 
     keyStates: { [id: string]: boolean } = {};
+    mousePosition: Vector2 = new Vector2();
 
     constructor(controls?: Controls) {
         super();
         let that = this;
         this.updateControls(controls);
-            // Add event handlers
-            window.addEventListener('keyup', function (e: KeyboardEvent) {
-                that.keyStates[e.code] = false;
-            });
-            window.addEventListener('keydown', function (e: KeyboardEvent) {
-                that.keyStates[e.code] = true;
-            });
+        
+        // Add event handlers
+        window.addEventListener('keyup', function (e: KeyboardEvent) {
+            that.keyStates[e.code] = false;
+        });
+        window.addEventListener('keydown', function (e: KeyboardEvent) {
+            that.keyStates[e.code] = true;
+        });
+
+        window.addEventListener('mousemove', function (e: MouseEvent) {
+            that.mousePosition.x = e.clientX;
+            that.mousePosition.y = e.clientY;
+        });
     }
 
     public getInput() {
@@ -48,7 +56,10 @@ export class Controller extends Component {
             // x, y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
             movementDirection: new Vector2(
                 +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true),
-                +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true))
+                +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
+                ),
+            // Raw mouse position
+            mousePosition: this.mousePosition
         };
         // Return it
         return finalActions;

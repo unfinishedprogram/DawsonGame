@@ -12,8 +12,6 @@ export interface Controls {
 export interface Actions {
     movementDirection: Vector2
     mouseScreenPosition: Vector2
-    leftStickAxis: Vector2
-    rightStickAxis: Vector2
 }
 
 export class Controller extends Component {
@@ -24,11 +22,12 @@ export class Controller extends Component {
 
     keyStates: { [id: string]: boolean } = {};
     mousePosition: Vector2 = new Vector2();
+    gamepadIndex: number = 0;
 
-    constructor(controls?: Controls) {
+    constructor(controls?: Controls, gamepadIndex?: number) {
         super();
         let that = this;
-        this.updateControls(controls);
+        this.updateControls(controls, gamepadIndex);
         
         // Add event handlers
         window.addEventListener('keyup', function (e: KeyboardEvent) {
@@ -45,6 +44,15 @@ export class Controller extends Component {
             that.mousePosition.x = e.clientX;
             that.mousePosition.y = e.clientY;
         });
+
+        window.addEventListener('gamepadconnected', function (evt) {
+            const e = evt as GamepadEvent;
+            console.log(e)
+        });
+        window.addEventListener('gamepadisconnected', function (evt) {
+            const e = evt as GamepadEvent;
+            console.log(e)
+        });
     }
 
     public getInput() : Actions {
@@ -60,23 +68,25 @@ export class Controller extends Component {
         let finalActions: Actions = {
             // x, y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
             movementDirection: new Vector2(
-                +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true),
-                +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
+                (+Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true)) // Keyboard forward and backward
+                    || Controller.axisDeadzone(navigator.getGamepads()[this.gamepadIndex]?.axes[0]), // Or gamepad Y axis from left stick (if the value is not 0)
+                (+Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)) // Keyboard left and right
+                    || -1 * Controller.axisDeadzone(navigator.getGamepads()[this.gamepadIndex]?.axes[1]) // Or gamepad X axis from left stick (if the value is not 0)
                 ),
             // Raw mouse position
-            mouseScreenPosition: this.mousePosition,
-            // Stick axis
-            leftStickAxis: new Vector2(navigator.getGamepads()[0]?.axes[0], -1 * (navigator.getGamepads()[0]?.axes[1] || 0)),
-            rightStickAxis: new Vector2(navigator.getGamepads()[0]?.axes[2], -1 * (navigator.getGamepads()[0]?.axes[3] || 0))
+            mouseScreenPosition: this.mousePosition
         };
         // Return it
         return finalActions;
     }
 
-    public updateControls(controls?: Controls) {
+    public updateControls(controls?: Controls, gamepadIndex?: number) {
         // Set new controls or leave them default
         if (controls)
             this.controls = controls;
+
+        if (gamepadIndex)
+            this.gamepadIndex = gamepadIndex;
         
         // Initialize the boolean array for each action and keycode
         Object.keys(this.controls).forEach((key: string) => {
@@ -84,23 +94,17 @@ export class Controller extends Component {
         });
     }
 
-    // TODO finish or rewrite
-    public static projectPoint(coords: Vector2, camera: Camera) : Vector3 {
-        let vec = new Vector3();
-        let pos = new Vector3;
+    // Takes x and y input from the gamepad and remaps it to have a deadzone
+    private static axisDeadzone(x : number | undefined, deadzone: number = 0.25): number {
+        if (x) {
+            // Apply deadzone
+            let value: number = Math.max((Math.abs(x) - deadzone) / (1 - deadzone), 0);
+            
+            value *= Math.sign(x);
 
-        vec.set(
-            coords.x / 1280 * 200 - 100,
-            - coords.y / 720 * 200 + 100,
-            0.5
-        );
-
-        vec.unproject(camera);
-        vec.sub(camera.position).normalize();
-        let distance = - camera.position.z / vec.z;
-        
-        pos.copy(camera.position).add(vec.multiplyScalar(distance));
-
-        return pos;
+            return value;
+        }
+        else
+            return 0;
     }
 }

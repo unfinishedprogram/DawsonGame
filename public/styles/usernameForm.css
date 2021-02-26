@@ -1,0 +1,10 @@
+form {
+    width: 20%;
+    margin: auto;
+}
+
+form label, form input {
+    display: block;
+    width: 100%;
+    text-align: center;
+}

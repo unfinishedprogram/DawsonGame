@@ -44,15 +44,6 @@ export class Controller extends Component {
             that.mousePosition.x = e.clientX;
             that.mousePosition.y = e.clientY;
         });
-
-        window.addEventListener('gamepadconnected', function (evt) {
-            const e = evt as GamepadEvent;
-            console.log(e)
-        });
-        window.addEventListener('gamepadisconnected', function (evt) {
-            const e = evt as GamepadEvent;
-            console.log(e)
-        });
     }
 
     public getInput() : Actions {

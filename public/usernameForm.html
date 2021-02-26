@@ -7,11 +7,11 @@
         <link rel="stylesheet" href="styles/usernameForm.css">
     </head>
     <body>
-        <div id="formContainer">
-            <form>
-                <label for="username">Enter your username:</label>
-                <input type="text" id="username" name="username">
-            </form>  
-        </div>
+        <form onsubmit="usernameSubmit()">
+            <label for="username">Enter your username:</label>
+            <input type="text" id="username" name="username">
+            <input type="submit" value="Submit">
+            <script src="../src/usernameForm.js"></script>
+        </form>  
     </body>
 </html>

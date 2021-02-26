@@ -1,10 +1,40 @@
-form {
-    width: 20%;
-    margin: auto;
+html, body {
+    margin: 0;
+    height: 100%;
+    text-align: center;
+    /* CSS, why you do this to me? */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222;
+    color: white;
+    font-family: 'Century Gothic', sans-serif;
 }
 
-form label, form input {
+form * {
     display: block;
-    width: 100%;
-    text-align: center;
+    width: 300px;
+    padding: 0;
+    margin-top: 0.2rem;
+    font-size: 1.5rem;
+}
+
+form input[type="submit"] {
+    width: auto;
+    padding: 0.3rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Century Gothic', sans-serif;
+    border: 5px solid cornflowerblue;
+    border-radius: 20px 10px;
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+form input[type="submit"]:hover {
+    color: #bfd2f7;
+    border-color: #bfd2f7;
+    background-color: #444;
 }

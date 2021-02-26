@@ -1,5 +1,5 @@
 import { Component } from './component';
-import { Camera, Vector2, Vector3 } from 'three';
+import { Vector2 } from 'three';
 
 // All the controls for all the actions
 export interface Controls {
@@ -10,7 +10,9 @@ export interface Controls {
 }
 // Final output
 export interface Actions {
+    // X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
     movementDirection: Vector2
+    // The position of the mouse pointer on the screen (relative to window)
     mouseScreenPosition: Vector2
 }
 
@@ -56,21 +58,25 @@ export class Controller extends Component {
             });
         });
 
-        let gamepadInput = navigator.getGamepads()[this.gamepadIndex];
-        let leftStickInput = new Vector2 (gamepadInput?.axes[0], gamepadInput?.axes[1]);
-        let rightStickInput = new Vector2 (gamepadInput?.axes[2], gamepadInput?.axes[3]);
+        // Get gamepad input
+        let gamepadInput: Gamepad | null = navigator.getGamepads()[this.gamepadIndex];
+        let leftStickInput: Vector2 = new Vector2 (gamepadInput?.axes[0] || 0, -1 * (gamepadInput?.axes[1] || 0));
+        let rightStickInput: Vector2 = new Vector2 (gamepadInput?.axes[2] || 0, -1 * (gamepadInput?.axes[3] || 0));
 
+        // Calculate final movement direction
+        let movementDirection: Vector2 = new Vector2(
+            +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true),
+            +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
+        );
+        movementDirection.add(leftStickInput);
+        Controller.axisDeadzone(movementDirection);
+
+        // Group all the data
         let finalActions: Actions = {
-            // x, y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
-            movementDirection: new Vector2(
-                (+Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true)) // Keyboard forward and backward
-                    || Controller.axisDeadzone(leftStickInput).x, // Or gamepad Y axis from left stick (if the value is not 0)
-                (+Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)) // Keyboard left and right
-                    || -1 * Controller.axisDeadzone(leftStickInput).y // Or gamepad X axis from left stick (if the value is not 0)
-                ),
-            // Raw mouse position
+            movementDirection: new Vector2(movementDirection.x, movementDirection.y),
             mouseScreenPosition: this.mousePosition
         };
+        
         // Return it
         return finalActions;
     }
@@ -90,16 +96,15 @@ export class Controller extends Component {
     }
 
     // Takes x and y input from the gamepad and remaps it to have a deadzone
-    private static axisDeadzone(input: Vector2, deadzone: number = 0.25): Vector2 {
+    private static axisDeadzone(input: Vector2, deadzone: number = 0.25) {
         if (input.x && input.y) {
             // Apply deadzone
+            // Find the length of the current input
             let length: number = input.length();
+            // Calculate percentage of the maximum input length
             length = Math.min(Math.max((length - deadzone) / (1 - deadzone), 0), 1)
+            // Set it
             input.setLength(length);
-
-            return input;
         }
-        else
-            return new Vector2(0, 0);
     }
 }

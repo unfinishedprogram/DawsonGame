@@ -56,13 +56,17 @@ export class Controller extends Component {
             });
         });
 
+        let gamepadInput = navigator.getGamepads()[this.gamepadIndex];
+        let leftStickInput = new Vector2 (gamepadInput?.axes[0], gamepadInput?.axes[1]);
+        let rightStickInput = new Vector2 (gamepadInput?.axes[2], gamepadInput?.axes[3]);
+
         let finalActions: Actions = {
             // x, y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
             movementDirection: new Vector2(
                 (+Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true)) // Keyboard forward and backward
-                    || Controller.axisDeadzone(navigator.getGamepads()[this.gamepadIndex]?.axes[0]), // Or gamepad Y axis from left stick (if the value is not 0)
+                    || Controller.axisDeadzone(leftStickInput).x, // Or gamepad Y axis from left stick (if the value is not 0)
                 (+Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)) // Keyboard left and right
-                    || -1 * Controller.axisDeadzone(navigator.getGamepads()[this.gamepadIndex]?.axes[1]) // Or gamepad X axis from left stick (if the value is not 0)
+                    || -1 * Controller.axisDeadzone(leftStickInput).y // Or gamepad X axis from left stick (if the value is not 0)
                 ),
             // Raw mouse position
             mouseScreenPosition: this.mousePosition
@@ -86,16 +90,16 @@ export class Controller extends Component {
     }
 
     // Takes x and y input from the gamepad and remaps it to have a deadzone
-    private static axisDeadzone(x : number | undefined, deadzone: number = 0.25): number {
-        if (x) {
+    private static axisDeadzone(input: Vector2, deadzone: number = 0.25): Vector2 {
+        if (input.x && input.y) {
             // Apply deadzone
-            let value: number = Math.max((Math.abs(x) - deadzone) / (1 - deadzone), 0);
-            
-            value *= Math.sign(x);
+            let length: number = input.length();
+            length = Math.min(Math.max((length - deadzone) / (1 - deadzone), 0), 1)
+            input.setLength(length);
 
-            return value;
+            return input;
         }
         else
-            return 0;
+            return new Vector2(0, 0);
     }
 }

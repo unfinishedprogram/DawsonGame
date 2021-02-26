@@ -12,6 +12,8 @@ export interface Controls {
 export interface Actions {
     movementDirection: Vector2
     mouseScreenPosition: Vector2
+    leftStickAxis: Vector2
+    rightStickAxis: Vector2
 }
 
 export class Controller extends Component {
@@ -62,7 +64,10 @@ export class Controller extends Component {
                 +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
                 ),
             // Raw mouse position
-            mouseScreenPosition: this.mousePosition
+            mouseScreenPosition: this.mousePosition,
+            // Stick axis
+            leftStickAxis: new Vector2(navigator.getGamepads()[0]?.axes[0], -1 * (navigator.getGamepads()[0]?.axes[1] || 0)),
+            rightStickAxis: new Vector2(navigator.getGamepads()[0]?.axes[2], -1 * (navigator.getGamepads()[0]?.axes[3] || 0))
         };
         // Return it
         return finalActions;

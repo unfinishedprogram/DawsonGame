@@ -1,5 +1,5 @@
 import { Component } from './component';
-import { Camera, Vector2, Vector3 } from 'three';
+import { Vector2 } from 'three';
 
 // All the controls for all the actions
 export interface Controls {
@@ -10,8 +10,14 @@ export interface Controls {
 }
 // Final output
 export interface Actions {
+    // X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
     movementDirection: Vector2
-    mouseScreenPosition: Vector2
+    // Position of the mouse pointer on the screen (relative to window)
+    mousePointerScreenPosition: Vector2
+    // Relative view direction (from the gamepad)
+    viewDirectionRelative: Vector2
+    // View vector which is more relevant
+    useGamepadViewVector: boolean
 }
 
 export class Controller extends Component {
@@ -22,11 +28,12 @@ export class Controller extends Component {
 
     keyStates: { [id: string]: boolean } = {};
     mousePosition: Vector2 = new Vector2();
+    gamepadIndex: number = 0;
 
-    constructor(controls?: Controls) {
+    constructor(controls?: Controls, gamepadIndex?: number) {
         super();
         let that = this;
-        this.updateControls(controls);
+        this.updateControls(controls, gamepadIndex);
         
         // Add event handlers
         window.addEventListener('keyup', function (e: KeyboardEvent) {
@@ -55,23 +62,47 @@ export class Controller extends Component {
             });
         });
 
+        // Get gamepad input
+        let gamepadInput: Gamepad | null = navigator.getGamepads()[this.gamepadIndex];
+        let leftStickInput: Vector2 = new Vector2 (gamepadInput?.axes[0] || 0, -1 * (gamepadInput?.axes[1] || 0));
+        let rightStickInput: Vector2 = new Vector2 (gamepadInput?.axes[2] || 0, -1 * (gamepadInput?.axes[3] || 0));
+
+        // Clamp stick inputs
+        Controller.clampInputVector(leftStickInput);
+        Controller.clampInputVector(rightStickInput);
+
+
+        // Calculate final movement direction
+        let movementDirection: Vector2 = new Vector2(
+            +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true),
+            +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
+        );
+        // Clamp keyboard movement inputs
+        Controller.clampInputVector(movementDirection);
+        
+        // Add them both together and clamp
+        movementDirection.add(leftStickInput);
+        Controller.clampInputVector(movementDirection);
+        
+        // Group all the data
         let finalActions: Actions = {
-            // x, y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
-            movementDirection: new Vector2(
-                +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true),
-                +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
-                ),
-            // Raw mouse position
-            mouseScreenPosition: this.mousePosition
+            movementDirection: new Vector2(movementDirection.x, movementDirection.y),
+            mousePointerScreenPosition: this.mousePosition,
+            viewDirectionRelative: rightStickInput,
+            useGamepadViewVector: false
         };
+        
         // Return it
         return finalActions;
     }
 
-    public updateControls(controls?: Controls) {
+    public updateControls(controls?: Controls, gamepadIndex?: number) {
         // Set new controls or leave them default
         if (controls)
             this.controls = controls;
+
+        if (gamepadIndex)
+            this.gamepadIndex = gamepadIndex;
         
         // Initialize the boolean array for each action and keycode
         Object.keys(this.controls).forEach((key: string) => {
@@ -79,23 +110,16 @@ export class Controller extends Component {
         });
     }
 
-    // TODO finish or rewrite
-    public static projectPoint(coords: Vector2, camera: Camera) : Vector3 {
-        let vec = new Vector3();
-        let pos = new Vector3;
-
-        vec.set(
-            coords.x / 1280 * 200 - 100,
-            - coords.y / 720 * 200 + 100,
-            0.5
-        );
-
-        vec.unproject(camera);
-        vec.sub(camera.position).normalize();
-        let distance = - camera.position.z / vec.z;
-        
-        pos.copy(camera.position).add(vec.multiplyScalar(distance));
-
-        return pos;
+    // Takes x and y input from the gamepad and remaps it to have a deadzone
+    private static clampInputVector(input: Vector2, deadzone: number = 0.25) {
+        if (input.x && input.y) {
+            // Apply deadzone
+            // Find the length of the current input
+            let length: number = input.length();
+            // Calculate percentage of the maximum input length
+            length = Math.min(Math.max((length - deadzone) / (1 - deadzone), 0), 1)
+            // Set it
+            input.setLength(length);
+        }
     }
 }

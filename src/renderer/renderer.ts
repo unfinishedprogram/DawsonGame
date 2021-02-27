@@ -13,7 +13,7 @@ export class Renderer {
         this.width = width;
         this.height = height;
         this.tscene = new THREE.Scene();
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(width, height);
         //this.scene.loadObjectMeshes();
 

@@ -16,6 +16,8 @@ export interface Actions {
     mousePointerScreenPosition: Vector2
     // Relative view direction (from the gamepad)
     viewDirectionRelative: Vector2
+    // View vector which is more relevant
+    useGamepadViewVector: boolean
 }
 
 export class Controller extends Component {
@@ -86,7 +88,8 @@ export class Controller extends Component {
         let finalActions: Actions = {
             movementDirection: new Vector2(movementDirection.x, movementDirection.y),
             mousePointerScreenPosition: this.mousePosition,
-            viewDirectionRelative: rightStickInput
+            viewDirectionRelative: rightStickInput,
+            useGamepadViewVector: false
         };
         
         // Return it

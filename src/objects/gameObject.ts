@@ -31,7 +31,7 @@ export abstract class GameObject {
         this.components.push(transform);
     }
 
-    // We should be adding and removing components with a function so we can upadte anything 
+    // We should be adding and removing components with a function so we can update anything 
     // nececary and check compatibility with other components
 
     // Returns true if component can be added, false otherwise 

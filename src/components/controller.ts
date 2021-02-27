@@ -65,15 +65,23 @@ export class Controller extends Component {
         let leftStickInput: Vector2 = new Vector2 (gamepadInput?.axes[0] || 0, -1 * (gamepadInput?.axes[1] || 0));
         let rightStickInput: Vector2 = new Vector2 (gamepadInput?.axes[2] || 0, -1 * (gamepadInput?.axes[3] || 0));
 
+        // Clamp stick inputs
+        Controller.clampInputVector(leftStickInput);
+        Controller.clampInputVector(rightStickInput);
+
+
         // Calculate final movement direction
         let movementDirection: Vector2 = new Vector2(
             +Object.values(this.actions['right']).includes(true) - +Object.values(this.actions['left']).includes(true),
             +Object.values(this.actions['forward']).includes(true) - +Object.values(this.actions['backward']).includes(true)
         );
+        // Clamp keyboard movement inputs
+        Controller.clampInputVector(movementDirection);
+        
+        // Add them both together and clamp
         movementDirection.add(leftStickInput);
-        Controller.axisDeadzone(movementDirection);
-        Controller.axisDeadzone(rightStickInput);
-
+        Controller.clampInputVector(movementDirection);
+        
         // Group all the data
         let finalActions: Actions = {
             movementDirection: new Vector2(movementDirection.x, movementDirection.y),
@@ -100,7 +108,7 @@ export class Controller extends Component {
     }
 
     // Takes x and y input from the gamepad and remaps it to have a deadzone
-    private static axisDeadzone(input: Vector2, deadzone: number = 0.25) {
+    private static clampInputVector(input: Vector2, deadzone: number = 0.25) {
         if (input.x && input.y) {
             // Apply deadzone
             // Find the length of the current input

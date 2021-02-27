@@ -21,11 +21,17 @@ export class Cube extends GameObject {
     }
     update(deltaTime: number) {
         let input = this.controller.getInput();
+
+        console.log(input.movementDirection.length());
+
         this.velocity.add(input.movementDirection.multiplyScalar(deltaTime * this.acceleration));
         this.velocity.multiplyScalar(this.drag);
 
         this.object3D.position.x += this.velocity.x;
         this.object3D.position.y += this.velocity.y;
+
+        //if (input.viewDirectionRelative.angle())
+        //    this.object3D.rotation.z = input.viewDirectionRelative.angle(); 
         //this.object3D.rotation.z += input.mousePointerScreenPosition.x * 0.005 * deltaTime;
     }
 }

@@ -1,11 +1,11 @@
 import { GameObject } from '../objects/gameObject';
-import { Camera } from '../objects/camera';
+import { OCamera, PCamera } from '../objects/camera';
 
 export class Scene {
     gameObjects: GameObject[] = [];
-    camera: Camera; // ....... shouldn't exist?
+    camera: OCamera | PCamera; // ....... shouldn't exist?
 
-    constructor(camera: Camera) {
+    constructor(camera: PCamera | OCamera) {
         this.camera = camera;
         //this.gameObjects.push(camera);
         // I commented this line but I am not sure if the camera should

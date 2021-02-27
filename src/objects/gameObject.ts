@@ -13,11 +13,12 @@ export abstract class GameObject {
     async loadMesh(){
         if(this.VOXName){
             var mesh = await AssetLoader.getVOXMesh('models/chr_' + this.VOXName + '.vox');
-            return mesh;
         } else{
             console.error("Object must have a VOXName assigned before the mesh can be loaded");
             return;
         }
+        this.object3D = mesh;
+        return;
     }
 
     // Every game object has a transform. This obliges us to specify

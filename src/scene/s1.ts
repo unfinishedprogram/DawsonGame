@@ -1,5 +1,5 @@
 import { Scene } from './scene';
-import { Camera } from '../objects/camera'
+import { PCamera, OCamera } from '../objects/camera'
 import { Transform } from '../components/transform';
 import { Vector3 } from 'three';
 import { Cube } from '../objects/presets/cube';
@@ -13,7 +13,10 @@ let cameraTransform = new Transform(
 
 let transforma = new Transform();
 
-let s1 = new Scene(new Camera(cameraTransform, 1280, 720, 100));
+//let s1 = new Scene(new OCamera(cameraTransform, 1280, 720, 100));
+
+let s1 = new Scene(new PCamera(cameraTransform, 45, 1280, 720));
+
 let cube = new Cube(transforma);
 s1.gameObjects.push(cube);
 

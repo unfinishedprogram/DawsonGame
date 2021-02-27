@@ -11,8 +11,11 @@ export class Cube extends GameObject {
 
     constructor(transform: Transform) {
         super(transform);
+        this.VOXName = "knight";
+        this.loadMesh();
         this.object3D = new Mesh(this.geometry, this.material);
     }
+    
     update(deltaTime: number) {
         let input = this.controller.getInput()
         this.object3D.position.x += input.movementDirection.x * deltaTime * 3;

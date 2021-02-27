@@ -13,11 +13,12 @@ export abstract class GameObject {
     async loadMesh(){
         if(this.VOXName){
             var mesh = await AssetLoader.getVOXMesh('models/chr_' + this.VOXName + '.vox');
-            return mesh;
         } else{
             console.error("Object must have a VOXName assigned before the mesh can be loaded");
             return;
         }
+        this.object3D = mesh;
+        return;
     }
 
     // Every game object has a transform. This obliges us to specify
@@ -30,7 +31,7 @@ export abstract class GameObject {
         this.components.push(transform);
     }
 
-    // We should be adding and removing components with a function so we can upadte anything 
+    // We should be adding and removing components with a function so we can update anything 
     // nececary and check compatibility with other components
 
     // Returns true if component can be added, false otherwise 

@@ -1,5 +1,10 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
 import { Scene } from '../scene/scene';
+import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass';
+import { WebGLRenderTarget } from 'three';
 
 export class Renderer {
     width: number;
@@ -7,13 +12,26 @@ export class Renderer {
     scene: Scene;
     tscene: THREE.Scene; // Better name?
     renderer: THREE.WebGLRenderer;
+    composer: EffectComposer;
 
     constructor(width: number, height: number, scene: Scene) {
         this.scene = scene;
         this.width = width;
         this.height = height;
         this.tscene = new THREE.Scene();
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer();
+
+        //Setting up post processing passes and compositor
+        this.composer = new EffectComposer(this.renderer, new WebGLRenderTarget(this.width*2, this.height*2));
+        this.composer.addPass (new RenderPass(this.tscene, this.scene.camera.camera) );
+        var SSAO = new SSAOPass(this.tscene, this.scene.camera.camera, this.width, this.height);
+       
+        SSAO.kernelRadius = 1;
+        SSAO.minDistance = 0.0001;
+        
+        this.composer.addPass (SSAO);
+        
+
         this.renderer.setSize(width, height);
         //this.scene.loadObjectMeshes();
 
@@ -33,12 +51,18 @@ export class Renderer {
         // object? scene SHOULDN'T have a reference the renderer.
     }
 
+    addSSAO(){
+        var ssao = new SSAOPass(this.tscene, this.scene.camera.camera);
+    }
+
+
     addObject3D(object: any){
         this.tscene.add(object);
     }
 
     draw() {
-        this.renderer.render(this.tscene, this.scene.camera.camera);
+        this.composer.render();
+        //this.renderer.render(this.tscene, this.scene.camera.camera);
     }
 
     load() {

@@ -12,8 +12,10 @@ export interface Controls {
 export interface Actions {
     // X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
     movementDirection: Vector2
-    // The position of the mouse pointer on the screen (relative to window)
-    mouseScreenPosition: Vector2
+    // Position of the mouse pointer on the screen (relative to window)
+    mousePointerScreenPosition: Vector2
+    // Relative view direction (from the gamepad)
+    viewDirectionRelative: Vector2
 }
 
 export class Controller extends Component {
@@ -70,11 +72,13 @@ export class Controller extends Component {
         );
         movementDirection.add(leftStickInput);
         Controller.axisDeadzone(movementDirection);
+        Controller.axisDeadzone(rightStickInput);
 
         // Group all the data
         let finalActions: Actions = {
             movementDirection: new Vector2(movementDirection.x, movementDirection.y),
-            mouseScreenPosition: this.mousePosition
+            mousePointerScreenPosition: this.mousePosition,
+            viewDirectionRelative: rightStickInput
         };
         
         // Return it

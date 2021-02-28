@@ -66,7 +66,6 @@ export class Renderer {
     }
 
     load() {
-        console.log("Load is executed");
         for (let gameObject of this.scene.gameObjects) {
             this.tscene.add(gameObject.object3D);
         }

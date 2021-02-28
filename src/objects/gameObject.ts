@@ -1,16 +1,17 @@
 import { Component } from '../components/component';
-import { Mesh, MeshBasicMaterial, Object3D, PlaneGeometry } from 'three';
+import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry } from 'three';
 import { AssetLoader } from '../utils/assetLoader';
+
 
 export abstract class GameObject {
     components: Component[] = [];
     object3D: Object3D = new Object3D();
+
     VOXName: string = "";
-    mesh: Mesh;
     abstract update(deltaTime: number): void;
 
-
     async loadMesh(){
+        console.log('Loading new object FROM LOADING');
         if(this.VOXName){
             var mesh = await AssetLoader.getVOXMesh('models/chr_' + this.VOXName + '.vox');
         } else{
@@ -27,8 +28,12 @@ export abstract class GameObject {
     // Typescript has a "?" operator and that may be good too.
 
     constructor(transform: Component) {
-        this.mesh = new Mesh(new PlaneGeometry(), new MeshBasicMaterial({ color: 0x00ff00 }));
+        let geometry = new BoxGeometry();
+        let material = new MeshBasicMaterial( { color: 0x00ff00 } );
+        this.object3D = new Mesh( geometry, material );
+
         this.components.push(transform);
+
     }
 
     // We should be adding and removing components with a function so we can update anything 

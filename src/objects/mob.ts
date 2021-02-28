@@ -25,7 +25,6 @@ export class Mob extends GameObject {
         this.stats = stats;
         this.VOXName = VOXName;
         this.transform = transform; //temp
-        console.log("Object loaded");
     }
     update(deltaTime: number) {
         //console.log(deltaTime);

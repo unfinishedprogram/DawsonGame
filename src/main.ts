@@ -36,6 +36,4 @@ function animate() {
     game.scene.update(deltaTime);
     game.renderer.draw();
 }
-
-game.renderer.load();
 animate();

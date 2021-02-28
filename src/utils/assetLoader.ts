@@ -8,7 +8,13 @@ export class AssetLoader {
     static async getVOXMesh(dir:string): Promise<Mesh> {
         const loader = new VOXLoader();
         let chunks = await loader.loadAsync(dir, undefined);
-        return new VOXMesh(chunks[0]);
+        
+        var myChunk = chunks[0] as Chunk;
+        var paletteChunk = chunks[chunks.length-1] as Chunk;
+        myChunk.palette = paletteChunk.palette as Chunk;
+        //myChunk.palette = testPalette;
+
+        return new VOXMesh(myChunk);
     }
 
     //Loads all chunks from a VOX file and returns an array of meshes.
@@ -16,9 +22,15 @@ export class AssetLoader {
         const loader = new VOXLoader();
         let chunks = await loader.loadAsync(dir, undefined);
         let meshes: Array<Mesh> = [];
-        for (let chunk of chunks){
+        for (let chunk of chunks) {
             meshes.push(new VOXMesh(chunk)); 
         }
         return meshes;
     }
+}
+interface Chunk {
+    size: any;
+    data: any;
+    palette: any;
+
 }

@@ -21,9 +21,8 @@ let cube = new Cube(transforma);
 s1.gameObjects.push(cube);
 
 async function loadMeshes(){
-    await mob.loadMesh();
-    s1.gameObjects.push(mob);
-    console.log(mob.mesh);
+    //await mob.loadMesh();
+    //s1.gameObjects.push(mob);
 }
 
 loadMeshes();

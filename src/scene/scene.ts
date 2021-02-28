@@ -23,8 +23,8 @@ export class Scene {
 
     async loadObjectMeshes(renderer: any){
         for (let obj of this.gameObjects){
+
             await obj.loadMesh();
-            console.log('Loaded one mesh');
         }
         renderer.load();
     }

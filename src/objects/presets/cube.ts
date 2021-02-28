@@ -38,7 +38,7 @@ export class Cube extends GameObject {
         this.velocity.multiplyScalar(this.drag);
 
         this.object3D.position.x += this.velocity.x;
-        this.object3D.position.y += this.velocity.y;
+        this.object3D.position.z -= this.velocity.y;
     }
     private interpolateAngle(ang1: number, ang2: number, mu: number) : number {
         let cos = (1 - mu) * Math.cos(ang1) + mu * Math.cos(ang2);

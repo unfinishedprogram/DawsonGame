@@ -86,7 +86,7 @@ export class Controller extends Component {
         
         // Group all the data
         let finalActions: Actions = {
-            movementDirection: new Vector2(movementDirection.x, movementDirection.y),
+            movementDirection: new Vector2(...movementDirection.toArray()),
             mousePointerScreenPosition: this.mousePosition,
             viewDirectionRelative: rightStickInput,
             useGamepadViewVector: false

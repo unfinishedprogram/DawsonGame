@@ -1,6 +1,6 @@
 import { Component } from '../components/component';
 import { GameObject } from './gameObject';
-import { OrthographicCamera, PerspectiveCamera } from 'three';
+import { OrthographicCamera, PerspectiveCamera, Vector3 } from 'three';
 import { Transform } from '../components/transform';
 
 export class OCamera extends GameObject {
@@ -23,7 +23,8 @@ export class OCamera extends GameObject {
             1,
             1000
         );
-        this.camera.position.set(...transform.position.toArray())
+        this.camera.position.set(...transform.position.toArray());
+        this.camera.rotation.set(...transform.rotation.toArray());
     }
     // update methods are not being called yet. This is just a 
     // placeholder.
@@ -49,7 +50,10 @@ export class PCamera extends GameObject {
             1,
             1000
         );
-        this.camera.position.set(...transform.position.toArray())
+
+        this.camera.rotation.set(...transform.rotation.toArray());
+        this.camera.position.set(...transform.position.toArray());
+
     }
 
     // update methods are not being called yet. This is just a 

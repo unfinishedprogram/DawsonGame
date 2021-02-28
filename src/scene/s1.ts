@@ -8,7 +8,8 @@ import { mob } from '../objects/presets/mob';
 // This is just an example scene. It holds a cube and a camera.
 
 let cameraTransform = new Transform(
-    new Vector3(0, 0, 50),
+    new Vector3(0, 200, 40),
+    new Vector3(-Math.PI / 2 + 0.2, 0, 0)
 );
 
 let transforma = new Transform();

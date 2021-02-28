@@ -12,7 +12,7 @@ class Main {
     constructor() {
         this.scene = s1;
         
-        this.renderer = new Renderer(1280, 720, this.scene);
+        this.renderer = new Renderer(1, 1, this.scene);
         this.scene.loadObjectMeshes(this.renderer);
         this.networkManager = new Networking('127.0.0.1', 8765);
         this.networkManager = null;

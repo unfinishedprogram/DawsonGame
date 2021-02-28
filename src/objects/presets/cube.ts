@@ -22,7 +22,7 @@ export class Cube extends GameObject {
 
     constructor(transform: Transform) {
         super(transform);
-        this.VOXName = "testimage";
+        this.VOXName = "shaman";
         //this.object3D = new Mesh(this.geometry, this.material);
     }
     

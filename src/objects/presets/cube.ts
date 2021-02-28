@@ -22,9 +22,8 @@ export class Cube extends GameObject {
 
     constructor(transform: Transform) {
         super(transform);
-        this.VOXName = "knight";
-        this.loadMesh();
-        this.object3D = new Mesh(this.geometry, this.material);
+        this.VOXName = "testimage";
+        //this.object3D = new Mesh(this.geometry, this.material);
     }
     
     update(deltaTime: number) {

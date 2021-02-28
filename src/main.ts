@@ -9,8 +9,6 @@ class Main {
     networkManager: Networking | null;
     scene: Scene; // Temp!!!
 
-    
-
     constructor() {
         this.scene = s1;
         
@@ -19,6 +17,21 @@ class Main {
         this.networkManager = new Networking('127.0.0.1', 8765);
         this.networkManager = null;
         document.body.appendChild(this.renderer.renderer.domElement);
+
+        let that = this;
+
+        window.addEventListener('resize', function() {
+            let newWidth: number = window.innerWidth;
+            let newHeight: number = window.innerHeight;
+
+            let targetWidth: number = newHeight / 9 * 16;
+            let targetHeight: number = newWidth / 16 * 9;
+
+            if (targetHeight > newHeight)
+                that.renderer.resize(targetWidth, newHeight);
+            else
+                that.renderer.resize(newWidth, targetHeight);
+        });
     }
 }
 

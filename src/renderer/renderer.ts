@@ -71,7 +71,17 @@ export class Renderer {
         }
     }
 
+    resize(width: number, height: number) {
+        console.log('AA');
+        this.width = width;
+        this.height = height;
 
+        this.composer.setSize(width, height);
+        this.composer.passes[0].setSize(width, height);
+        this.renderer.setSize(width, height);
+
+        this.renderer.setRenderTarget(new WebGLRenderTarget(width, height));
+    }
 
 
     update() {

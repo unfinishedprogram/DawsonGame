@@ -21,16 +21,10 @@ class Main {
         let that = this;
 
         window.addEventListener('resize', function() {
-            let newWidth: number = window.innerWidth;
-            let newHeight: number = window.innerHeight;
-
-            let targetWidth: number = newHeight / 9 * 16;
-            let targetHeight: number = newWidth / 16 * 9;
-
-            if (targetHeight > newHeight)
-                that.renderer.resize(targetWidth, newHeight);
-            else
-                that.renderer.resize(newWidth, targetHeight);
+            that.renderer.resize(window.innerWidth, window.innerHeight);
+        });
+        window.addEventListener('load', function() {
+            that.renderer.resize(window.innerWidth, window.innerHeight);
         });
     }
 }

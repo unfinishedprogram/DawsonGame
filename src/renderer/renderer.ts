@@ -40,6 +40,7 @@ export class Renderer {
         const light = new THREE.AmbientLight(color, intensity);
         this.tscene.add(light);
         this.renderer.setClearColor(new THREE.Color(0XFFFFFF), 1);
+        
         // Add each element of a the scene to the renderer.
 
         // TODO 
@@ -71,16 +72,30 @@ export class Renderer {
         }
     }
 
-    resize(width: number, height: number) {
-        console.log('AA');
-        this.width = width;
-        this.height = height;
+    resize(windowWidth: number, windowHeight: number) {
+        let targetWidth: number = windowHeight / 9 * 16;
+        let targetHeight: number = windowWidth / 16 * 9;
 
-        this.composer.setSize(width, height);
-        this.composer.passes[0].setSize(width, height);
-        this.renderer.setSize(width, height);
+        let newWidth: number;
+        let newHeight: number;
 
-        this.renderer.setRenderTarget(new WebGLRenderTarget(width, height));
+        if (targetHeight > windowHeight) {
+            newWidth = targetWidth;
+            newHeight = windowHeight;
+        }
+        else {
+            newWidth = windowWidth;
+            newHeight = targetHeight;
+        }
+
+        this.width = newWidth;
+        this.height = newHeight;
+
+        this.composer.setSize(newWidth, newHeight);
+        this.composer.passes[0].setSize(newWidth, newHeight);
+        this.renderer.setSize(newWidth, newHeight);
+
+        this.renderer.setRenderTarget(new WebGLRenderTarget(newWidth, newHeight));
     }
 
 

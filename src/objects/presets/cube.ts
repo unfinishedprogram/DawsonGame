@@ -17,8 +17,9 @@ export class Cube extends GameObject {
     acceleration: number = 0.35;
 
     // View
-    viewAngle: number = 0;
+    velocityViewAngle: number = 0;
     targetViewAngle: number = 0;
+    angleOffset: number = Math.PI / 2;
 
     constructor(transform: Transform) {
         super(transform);
@@ -29,21 +30,31 @@ export class Cube extends GameObject {
     update(deltaTime: number) {
         let input = this.controller.getInput();
 
-        // TODO
-        //this.targetViewAngle = input.viewDirectionRelative.angle();
-        //this.object3D.rotation.z = this.interpolateAngle(this.object3D.rotation.z, this.targetViewAngle, 0.1);
-        //console.log(this.targetViewAngle + " --- " + input.viewDirectionRelative.x + " " + input.viewDirectionRelative.y);
-
+        // Calculate velocity
         this.velocity.add(input.movementDirection.multiplyScalar(deltaTime * this.acceleration));
         this.velocity.multiplyScalar(this.drag);
 
+        // Set position
         this.object3D.position.x += this.velocity.x;
         this.object3D.position.z -= this.velocity.y;
+
+        // Calculate view angle
+        this.velocityViewAngle = this.interpolateAngle(this.object3D.rotation.y, this.velocity.angle() + this.angleOffset, 0.1);
+
+        // Set rotation
+        this.object3D.rotation.y = this.velocityViewAngle;
     }
     private interpolateAngle(ang1: number, ang2: number, mu: number) : number {
-        let cos = (1 - mu) * Math.cos(ang1) + mu * Math.cos(ang2);
-        let sin = (1 - mu) * Math.sin(ang1) + mu * Math.sin(ang2);
 
-        return Math.atan2(sin, cos);
+        if (Math.abs(ang2 - ang1) > Math.PI) {
+            if (ang2 > ang1)
+                ang1 += Math.PI * 2;
+            else
+                ang1 -= Math.PI * 2;
+        }
+
+        let interpolated = (ang1 + ((ang2 - ang1) * mu));
+
+        return interpolated;
     }
 }

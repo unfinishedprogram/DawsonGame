@@ -42,16 +42,10 @@ export class Cube extends GameObject {
         // Calculate view angle
         this.velocityViewAngle = this.velocity.angle() + this.angleOffset;
         if (input.useGamepadViewVector) {
-            if (input.gamepadViewDirection.x && input.gamepadViewDirection.y) {
-                console.log('controlling');
+            if (input.gamepadViewDirection.x && input.gamepadViewDirection.y)
                 this.targetViewAngle = input.gamepadViewDirection.angle() + this.angleOffset;
-            }
-                
-            else {
-                console.log('not controlling');
+            else
                 this.targetViewAngle = this.velocityViewAngle;
-            }
-                
         }
 
 

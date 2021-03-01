@@ -48,7 +48,6 @@ export class Cube extends GameObject {
                 this.targetViewAngle = this.velocityViewAngle;
         }
 
-
         // Set rotation
         this.object3D.rotation.y = this.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
     }

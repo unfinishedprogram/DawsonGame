@@ -18,6 +18,7 @@ export class Cube extends GameObject {
 
     // View
     velocityViewAngle: number = 0;
+    inputViewAngle: number = 0;
     targetViewAngle: number = 0;
     angleOffset: number = Math.PI / 2;
 
@@ -39,10 +40,23 @@ export class Cube extends GameObject {
         this.object3D.position.z -= this.velocity.y;
 
         // Calculate view angle
-        this.velocityViewAngle = this.interpolateAngle(this.object3D.rotation.y, this.velocity.angle() + this.angleOffset, 0.1);
+        this.velocityViewAngle = this.velocity.angle() + this.angleOffset;
+        if (input.useGamepadViewVector) {
+            if (input.gamepadViewDirection.x && input.gamepadViewDirection.y) {
+                console.log('controlling');
+                this.targetViewAngle = input.gamepadViewDirection.angle() + this.angleOffset;
+            }
+                
+            else {
+                console.log('not controlling');
+                this.targetViewAngle = this.velocityViewAngle;
+            }
+                
+        }
+
 
         // Set rotation
-        this.object3D.rotation.y = this.velocityViewAngle;
+        this.object3D.rotation.y = this.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
     }
     private interpolateAngle(ang1: number, ang2: number, mu: number) : number {
 

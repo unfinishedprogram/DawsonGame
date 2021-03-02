@@ -59,6 +59,11 @@ export class Controller extends Component {
      */
     gamepadIndex: number = 0;
 
+    /**
+     * Inits the controller
+     * @param controls The interface that provides all the actions and keycodes assigned to them
+     * @param gamepadIndex The index of an active gamepad
+     */
     constructor(controls?: Controls, gamepadIndex?: number) {
         super();
         let that = this;
@@ -81,6 +86,29 @@ export class Controller extends Component {
         });
     }
 
+    /**
+     * Update all the infromation of the controls
+     * @param controls The interface that provides all the actions and keycodes assigned to them
+     * @param gamepadIndex The index of an active gamepad
+     */
+    public updateControls(controls?: Controls, gamepadIndex?: number) {
+        // Set new controls or leave them default
+        if (controls)
+            this.controls = controls;
+
+        if (gamepadIndex)
+            this.gamepadIndex = gamepadIndex;
+        
+        // Initialize the boolean array for each action and keycode
+        Object.keys(this.controls).forEach((key: string) => {
+            this.actions[key] = {};
+        });
+    }
+
+    /**
+     * Get the input, process it and return which actions the player should perfor
+     * @returns The interface that provides all the actions and the values
+     */
     public getInput() : Actions {
         // Update input array
         Object.keys(this.controls).forEach((action: string) => {
@@ -125,21 +153,11 @@ export class Controller extends Component {
         return finalActions;
     }
 
-    public updateControls(controls?: Controls, gamepadIndex?: number) {
-        // Set new controls or leave them default
-        if (controls)
-            this.controls = controls;
-
-        if (gamepadIndex)
-            this.gamepadIndex = gamepadIndex;
-        
-        // Initialize the boolean array for each action and keycode
-        Object.keys(this.controls).forEach((key: string) => {
-            this.actions[key] = {};
-        });
-    }
-
-    // Takes x and y input from the gamepad and remaps it to have a deadzone
+    /**
+     * Takes an axis input remaps it to have a deadzone with clamping
+     * @param input 2D Vector of an axis input
+     * @param deadzone The cut out value. The inputs lower than this value will be ignored (default = 0.25)
+     */
     private static clampInputVector(input: Vector2, deadzone: number = 0.25) {
         if (input.x && input.y) {
             // Apply deadzone

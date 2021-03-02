@@ -1,33 +1,62 @@
 import { Component } from './component';
 import { Vector2 } from 'three';
 
-// All the controls for all the actions
+/**
+ * All the controls for all the actions
+ */
 export interface Controls {
     forward: string[],
     backward: string[], 
     left: string[],
     right: string[]
 }
-// Final output
+/**
+ * Final output
+ */
 export interface Actions {
-    // X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
+    /**
+     * X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
+     */
     movementDirection: Vector2
-    // Position of the mouse pointer on the screen (relative to window)
+    /**
+     * Position of the mouse pointer on the screen (relative to window)
+     */
     mousePointerScreenPosition: Vector2
-    // Relative view direction (from the gamepad)
+    /**
+     * Relative view direction (from the gamepad)
+     */
     gamepadViewDirection: Vector2
-    // View vector which is more relevant
+    /**
+     * View vector which is more relevant
+     */
     useGamepadViewVector: boolean
 }
 
+/**
+ * Controller class that listens to the controls, processes them and outputs the actions that the character should perform
+ */
 export class Controller extends Component {
-    // Input array ([actions][keycodes])
+    /**
+     * Interface of actions and state of the controls assigned to them ([actions][keycodes])
+     */
     private actions : {[action: string] : {[key: string] : boolean}} = {};
-    // Default player controls
+
+    /**
+     * Interface of actions and controls assigned to them ([actions][keycodes])
+     */
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
 
+    /**
+     * The states of all the keys
+     */
     keyStates: { [id: string]: boolean } = {};
+    /**
+     * Mouse position in pixels on screen space
+     */
     mousePosition: Vector2 = new Vector2();
+    /**
+     * The index of the gamepad to use
+     */
     gamepadIndex: number = 0;
 
     constructor(controls?: Controls, gamepadIndex?: number) {

@@ -11,21 +11,14 @@ class Main {
 
     constructor() {
         this.scene = s1;
-        
         this.renderer = new Renderer(1, 1, this.scene);
         this.scene.loadObjectMeshes(this.renderer);
         this.networkManager = new Networking('127.0.0.1', 8765);
         this.networkManager = null;
         document.body.appendChild(this.renderer.renderer.domElement);
 
-        let that = this;
-
-        window.addEventListener('resize', function() {
-            that.renderer.resize(window.innerWidth, window.innerHeight);
-        });
-        window.addEventListener('load', function() {
-            that.renderer.resize(window.innerWidth, window.innerHeight);
-        });
+        window.onresize = () => this.renderer.resize(window.innerWidth, window.innerHeight);
+        window.onload = () => this.renderer.resize(window.innerWidth, window.innerHeight);
     }
 }
 

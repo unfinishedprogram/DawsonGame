@@ -1,18 +1,14 @@
 import { Component } from './component';
 import { Vector2 } from 'three';
 
-/**
- * All the controls for all the actions
- */
+/** All the controls and keycodes */
 export interface Controls {
     forward: string[],
     backward: string[], 
     left: string[],
     right: string[]
 }
-/**
- * Final output
- */
+/** Final output, list of actions and values that the character should perform */
 export interface Actions {
     /**
      * X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
@@ -32,31 +28,18 @@ export interface Actions {
     useGamepadViewVector: boolean
 }
 
-/**
- * Controller class that listens to the controls, processes them and outputs the actions that the character should perform
- */
+/** Controller class that listens to the controls, processes them and outputs the actions that the character should perform */
 export class Controller extends Component {
-    /**
-     * Interface of actions and state of the controls assigned to them ([actions][keycodes])
-     */
+    /** Interface of actions and state of the controls assigned to them ([actions][keycodes]) */
     private actions : {[action: string] : {[key: string] : boolean}} = {};
-
-    /**
-     * Interface of actions and controls assigned to them ([actions][keycodes])
-     */
+    /** Interface of actions and controls assigned to them ([actions][keycodes]) */
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
-
-    /**
-     * The states of all the keys
-     */
+    
+    /** The states of all the keys */
     keyStates: { [id: string]: boolean } = {};
-    /**
-     * Mouse position in pixels on screen space
-     */
+    /**  Mouse position in pixels on screen space */
     mousePosition: Vector2 = new Vector2();
-    /**
-     * The index of the gamepad to use
-     */
+    /** The index of the gamepad to use */
     gamepadIndex: number = 0;
 
     /**

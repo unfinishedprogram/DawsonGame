@@ -3,6 +3,7 @@ import { PlaneGeometry, MeshBasicMaterial, Vector2} from 'three';
 import { Mesh } from 'three';
 import { Controller } from '../../components/controller';
 import { Transform } from '../../components/transform';
+import { MoreMath } from '../../utils/moreMath'
 
 
 
@@ -49,19 +50,6 @@ export class Cube extends GameObject {
         }
 
         // Set rotation
-        this.object3D.rotation.y = this.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
-    }
-    private interpolateAngle(ang1: number, ang2: number, mu: number) : number {
-
-        if (Math.abs(ang2 - ang1) > Math.PI) {
-            if (ang2 > ang1)
-                ang1 += Math.PI * 2;
-            else
-                ang1 -= Math.PI * 2;
-        }
-
-        let interpolated = (ang1 + ((ang2 - ang1) * mu));
-
-        return interpolated;
+        this.object3D.rotation.y = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
     }
 }

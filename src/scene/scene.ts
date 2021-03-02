@@ -1,6 +1,8 @@
 import { GameObject } from '../objects/gameObject';
 import { OCamera, PCamera } from '../objects/camera';
-
+/**
+ * @param {PCamera | OCamera} camera To display the scene
+ */
 export class Scene {
     gameObjects: GameObject[] = [];
     camera: OCamera | PCamera; // ....... shouldn't exist?
@@ -21,9 +23,12 @@ export class Scene {
         }
     }
 
-    async loadObjectMeshes(renderer: any){
+    /**
+     * 
+     * @param renderer 
+     */
+    async loadObjectMeshes(renderer: Renderer){
         for (let obj of this.gameObjects){
-
             await obj.loadMesh();
         }
         renderer.load();

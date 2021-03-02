@@ -51,6 +51,5 @@ export class Cube extends GameObject {
 
         // Set rotation
         this.object3D.rotation.y = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
-        
     }
 }

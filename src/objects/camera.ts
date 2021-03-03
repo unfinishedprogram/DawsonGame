@@ -3,13 +3,21 @@ import { GameObject } from './gameObject';
 import { OrthographicCamera, PerspectiveCamera, Vector3 } from 'three';
 import { Transform } from '../components/transform';
 
+/** Orthographic camera */
 export class OCamera extends GameObject {
     components: Component[] = [];
     camera: OrthographicCamera;
     width: number;
     height: number;
     zoom: number;
-    
+
+    /**
+     * Initialize orthographic camera
+     * @param transform Transform (Location, rotation and scale) of the camera
+     * @param width Width of the camera frustum
+     * @param height Height of the camera frustum
+     * @param zoom Zoom of the camera
+     */
     constructor(transform: Transform, width: number, height: number, zoom: number) {
         super(transform);
         this.width = width;
@@ -35,11 +43,20 @@ export class OCamera extends GameObject {
     }
 }
 
+/** Perspective camera */
 export class PCamera extends GameObject {
     components: Component[] = [];
     camera: PerspectiveCamera;
     width: number;
     height: number;
+
+    /**
+     * Initialize perspective camera
+     * @param transform Transform (Location, rotation and scale) of the camera
+     * @param FOV Field of View of the camera
+     * @param width Width of the viewport (used for aspect ratio)
+     * @param height Height of the viewport (used for aspect ratio)
+     */
     constructor(transform: Transform, FOV:number, width: number, height: number) {
         super(transform);
         this.width = width;

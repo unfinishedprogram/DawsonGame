@@ -1,5 +1,6 @@
 import { GameObject } from '../objects/gameObject';
 import { OCamera, PCamera } from '../objects/camera';
+import { Renderer } from '../renderer/renderer';
 /**
  * @param {PCamera | OCamera} camera To display the scene
  */

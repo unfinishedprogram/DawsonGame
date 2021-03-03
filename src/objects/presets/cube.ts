@@ -4,6 +4,7 @@ import { Mesh } from 'three';
 import { Controller } from '../../components/controller';
 import { Transform } from '../../components/transform';
 import { MoreMath } from '../../utils/moreMath'
+import { PCamera } from '../camera';
 
 
 
@@ -22,11 +23,18 @@ export class Cube extends GameObject {
     inputViewAngle: number = 0;
     targetViewAngle: number = 0;
     angleOffset: number = Math.PI / 2;
+    // Delete this later
+    camera: PCamera | undefined = undefined;
 
     constructor(transform: Transform) {
         super(transform);
         this.VOXName = "shaman";
         //this.object3D = new Mesh(this.geometry, this.material);
+    }
+
+    // Delete this method later
+    setCamera(camera: PCamera) {
+        this.camera = camera;
     }
     
     update(deltaTime: number) {
@@ -36,9 +44,20 @@ export class Cube extends GameObject {
         this.velocity.add(input.movementDirection.multiplyScalar(deltaTime * this.acceleration));
         this.velocity.multiplyScalar(this.drag);
 
+        if (this.camera) {
+            
+            let screenCoords = new Vector2(...input.mousePointerScreenPosition.toArray());
+            screenCoords.x /= window.innerWidth;
+            screenCoords.y /= window.innerHeight;
+            let newPosition = this.camera.projectScreenPoint(screenCoords);
+
+            this.object3D.position.set(newPosition.x, 0, newPosition.y);
+            
+        }
+
         // Set position
-        this.object3D.position.x += this.velocity.x;
-        this.object3D.position.z -= this.velocity.y;
+/*         this.object3D.position.x += this.velocity.x;
+        this.object3D.position.z -= this.velocity.y; */
 
         // Calculate view angle
         this.velocityViewAngle = this.velocity.angle() + this.angleOffset;

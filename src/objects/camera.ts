@@ -1,6 +1,6 @@
 import { Component } from '../components/component';
 import { GameObject } from './gameObject';
-import { OrthographicCamera, PerspectiveCamera, Vector3 } from 'three';
+import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from 'three';
 import { Transform } from '../components/transform';
 
 /** Orthographic camera */
@@ -79,5 +79,20 @@ export class PCamera extends GameObject {
         for (let i = 0; i < this.components.length; i++) {
             this.components[i].update(deltaTime);
         }
+    }
+
+    public projectScreenPoint(relativeSreenCoords: Vector2): Vector3 {
+        let vec = new Vector3();
+        let pos = new Vector3();
+
+        vec.set(relativeSreenCoords.x * 2 - 1, relativeSreenCoords.y * 2 - 1, 0.5);
+
+        vec.unproject(this.camera);
+        vec.sub(this.camera.position).normalize();
+        let distance = - this.camera.position.z / vec.z;
+
+        pos.copy(this.camera.position).add(vec.multiplyScalar(distance));
+
+        return pos;
     }
 }

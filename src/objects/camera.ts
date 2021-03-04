@@ -12,7 +12,7 @@ export class OCamera extends GameObject {
     zoom: number;
 
     /**
-     * Initialize orthographic camera
+     * Initializes orthographic camera
      * @param transform Transform (Location, rotation and scale) of the camera
      * @param width Width of the camera frustum
      * @param height Height of the camera frustum
@@ -51,9 +51,9 @@ export class PCamera extends GameObject {
     height: number;
 
     /**
-     * Initialize perspective camera
+     * Initializes perspective camera
      * @param transform Transform (Location, rotation and scale) of the camera
-     * @param FOV Field of View of the camera
+     * @param FOV Field of View of the camera (in degrees)
      * @param width Width of the viewport (used for aspect ratio)
      * @param height Height of the viewport (used for aspect ratio)
      */

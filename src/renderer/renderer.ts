@@ -15,7 +15,7 @@ export class Renderer {
     composer: EffectComposer;
 
     /**
-     * Initialize the renderer
+     * Initializes the renderer
      * @param width Render window width
      * @param height Render window height
      * @param scene Scene to render

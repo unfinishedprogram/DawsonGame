@@ -10,7 +10,7 @@ export class Scene {
     camera: OCamera | PCamera; // ....... shouldn't exist?
 
     /**
-     * Initialize scence
+     * Initializes scence
      * @param camera Camera to display the scene
      */
     constructor(camera: PCamera | OCamera) {
@@ -24,7 +24,7 @@ export class Scene {
     }
 
     /**
-     * Update the scene and all the objects in it
+     * Updates the scene and all the objects in it
      * @param deltaTime the delta time between frames (to untie physics from framerate)
      */
     update(deltaTime: number){
@@ -34,7 +34,7 @@ export class Scene {
     }
 
     /**
-     * Load the object meshes
+     * Loads the object meshes
      * @param renderer Renderer to load into
      */
     async loadObjectMeshes(renderer: Renderer){

@@ -43,7 +43,7 @@ export class Controller extends Component {
     gamepadIndex: number = 0;
 
     /**
-     * Inits the controller
+     * Initializes the controller
      * @param controls The interface that provides all the actions and keycodes assigned to them
      * @param gamepadIndex The index of an active gamepad
      */
@@ -70,7 +70,7 @@ export class Controller extends Component {
     }
 
     /**
-     * Update all the infromation of the controls
+     * Updates all the infromation of the controls
      * @param controls The interface that provides all the actions and keycodes assigned to them
      * @param gamepadIndex The index of an active gamepad
      */
@@ -89,7 +89,7 @@ export class Controller extends Component {
     }
 
     /**
-     * Get the input, process it and return which actions the player should perfor
+     * Gets the input, process it and return which actions the player should perfor
      * @returns The interface that provides all the actions and the values
      */
     public getInput() : Actions {

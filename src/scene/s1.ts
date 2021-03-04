@@ -3,19 +3,19 @@ import { PCamera, OCamera } from '../objects/camera'
 import { Transform } from '../components/transform';
 import { Vector3 } from 'three';
 import { Cube } from '../objects/presets/cube';
-import { mob } from '../objects/presets/mob';
 
 // This is just an example scene. It holds a cube and a camera.
 
+/** The transform (location and rotation) of the in game camera */
 let cameraTransform = new Transform(
-    new Vector3(0, 200, 40),
-    new Vector3(-Math.PI / 2 + 0.2, 0, 0)
+    new Vector3(0, 200, 0), // Location
+    new Vector3(-Math.PI / 2, 0, 0) // Rotation
 );
 
+/** Transform of example cube */
 let transforma = new Transform();
 
 //let s1 = new Scene(new OCamera(cameraTransform, 1280, 720, 100));
-
 let s1 = new Scene(new PCamera(cameraTransform, 45, 1280, 720));
 
 let cube = new Cube(transforma);

@@ -29,9 +29,8 @@ export abstract class GameObject {
     // Typescript has a "?" operator and that may be good too.
 
     /**
-     * represents a GameObject
-     * @constructor
-     * @param {Transform} transform - The transform component of the gameObject
+     * Initializes the game object
+     * @param transform The transform component of the gameObject
      */
     constructor(transform: Transform) {
         let geometry = new BoxGeometry();
@@ -44,7 +43,11 @@ export abstract class GameObject {
     // We should be adding and removing components with a function so we can update anything 
     // nececary and check compatibility with other components
 
-    // Returns true if component can be added, false otherwise 
+    /**
+     * Adds component to the object
+     * @param component Component to add
+     * @returns If component can be added
+     */
     public addComponent(component: Component): boolean{
         this.components.push(component);
         return true;
@@ -53,6 +56,11 @@ export abstract class GameObject {
     // Returns true if component can be removed, false otherwise 
     // Mostly this would happen if the component being 
     // removed is a requirement for another
+    /**
+     * Removes the component
+     * @param component Component to remove
+     * @returns If component can be removed
+     */
     public removeComponent(component: Component): boolean{
         return false;
     }

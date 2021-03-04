@@ -2,9 +2,7 @@ import { GameObject } from '../objects/gameObject';
 import { OCamera, PCamera } from '../objects/camera';
 import { Renderer } from '../renderer/renderer';
 
-/**
- * Scene that contains all the objects
- */
+/** Scene that contains all the objects */
 export class Scene {
     /** The list of game objects */
     gameObjects: GameObject[] = [];

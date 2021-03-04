@@ -9,16 +9,16 @@ class Main {
     networkManager: Networking | null;
     scene: Scene; // Temp!!!
 
-    
-
     constructor() {
         this.scene = s1;
-        
-        this.renderer = new Renderer(1280, 720, this.scene);
+        this.renderer = new Renderer(1, 1, this.scene);
         this.scene.loadObjectMeshes(this.renderer);
         this.networkManager = new Networking('127.0.0.1', 8765);
         this.networkManager = null;
         document.body.appendChild(this.renderer.renderer.domElement);
+
+        window.onresize = () => this.renderer.resize(window.innerWidth, window.innerHeight);
+        window.onload = () => this.renderer.resize(window.innerWidth, window.innerHeight);
     }
 }
 

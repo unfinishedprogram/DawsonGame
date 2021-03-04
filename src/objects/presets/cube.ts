@@ -3,6 +3,8 @@ import { PlaneGeometry, MeshBasicMaterial, Vector2} from 'three';
 import { Mesh } from 'three';
 import { Controller } from '../../components/controller';
 import { Transform } from '../../components/transform';
+import { MoreMath } from '../../utils/moreMath'
+import { PCamera } from '../camera';
 
 
 
@@ -17,33 +19,56 @@ export class Cube extends GameObject {
     acceleration: number = 0.35;
 
     // View
-    viewAngle: number = 0;
+    velocityViewAngle: number = 0;
+    inputViewAngle: number = 0;
     targetViewAngle: number = 0;
+    angleOffset: number = Math.PI / 2;
+    // Delete this later
+    camera: PCamera | undefined = undefined;
 
     constructor(transform: Transform) {
         super(transform);
         this.VOXName = "shaman";
         //this.object3D = new Mesh(this.geometry, this.material);
     }
+
+    // Delete this method later
+    setCamera(camera: PCamera) {
+        this.camera = camera;
+    }
     
     update(deltaTime: number) {
         let input = this.controller.getInput();
 
-        // TODO
-        //this.targetViewAngle = input.viewDirectionRelative.angle();
-        //this.object3D.rotation.z = this.interpolateAngle(this.object3D.rotation.z, this.targetViewAngle, 0.1);
-        //console.log(this.targetViewAngle + " --- " + input.viewDirectionRelative.x + " " + input.viewDirectionRelative.y);
-
+        // Calculate velocity
         this.velocity.add(input.movementDirection.multiplyScalar(deltaTime * this.acceleration));
         this.velocity.multiplyScalar(this.drag);
 
-        this.object3D.position.x += this.velocity.x;
-        this.object3D.position.y += this.velocity.y;
-    }
-    private interpolateAngle(ang1: number, ang2: number, mu: number) : number {
-        let cos = (1 - mu) * Math.cos(ang1) + mu * Math.cos(ang2);
-        let sin = (1 - mu) * Math.sin(ang1) + mu * Math.sin(ang2);
+        if (this.camera) {
+            
+            let screenCoords = new Vector2(...input.mousePointerScreenPosition.toArray());
+            screenCoords.x /= window.innerWidth;
+            screenCoords.y /= window.innerHeight;
+            let newPosition = this.camera.projectScreenPoint(screenCoords);
 
-        return Math.atan2(sin, cos);
+            this.object3D.position.set(newPosition.x, 0, newPosition.y);
+            
+        }
+
+        // Set position
+/*         this.object3D.position.x += this.velocity.x;
+        this.object3D.position.z -= this.velocity.y; */
+
+        // Calculate view angle
+        this.velocityViewAngle = this.velocity.angle() + this.angleOffset;
+        if (input.useGamepadViewVector) {
+            if (input.gamepadViewDirection.x && input.gamepadViewDirection.y)
+                this.targetViewAngle = input.gamepadViewDirection.angle() + this.angleOffset;
+            else
+                this.targetViewAngle = this.velocityViewAngle;
+        }
+
+        // Set rotation
+        this.object3D.rotation.y = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
     }
 }

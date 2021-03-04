@@ -1,35 +1,52 @@
 import { Component } from './component';
 import { Vector2 } from 'three';
 
-// All the controls for all the actions
+/** All the controls and keycodes */
 export interface Controls {
     forward: string[],
     backward: string[], 
     left: string[],
     right: string[]
 }
-// Final output
+/** Final output, list of actions and values that the character should perform */
 export interface Actions {
-    // X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
+    /**
+     * X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
+     */
     movementDirection: Vector2
-    // Position of the mouse pointer on the screen (relative to window)
+    /**
+     * Position of the mouse pointer on the screen (relative to window)
+     */
     mousePointerScreenPosition: Vector2
-    // Relative view direction (from the gamepad)
-    viewDirectionRelative: Vector2
-    // View vector which is more relevant
+    /**
+     * Relative view direction (from the gamepad)
+     */
+    gamepadViewDirection: Vector2
+    /**
+     * View vector which is more relevant
+     */
     useGamepadViewVector: boolean
 }
 
+/** Controller class that listens to the controls, processes them and outputs the actions that the character should perform */
 export class Controller extends Component {
-    // Input array ([actions][keycodes])
+    /** Interface of actions and state of the controls assigned to them ([actions][keycodes]) */
     private actions : {[action: string] : {[key: string] : boolean}} = {};
-    // Default player controls
+    /** Interface of actions and controls assigned to them ([actions][keycodes]) */
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
-
+    
+    /** The states of all the keys */
     keyStates: { [id: string]: boolean } = {};
+    /**  Mouse position in pixels on screen space */
     mousePosition: Vector2 = new Vector2();
+    /** The index of the gamepad to use */
     gamepadIndex: number = 0;
 
+    /**
+     * Inits the controller
+     * @param controls The interface that provides all the actions and keycodes assigned to them
+     * @param gamepadIndex The index of an active gamepad
+     */
     constructor(controls?: Controls, gamepadIndex?: number) {
         super();
         let that = this;
@@ -52,6 +69,29 @@ export class Controller extends Component {
         });
     }
 
+    /**
+     * Update all the infromation of the controls
+     * @param controls The interface that provides all the actions and keycodes assigned to them
+     * @param gamepadIndex The index of an active gamepad
+     */
+    public updateControls(controls?: Controls, gamepadIndex?: number) {
+        // Set new controls or leave them default
+        if (controls)
+            this.controls = controls;
+
+        if (gamepadIndex)
+            this.gamepadIndex = gamepadIndex;
+        
+        // Initialize the boolean array for each action and keycode
+        Object.keys(this.controls).forEach((key: string) => {
+            this.actions[key] = {};
+        });
+    }
+
+    /**
+     * Get the input, process it and return which actions the player should perfor
+     * @returns The interface that provides all the actions and the values
+     */
     public getInput() : Actions {
         // Update input array
         Object.keys(this.controls).forEach((action: string) => {
@@ -86,31 +126,21 @@ export class Controller extends Component {
         
         // Group all the data
         let finalActions: Actions = {
-            movementDirection: new Vector2(movementDirection.x, movementDirection.y),
+            movementDirection: new Vector2(...movementDirection.toArray()),
             mousePointerScreenPosition: this.mousePosition,
-            viewDirectionRelative: rightStickInput,
-            useGamepadViewVector: false
+            gamepadViewDirection: rightStickInput,
+            useGamepadViewVector: true
         };
         
         // Return it
         return finalActions;
     }
 
-    public updateControls(controls?: Controls, gamepadIndex?: number) {
-        // Set new controls or leave them default
-        if (controls)
-            this.controls = controls;
-
-        if (gamepadIndex)
-            this.gamepadIndex = gamepadIndex;
-        
-        // Initialize the boolean array for each action and keycode
-        Object.keys(this.controls).forEach((key: string) => {
-            this.actions[key] = {};
-        });
-    }
-
-    // Takes x and y input from the gamepad and remaps it to have a deadzone
+    /**
+     * Takes an axis input remaps it to have a deadzone with clamping
+     * @param input 2D Vector of an axis input
+     * @param deadzone The cut out value. The inputs lower than this value will be ignored (default = 0.25)
+     */
     private static clampInputVector(input: Vector2, deadzone: number = 0.25) {
         if (input.x && input.y) {
             // Apply deadzone

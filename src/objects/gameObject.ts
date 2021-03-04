@@ -1,8 +1,9 @@
 import { Component } from '../components/component';
 import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry } from 'three';
 import { AssetLoader } from '../utils/assetLoader';
+import { Transform } from '../components/transform';
 
-
+/** Class representing an object with components. */
 export abstract class GameObject {
     components: Component[] = [];
     object3D: Object3D = new Object3D();
@@ -27,13 +28,17 @@ export abstract class GameObject {
     // have a default spawn cords. Like (0, 0, 0).
     // Typescript has a "?" operator and that may be good too.
 
-    constructor(transform: Component) {
+    /**
+     * represents a GameObject
+     * @constructor
+     * @param {Transform} transform - The transform component of the gameObject
+     */
+    constructor(transform: Transform) {
         let geometry = new BoxGeometry();
         let material = new MeshBasicMaterial( { color: 0x00ff00 } );
         this.object3D = new Mesh( geometry, material );
 
         this.components.push(transform);
-
     }
 
     // We should be adding and removing components with a function so we can update anything 

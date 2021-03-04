@@ -3,9 +3,14 @@ import { Scene } from '../scene/scene';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass';
 import { WebGLRenderTarget } from 'three';
 
+/**
+ * Displays a given scene, and manages window dimensions
+ * @param {number} width Render window width
+ * @param {number} height Render window height
+ * @param {Scene} scene Scene to render
+ */
 export class Renderer {
     width: number;
     height: number;
@@ -31,15 +36,14 @@ export class Renderer {
         
         this.composer.addPass (SSAO);
         
-
         this.renderer.setSize(width, height);
-        //this.scene.loadObjectMeshes();
-
+        
         const color = 0XFFFFFF;
         const intensity = 1;
         const light = new THREE.AmbientLight(color, intensity);
         this.tscene.add(light);
         this.renderer.setClearColor(new THREE.Color(0XFFFFFF), 1);
+        
         // Add each element of a the scene to the renderer.
 
         // TODO 
@@ -50,28 +54,56 @@ export class Renderer {
         // 3. How should the scene tell the renderer that it has a new
         // object? scene SHOULDN'T have a reference the renderer.
     }
-
-    addSSAO(){
-        var ssao = new SSAOPass(this.tscene, this.scene.camera.camera);
-    }
-
-
+    /**
+     * Adds a 3D object to the threejs scene
+     * @param object 3D object to add to the scene
+     */
     addObject3D(object: any){
         this.tscene.add(object);
     }
 
     draw() {
         this.composer.render();
-        //this.renderer.render(this.tscene, this.scene.camera.camera);
     }
 
+    /**
+     * Loads and adds the mesh of each game object from the scene, to the threejs scene
+     */
     load() {
         for (let gameObject of this.scene.gameObjects) {
             this.tscene.add(gameObject.object3D);
         }
     }
+    /**
+     * Updates the renderer to the new dimensions of the window
+     * @param {number} windowWidth 
+     * @param {number} windowHeight
+     */
+    resize(windowWidth: number, windowHeight: number) {
+        let targetWidth: number = windowHeight / 9 * 16;
+        let targetHeight: number = windowWidth / 16 * 9;
 
+        let newWidth: number;
+        let newHeight: number;
 
+        if (targetHeight > windowHeight) {
+            newWidth = targetWidth;
+            newHeight = windowHeight;
+        }
+        else {
+            newWidth = windowWidth;
+            newHeight = targetHeight;
+        }
+
+        this.width = newWidth;
+        this.height = newHeight;
+        
+        this.composer.setSize(newWidth, newHeight);
+        for (let pass of this.composer.passes) pass.setSize(newWidth, newHeight);
+        this.renderer.setSize(newWidth, newHeight);
+
+        this.renderer.setRenderTarget(new WebGLRenderTarget(newWidth, newHeight));
+    }
 
 
     update() {

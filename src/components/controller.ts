@@ -10,21 +10,13 @@ export interface Controls {
 }
 /** Final output, list of actions and values that the character should perform */
 export interface Actions {
-    /**
-     * X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
-     */
+    /** X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction */
     movementDirection: Vector2
-    /**
-     * Position of the mouse pointer on the screen (relative to window)
-     */
+    /** Position of the mouse pointer on the screen (relative to window) */
     mousePointerScreenPosition: Vector2
-    /**
-     * Relative view direction (from the gamepad)
-     */
+    /** Relative view direction (from the gamepad) */
     gamepadViewDirection: Vector2
-    /**
-     * View vector which is more relevant
-     */
+    /** View vector which is more relevant */
     useGamepadViewVector: boolean
 }
 

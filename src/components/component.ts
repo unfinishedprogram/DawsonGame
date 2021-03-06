@@ -9,7 +9,7 @@ export abstract class Component {
 	update(deltaTime: number) {}
 
 	/**
-	 * Initializes 
+	 * Initializes the component
 	 * @param requiredComponents The list of required components
 	 */
 	constructor(requiredComponents?: Component[]) {

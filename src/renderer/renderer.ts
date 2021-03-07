@@ -5,12 +5,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { WebGLRenderTarget } from 'three';
 
-/**
- * Displays a given scene, and manages window dimensions
- * @param {number} width Render window width
- * @param {number} height Render window height
- * @param {Scene} scene Scene to render
- */
+/** Displays a given scene, and manages window dimensions */
 export class Renderer {
     width: number;
     height: number;
@@ -19,11 +14,22 @@ export class Renderer {
     renderer: THREE.WebGLRenderer;
     composer: EffectComposer;
 
+    /**
+     * Initializes the renderer
+     * @param width Render window width
+     * @param height Render window height
+     * @param scene Scene to render
+     */
     constructor(width: number, height: number, scene: Scene) {
+        /** Current scene */
         this.scene = scene;
+        /** Window width */
         this.width = width;
+        /** Window height */
         this.height = height;
+        /** Current THREEJS scene */
         this.tscene = new THREE.Scene();
+        /** Current renderer */
         this.renderer = new THREE.WebGLRenderer();
 
         //Setting up post processing passes and compositor

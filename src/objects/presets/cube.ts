@@ -1,6 +1,5 @@
 import { GameObject } from '../gameObject';
 import { PlaneGeometry, MeshBasicMaterial, Vector2} from 'three';
-import { Mesh } from 'three';
 import { Controller } from '../../components/controller';
 import { Transform } from '../../components/transform';
 import { MoreMath } from '../../utils/moreMath'

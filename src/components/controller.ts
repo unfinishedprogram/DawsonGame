@@ -10,21 +10,13 @@ export interface Controls {
 }
 /** Final output, list of actions and values that the character should perform */
 export interface Actions {
-    /**
-     * X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction
-     */
+    /** X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction */
     movementDirection: Vector2
-    /**
-     * Position of the mouse pointer on the screen (relative to window)
-     */
+    /** Position of the mouse pointer on the screen (relative to window) */
     mousePointerScreenPosition: Vector2
-    /**
-     * Relative view direction (from the gamepad)
-     */
+    /** Relative view direction (from the gamepad) */
     gamepadViewDirection: Vector2
-    /**
-     * View vector which is more relevant
-     */
+    /** View vector which is more relevant */
     useGamepadViewVector: boolean
 }
 
@@ -43,7 +35,7 @@ export class Controller extends Component {
     gamepadIndex: number = 0;
 
     /**
-     * Inits the controller
+     * Initializes the controller
      * @param controls The interface that provides all the actions and keycodes assigned to them
      * @param gamepadIndex The index of an active gamepad
      */
@@ -70,7 +62,7 @@ export class Controller extends Component {
     }
 
     /**
-     * Update all the infromation of the controls
+     * Updates all the infromation of the controls
      * @param controls The interface that provides all the actions and keycodes assigned to them
      * @param gamepadIndex The index of an active gamepad
      */
@@ -89,7 +81,7 @@ export class Controller extends Component {
     }
 
     /**
-     * Get the input, process it and return which actions the player should perfor
+     * Gets the input, process it and return which actions the player should perfor
      * @returns The interface that provides all the actions and the values
      */
     public getInput() : Actions {

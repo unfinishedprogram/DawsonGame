@@ -1,9 +1,10 @@
 import { Subject } from '../utils/subject';
 import { Action } from '../utils/action';
 
-enum KeyState {
+
+export enum KeyState {
     UP,
-    DOWN
+    DOWN,
 }
 
 export class Input {
@@ -17,7 +18,7 @@ export class Input {
 
 export class InputSubject extends Subject<Input> {
     private listeners: Function[];
-    constructor(){
+    constructor() {
         super();
 
         this.listeners = [
@@ -27,7 +28,6 @@ export class InputSubject extends Subject<Input> {
 
         // Initializes each listener.
         this.listeners.forEach(f => f(this));
-
     }
 
     public registerListener(f: Function) {

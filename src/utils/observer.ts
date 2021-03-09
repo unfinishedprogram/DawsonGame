@@ -1,22 +1,11 @@
-import { DynamicDrawUsage, PositionalAudio } from 'three';
-import { action } from './action';
+import { Action } from './action';
 
-export abstract class Observer{
+export abstract class Observer<C extends any>{
+    abstract onNotify(action: Action, info: C) : void;
+}
 
-    abstract onNotify(action: Action) : void;
-
-    onNotify(){
-        switch(action.type){
-            hit{
-                damage;
-                enemy;
-                effects;
-            }
-            getSlapped{
-
-            }
-        }
-    }
-
-    Observer.notify()
-}   
+export class CombatObserver extends Observer<number> {
+    onNotify(action: Action, info: number) {
+        console.log(`action: ${action}, info: ${info}`); 
+    };
+}

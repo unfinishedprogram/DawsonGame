@@ -3,8 +3,8 @@ import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { s1 } from './scene/s1'
 import { Clock } from 'three';
-import { KeyboardObserver } from './components/controller/keyboardObserver';
-import { InputSubject } from './components/controller/inputSubject';
+import { KeyboardObserver } from './controller/keyboardObserver';
+import { InputSubject } from './controller/inputSubject';
 
 class Main {
     renderer: Renderer;

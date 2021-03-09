@@ -1,5 +1,5 @@
-import { Action } from '../../utils/action';
-import { Observer } from '../../utils/observer';
+import { Action } from '../utils/action';
+import { Observer } from '../utils/observer';
 import { Input } from './inputSubject';
 
 export class KeyboardObserver extends Observer<Input> {

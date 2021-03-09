@@ -1,5 +1,5 @@
-import { Subject } from '../../utils/subject';
-import { Action } from '../../utils/action';
+import { Subject } from '../utils/subject';
+import { Action } from '../utils/action';
 
 enum KeyState {
     UP,

@@ -10,5 +10,3 @@ class InputSingleton {
         return this._instance || (this._instance = new this());
     }
 }
-
-

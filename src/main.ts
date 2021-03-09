@@ -3,6 +3,8 @@ import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { s1 } from './scene/s1'
 import { Clock } from 'three';
+import { KeyboardObserver } from './components/controller/keyboardObserver';
+import { InputSubject } from './components/controller/inputSubject';
 
 class Main {
     renderer: Renderer;
@@ -19,7 +21,17 @@ class Main {
 
         window.onresize = () => this.renderer.resize(window.innerWidth, window.innerHeight);
         window.onload = () => this.renderer.resize(window.innerWidth, window.innerHeight);
+        this.startInputSubject();
     }
+
+    private startInputSubject() {
+        let keyboardObserver = new KeyboardObserver();
+        let inputSubject = new InputSubject();
+
+        inputSubject.addObserver(keyboardObserver);
+
+    }
+
 }
 
 let game = new Main();

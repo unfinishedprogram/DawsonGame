@@ -1,8 +1,10 @@
 import { Action } from './action';
-import { Observer, CombatObserver } from './observer';
+import { Observer } from './observer';
 export class Subject<C extends any> {
     observers: Observer<C>[] = [];
 
+
+    // TODO -> check if it's not already registered
     addObserver(observer:Observer<C>){
         this.observers.push(observer);
     }
@@ -17,7 +19,3 @@ export class Subject<C extends any> {
         });
     }
 }
-
-let combatSubject: Subject<number> = new Subject();
-combatSubject.addObserver(new CombatObserver());
-combatSubject.notify(Action.DO_DAMAGE, 10);

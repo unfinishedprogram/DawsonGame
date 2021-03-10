@@ -1,7 +1,6 @@
 import { Subject } from '../utils/subject';
 import { Action } from '../utils/action';
 
-
 export enum KeyState {
     UP,
     DOWN,

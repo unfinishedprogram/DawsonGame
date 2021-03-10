@@ -26,9 +26,6 @@ export class Controller extends Component {
     private actions : {[action: string] : {[key: string] : boolean}} = {};
     /** Interface of actions and controls assigned to them ([actions][keycodes]) */
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
-    
-    /** The states of all the keys */
-    keyStates: { [id: string]: boolean } = {};
     /**  Mouse position in pixels on screen space */
     mousePosition: Vector2 = new Vector2();
     /** The index of the gamepad to use */

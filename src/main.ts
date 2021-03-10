@@ -5,6 +5,7 @@ import { s1 } from './scene/s1'
 import { Clock } from 'three';
 import { KeyboardObserver } from './controller/keyboardObserver';
 import { InputSubject } from './controller/inputSubject';
+import { InputSingleton } from './controller/input';
 
 class Main {
     renderer: Renderer;
@@ -25,6 +26,7 @@ class Main {
     }
 
     private startInputSubject() {
+        globalThis.Input = InputSingleton.Instance; 
         let keyboardObserver = new KeyboardObserver();
         let inputSubject = new InputSubject();
 

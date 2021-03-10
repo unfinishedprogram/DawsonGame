@@ -45,16 +45,6 @@ export class Controller extends Component {
         this.updateControls(controls, gamepadIndex);
         
         // Add event handlers
-        window.addEventListener('keyup', function (e: KeyboardEvent) {
-            that.keyStates[e.code] = false;
-            // Clear the array if all the keys are unpressed
-            if (!Object.values(that.keyStates).includes(true))
-                that.keyStates = {};
-        });
-        window.addEventListener('keydown', function (e: KeyboardEvent) {
-            that.keyStates[e.code] = true;
-        });
-
         window.addEventListener('mousemove', function (e: MouseEvent) {
             that.mousePosition.x = e.clientX;
             that.mousePosition.y = e.clientY;
@@ -90,7 +80,7 @@ export class Controller extends Component {
             // This actually works
             let keyAction = action as keyof Controls;
             this.controls[keyAction].forEach((key: string) => {
-                this.actions[action][key] = this.keyStates[key];
+                this.actions[action][key] = globalThis.Input.keyStates[key];
             });
         });
 

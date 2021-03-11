@@ -7,7 +7,7 @@ import { KeyboardObserver } from './controller/keyboardObserver';
 import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
 import { MouseMoveObserver } from './controller/mouseMoveObserver';
-import { MouseClickObserver } from './controller/mouseClickObserver';
+import { MouseButtonObserver } from './controller/mouseButtonObserver';
 
 class Main {
     renderer: Renderer;
@@ -36,11 +36,11 @@ class Main {
         let mouseMoveInputSubject = new MouseMoveInputSubject();
         let mouseClickInputSubject = new MouseButtonInputSubject();
         let mouseMoveObserver = new MouseMoveObserver();
-        let mouseClickObserver = new MouseClickObserver();
+        let mouseButtonObserver = new MouseButtonObserver();
 
         keyboardInputSubject.addObserver(keyboardObserver);
         mouseMoveInputSubject.addObserver(mouseMoveObserver);
-        mouseClickInputSubject.addObserver(mouseClickObserver);
+        mouseClickInputSubject.addObserver(mouseButtonObserver);
     }
 
 }

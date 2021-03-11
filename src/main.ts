@@ -27,9 +27,7 @@ class Main {
 
     private startInputSubject() {
         globalThis.Input = InputSingleton.Instance; 
-
         let keyboardObserver = new KeyboardObserver(['KeyW', 'KeyD', 'KeyA', 'KeyS']);
-
         let inputSubject = new InputSubject();
         inputSubject.addObserver(keyboardObserver);
 

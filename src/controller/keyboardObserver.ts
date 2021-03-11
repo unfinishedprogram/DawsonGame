@@ -19,7 +19,6 @@ export class KeyboardObserver extends Observer<Input> {
         if (info.state === KeyState.UP)
             globalThis.Input.keyStates[info.key] = false; 
         else if (info.state === KeyState.DOWN && !globalThis.Input.keyStates[info.key])
-            // We need to also check if the key is part of the registered keys.
             globalThis.Input.keyStates[info.key] = true;
 
         console.log(globalThis.Input.keyStates);

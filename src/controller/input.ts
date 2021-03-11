@@ -3,7 +3,6 @@ export class InputSingleton {
     keyStates: { [id: string]: boolean } = {};
     // ^ this should be private. We shouldn't allow any part of the code to change the key state.
 
-
     private constructor() { }
    
     public static get Instance() {
@@ -15,6 +14,5 @@ export class InputSingleton {
     public isKeyDown(keycode: string) : boolean {
         return this.keyStates[keycode];
     }
-
 
 }

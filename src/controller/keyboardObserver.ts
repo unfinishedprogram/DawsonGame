@@ -22,7 +22,5 @@ export class KeyboardObserver extends Observer<KeyboardInput> {
             globalThis.Input.keyStates[info.key] = true;
 
         console.log(globalThis.Input.keyStates);
-
     }
-
 };

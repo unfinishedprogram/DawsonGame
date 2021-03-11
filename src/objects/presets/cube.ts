@@ -47,6 +47,8 @@ export class Cube extends GameObject {
         this.object3D.position.x += this.velocity.x;
         this.object3D.position.z -= this.velocity.y;
 
+        this.object3D.position.set(...globalThis.Input.projectedMousePos.toArray());
+
         // Calculate view angle
         this.velocityViewAngle = this.velocity.angle() + this.angleOffset;
         if (input.useGamepadViewVector) {

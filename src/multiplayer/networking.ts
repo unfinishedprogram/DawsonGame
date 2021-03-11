@@ -9,9 +9,8 @@ export class Networking {
         this.websocket = create_connection(ip, port);
         this.eventHandler = new EventHandler(this);
         
-        let that = this; // This is not optimal but it works well.
-        this.websocket.onmessage = function (event) {
-           that.eventHandler.handle(event) 
+        this.websocket.onmessage = (event) => {
+            this.eventHandler.handle(event) 
         }
     }
 }

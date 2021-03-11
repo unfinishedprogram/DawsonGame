@@ -10,6 +10,5 @@ export class MouseClickObserver extends Observer<MouseClickInput> {
 
     onNotify(action: Action, info: MouseClickInput) {
         if ( action !== Action.MOUSE_INPUT) return;
-        console.log(info);
     }
 };

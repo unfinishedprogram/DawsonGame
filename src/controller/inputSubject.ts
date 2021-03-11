@@ -88,8 +88,8 @@ export class MouseMoveInputSubject extends Subject<MouseMoveInput> {
     }
 
     private mouseMoveListner(that: MouseMoveInputSubject){
-        window.addEventListener('mousemove', function (e: MouseEvent) {
-            that.notify(Action.MOUSE_INPUT, new MouseMoveInput(e.clientX, e.clientY));
+        document.getElementsByTagName("canvas")[0].addEventListener('mousemove', function (e: MouseEvent) {
+            that.notify(Action.MOUSE_INPUT, new MouseMoveInput(e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
         });
     }
 
@@ -112,14 +112,14 @@ export class MouseClickInputSubject extends Subject<MouseClickInput> {
 
     private mouseDownListner(that: MouseClickInputSubject){
         window.addEventListener('mousedown', function (e: MouseEvent) {
-            e.preventDefault();
+
             that.notify(Action.MOUSE_INPUT, new MouseClickInput(e.button, ButtonState.DOWN));
         });
     }
 
     private mouseUpListner(that: MouseClickInputSubject){
         window.addEventListener('mouseup', function (e: MouseEvent) {
-            e.preventDefault();
+           
             that.notify(Action.MOUSE_INPUT, new MouseClickInput(e.button, ButtonState.UP));
         });
     }

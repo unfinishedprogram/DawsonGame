@@ -12,8 +12,6 @@ export interface Controls {
 export interface Actions {
     /** X, Y axis vector. +1 - input in the direction, 0 - no input, -1 - input in the opposite direction */
     movementDirection: Vector2
-    /** Position of the mouse pointer on the screen (relative to window) */
-    mousePointerScreenPosition: Vector2
     /** Relative view direction (from the gamepad) */
     gamepadViewDirection: Vector2
     /** View vector which is more relevant */
@@ -26,8 +24,6 @@ export class Controller extends Component {
     private actions : {[action: string] : {[key: string] : boolean}} = {};
     /** Interface of actions and controls assigned to them ([actions][keycodes]) */
     controls: Controls = { forward: ['KeyW', 'ArrowUp'], backward: ['KeyS', 'ArrowDown'], left: ['KeyA', 'ArrowLeft'], right: ['KeyD', 'ArrowRight'] };
-    /**  Mouse position in pixels on screen space */
-    mousePosition: Vector2 = new Vector2();
     /** The index of the gamepad to use */
     gamepadIndex: number = 0;
 
@@ -38,14 +34,7 @@ export class Controller extends Component {
      */
     constructor(controls?: Controls, gamepadIndex?: number) {
         super();
-        let that = this;
-        this.updateControls(controls, gamepadIndex);
-        
-        // Add event handlers
-        window.addEventListener('mousemove', function (e: MouseEvent) {
-            that.mousePosition.x = e.clientX;
-            that.mousePosition.y = e.clientY;
-        });
+        this.updateControls(controls, gamepadIndex);       
     }
 
     /**
@@ -68,7 +57,7 @@ export class Controller extends Component {
     }
 
     /**
-     * Gets the input, process it and return which actions the player should perfor
+     * Gets the input, process it and return which actions the player should perform
      * @returns The interface that provides all the actions and the values
      */
     public getInput() : Actions {
@@ -106,7 +95,6 @@ export class Controller extends Component {
         // Group all the data
         let finalActions: Actions = {
             movementDirection: new Vector2(...movementDirection.toArray()),
-            mousePointerScreenPosition: this.mousePosition,
             gamepadViewDirection: rightStickInput,
             useGamepadViewVector: true
         };

@@ -21,22 +21,24 @@ class Main {
         this.networkManager = new Networking('127.0.0.1', 8765);
         this.networkManager = null;
         document.body.appendChild(this.renderer.renderer.domElement);
-
+        
         window.onresize = () => this.renderer.resize(window.innerWidth, window.innerHeight);
         window.onload = () => this.renderer.resize(window.innerWidth, window.innerHeight);
+
         this.startInputSubject();
     }
 
     private startInputSubject() {
         globalThis.Input = InputSingleton.Instance; 
+        globalThis.Input.camera = this.scene.camera.camera;
         let keyboardObserver = new KeyboardObserver(['KeyW', 'KeyD', 'KeyA', 'KeyS']);
         let keyboardInputSubject = new KeyboardInputSubject();
         let mouseMoveInputSubject = new MouseMoveInputSubject();
         let mouseClickInputSubject = new MouseClickInputSubject();
         let mouseMoveObserver = new MouseMoveObserver();
         let mouseClickObserver = new MouseClickObserver();
-        keyboardInputSubject.addObserver(keyboardObserver);
 
+        keyboardInputSubject.addObserver(keyboardObserver);
         mouseMoveInputSubject.addObserver(mouseMoveObserver);
         mouseClickInputSubject.addObserver(mouseClickObserver);
     }

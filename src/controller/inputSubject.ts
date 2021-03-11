@@ -3,9 +3,7 @@ import { Action } from '../utils/action';
 
 /** Represents the button state. Key can be UP or DOWN*/
 export enum ButtonState {
-    /** Key is UP (unpressed) */
     UP,
-    /** Key is DOWN (pressed) */
     DOWN,
 }
 
@@ -16,7 +14,7 @@ export class KeyboardInput {
     /**
      * Initializes keyboard input 
      * @param key Keycode of the key 
-     * @param state State of the key (UP/DOWN) 
+     * @param state State of the key
      */
     constructor(key: string, state: ButtonState) {
         this.key = key;

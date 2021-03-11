@@ -1,9 +1,9 @@
 import { Action } from '../utils/action';
 import { Observer } from '../utils/observer';
-import { Input, KeyState} from './inputSubject';
+import { KeyboardInput, ButtonState} from './inputSubject';
 
 
-export class KeyboardObserver extends Observer<Input> {
+export class KeyboardObserver extends Observer<KeyboardInput> {
     private inputMap: string[];
     
     // inputMap should be an array of keys that are going to be listened.
@@ -12,13 +12,13 @@ export class KeyboardObserver extends Observer<Input> {
         this.inputMap = inputMap;
     }
 
-    onNotify(action: Action, info: Input) {
+    onNotify(action: Action, info: KeyboardInput) {
         if ( action !== Action.KEYBOARD_INPUT) return;
         if ( !this.inputMap.includes(info.key)) return;
 
-        if (info.state === KeyState.UP)
+        if (info.state === ButtonState.UP)
             globalThis.Input.keyStates[info.key] = false; 
-        else if (info.state === KeyState.DOWN && !globalThis.Input.keyStates[info.key])
+        else if (info.state === ButtonState.DOWN && !globalThis.Input.keyStates[info.key])
             globalThis.Input.keyStates[info.key] = true;
 
         console.log(globalThis.Input.keyStates);

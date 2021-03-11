@@ -1,21 +1,41 @@
 import { Subject } from '../utils/subject';
 import { Action } from '../utils/action';
 
-export enum KeyState {
+export enum ButtonState {
     UP,
     DOWN,
 }
 
-export class Input {
+
+
+export class KeyboardInput {
     key: string;
-    state: KeyState;
-    constructor(key: string, state: KeyState) {
+    state: ButtonState;
+    constructor(key: string, state: ButtonState) {
         this.key = key;
         this.state = state;
     }
 }
 
-export class InputSubject extends Subject<Input> {
+export class MouseMoveInput {
+    x: number;
+    y: number;
+    constructor(offsetX: number, offsetY:number){
+        this.x = offsetX;
+        this.y = offsetY;
+    }
+}
+
+export class MouseClickInput {
+    button:number;
+    buttonState: ButtonState;
+    constructor(button:number, state: ButtonState){
+        this.buttonState = state;
+        this.button = button;
+    }
+}
+
+export class KeyboardInputSubject extends Subject<KeyboardInput> {
     private listeners: Function[];
     constructor() {
         super();
@@ -38,16 +58,69 @@ export class InputSubject extends Subject<Input> {
         }
     }
 
-    private keyUpListener(that: InputSubject) {
+    private keyUpListener(that: KeyboardInputSubject) {
         window.addEventListener('keyup', function (e: KeyboardEvent) {
-            that.notify(Action.KEYBOARD_INPUT, new Input(e.code, KeyState.UP));
+            that.notify(Action.KEYBOARD_INPUT, new KeyboardInput(e.code, ButtonState.UP));
         });
     }
 
-    private keyDownListener(that: InputSubject) {
+    private keyDownListener(that: KeyboardInputSubject) {
         window.addEventListener('keydown', function (e: KeyboardEvent) {
-            that.notify(Action.KEYBOARD_INPUT, new Input(e.code, KeyState.DOWN));
+            that.notify(Action.KEYBOARD_INPUT, new KeyboardInput(e.code, ButtonState.DOWN));
         });
     }
 
+
+
+}
+
+export class MouseMoveInputSubject extends Subject<MouseMoveInput> {
+    private listeners: Function[];
+    constructor() {
+        super();
+
+        this.listeners = [
+            this.mouseMoveListner,
+        ] 
+
+        // Initializes each listener.
+        this.listeners.forEach(f => f(this));
+    }
+
+    private mouseMoveListner(that: MouseMoveInputSubject){
+        window.addEventListener('mousemove', function (e: MouseEvent) {
+            that.notify(Action.MOUSE_INPUT, new MouseMoveInput(e.clientX, e.clientY));
+        });
+    }
+
+}
+
+
+export class MouseClickInputSubject extends Subject<MouseClickInput> {
+    private listeners: Function[];
+    constructor() {
+        super();
+
+        this.listeners = [
+            this.mouseUpListner,
+            this.mouseDownListner
+        ] 
+
+        // Initializes each listener.
+        this.listeners.forEach(f => f(this));
+    }
+
+    private mouseDownListner(that: MouseClickInputSubject){
+        window.addEventListener('mousedown', function (e: MouseEvent) {
+            e.preventDefault();
+            that.notify(Action.MOUSE_INPUT, new MouseClickInput(e.button, ButtonState.DOWN));
+        });
+    }
+
+    private mouseUpListner(that: MouseClickInputSubject){
+        window.addEventListener('mouseup', function (e: MouseEvent) {
+            e.preventDefault();
+            that.notify(Action.MOUSE_INPUT, new MouseClickInput(e.button, ButtonState.UP));
+        });
+    }
 }

@@ -4,8 +4,10 @@ import { Scene } from './scene/scene';
 import { s1 } from './scene/s1'
 import { Clock } from 'three';
 import { KeyboardObserver } from './controller/keyboardObserver';
-import { InputSubject } from './controller/inputSubject';
+import { KeyboardInputSubject, MouseClickInputSubject, MouseMoveInputSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
+import { MouseMoveObserver } from './controller/mouseMoveObserver';
+import { MouseClickObserver } from './controller/mouseClickObserver';
 
 class Main {
     renderer: Renderer;
@@ -28,9 +30,15 @@ class Main {
     private startInputSubject() {
         globalThis.Input = InputSingleton.Instance; 
         let keyboardObserver = new KeyboardObserver(['KeyW', 'KeyD', 'KeyA', 'KeyS']);
-        let inputSubject = new InputSubject();
-        inputSubject.addObserver(keyboardObserver);
+        let keyboardInputSubject = new KeyboardInputSubject();
+        let mouseMoveInputSubject = new MouseMoveInputSubject();
+        let mouseClickInputSubject = new MouseClickInputSubject();
+        let mouseMoveObserver = new MouseMoveObserver();
+        let mouseClickObserver = new MouseClickObserver();
+        keyboardInputSubject.addObserver(keyboardObserver);
 
+        mouseMoveInputSubject.addObserver(mouseMoveObserver);
+        mouseClickInputSubject.addObserver(mouseClickObserver);
     }
 
 }

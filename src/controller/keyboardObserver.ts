@@ -2,11 +2,14 @@ import { Action } from '../utils/action';
 import { Observer } from '../utils/observer';
 import { KeyboardInput, ButtonState} from './inputSubject';
 
-
+/** Represents the keyboard observer that processes all keyboard input */
 export class KeyboardObserver extends Observer<KeyboardInput> {
     private inputMap: string[];
     
-    // inputMap should be an array of keys that are going to be listened.
+    /**
+     * Initializes the keyboard observer
+     * @param inputMap An array of the keys that are going to be listened to
+     */
     constructor(inputMap: string[]) {
         super();
         this.inputMap = inputMap;

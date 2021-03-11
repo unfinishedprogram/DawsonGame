@@ -32,6 +32,7 @@ export class Renderer {
         /** Current renderer */
         this.renderer = new THREE.WebGLRenderer();
 
+        this.renderer.domElement.oncontextmenu  = () => {return false};
         //Setting up post processing passes and compositor
         this.composer = new EffectComposer(this.renderer, new WebGLRenderTarget(this.width*2, this.height*2));
         this.composer.addPass (new RenderPass(this.tscene, this.scene.camera.camera) );

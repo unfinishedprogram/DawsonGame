@@ -3,10 +3,11 @@ import { Action } from '../utils/action';
 import { Observer } from '../utils/observer';
 import { MouseMoveInput} from './inputSubject';
 
-
+/** Represents observer that processes mouse movement input */
 export class MouseMoveObserver extends Observer<MouseMoveInput> {
     plane: Plane;
     canvasElm: Element;
+    /** Initializes mouse move observer */
     constructor() {
         super();
         this.plane = new Plane( new Vector3( 0, 1, 0 ), 0);

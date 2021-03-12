@@ -4,9 +4,13 @@ import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { WebGLRenderTarget } from 'three';
+import { Observer } from '../utils/observer';
+import { AddObject } from '../subjects/objectSubject';
+import { Action } from '../utils/action';
+import { GameObject } from '../objects/gameObject';
 
 /** Displays a given scene, and manages window dimensions */
-export class Renderer {
+export class Renderer extends Observer<AddObject>{
     width: number;
     height: number;
     scene: Scene;
@@ -21,6 +25,7 @@ export class Renderer {
      * @param scene Scene to render
      */
     constructor(width: number, height: number, scene: Scene) {
+        super();
         /** Current scene */
         this.scene = scene;
         /** Window width */
@@ -81,6 +86,11 @@ export class Renderer {
             this.tscene.add(gameObject.object3D);
         }
     }
+
+    // this should probably be changed, any type doesent seem right but I wanted it to match any type in the addObject3D function
+    removeObject(object:any){
+        this.tscene.remove(object);
+    }
     /**
      * Updates the renderer to the new dimensions of the window
      * @param {number} windowWidth 
@@ -110,6 +120,15 @@ export class Renderer {
         this.renderer.setSize(newWidth, newHeight);
 
         this.renderer.setRenderTarget(new WebGLRenderTarget(newWidth, newHeight));
+    }
+
+    onNotify(action: Action, info: GameObject) {
+        if ( action !== Action.ADD_OBJECT || Action.REMOVE_OBJECT) return;
+        if ( this instanceof Scene){
+            this.addGameObject(info);
+        }
+        return;
+        
     }
 
 

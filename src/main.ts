@@ -1,13 +1,14 @@
 import { Networking } from './multiplayer/networking';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
-import { s1 } from './scene/s1'
+import { gameScene } from './scene/gameScene'
 import { Clock } from 'three';
 import { KeyboardObserver } from './controller/keyboardObserver';
 import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
 import { MouseMoveObserver } from './controller/mouseMoveObserver';
 import { MouseButtonObserver } from './controller/mouseButtonObserver';
+import { RemoveObjectSubject, AddObjectSubject } from './subjects/objectSubject';
 
 class Main {
     renderer: Renderer;
@@ -15,8 +16,9 @@ class Main {
     scene: Scene; // Temp!!!
 
     constructor() {
-        this.scene = s1;
+        this.scene = gameScene;
         this.renderer = new Renderer(1, 1, this.scene);
+        this.scene.setRenderer(this.renderer);
         this.scene.loadObjectMeshes(this.renderer);
         this.networkManager = new Networking('127.0.0.1', 8765);
         this.networkManager = null;
@@ -38,9 +40,18 @@ class Main {
         let mouseMoveObserver = new MouseMoveObserver();
         let mouseButtonObserver = new MouseButtonObserver();
 
+        let removeObjectSubject = new RemoveObjectSubject();
+        let addObjectSubject = new AddObjectSubject();
+
+        let removeObjectObserver = new RemoveObjectObserver();
+        let addObjectObserver = new AddObjectObserver();
+
         keyboardInputSubject.addObserver(keyboardObserver);
         mouseMoveInputSubject.addObserver(mouseMoveObserver);
         mouseClickInputSubject.addObserver(mouseButtonObserver);
+
+        addObjectSubject.addObserver(addObjectObserver);
+        removeObjectSubject.addObserver(removeObjectObserver);
     }
 
 }
@@ -54,7 +65,7 @@ let clock = new Clock();
 
 function animate() {
     let deltaTime = clock.getDelta();
-    s1.gameObjects[0].update(deltaTime);
+    gameScene.gameObjects[0].update(deltaTime);
     requestAnimationFrame(animate);
     game.scene.update(deltaTime);
     game.renderer.draw();

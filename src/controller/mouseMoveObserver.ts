@@ -25,10 +25,14 @@ export class MouseMoveObserver extends Observer<MouseMoveInput> {
         let cvsWidth = this.canvasElm.clientWidth;
         let cvsHeight = this.canvasElm.clientHeight;
 
-        var normalizedMouse = new Vector2(info.x / cvsWidth * 2 - 1 , -info.y / cvsHeight * 2 + 1);
-        raycaster.setFromCamera(normalizedMouse, globalThis.Input.camera);
+        
+
+        let normalizedX = (info.x / cvsWidth) * 2 - 1;
+        let normalizedY = -(info.y / cvsHeight * 2 -1);
+
+        
+
+        raycaster.setFromCamera(new Vector2(normalizedX, normalizedY), globalThis.Input.camera);
 		raycaster.ray.intersectPlane(this.plane, globalThis.Input.projectedMousePos);
     }
-
-    
 };

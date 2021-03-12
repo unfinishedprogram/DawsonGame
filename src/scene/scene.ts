@@ -9,6 +9,9 @@ export class Scene {
     /** Current camera */
     camera: OCamera | PCamera; // ....... shouldn't exist?
 
+    /** Renderer of the scene */
+    renderer: Renderer|undefined;
+
     /**
      * Initializes scence
      * @param camera Camera to display the scene
@@ -37,10 +40,27 @@ export class Scene {
      * Loads the object meshes
      * @param renderer Renderer to load into
      */
+    
     async loadObjectMeshes(renderer: Renderer){
         for (let obj of this.gameObjects){
             await obj.loadMesh();
         }
         renderer.load();
+    }
+
+    setRenderer(renderer: Renderer) {
+        this.renderer = renderer;
+    }
+
+    removeGameObject(object:GameObject){
+        let index = this.gameObjects.indexOf(object, 0);
+        if (index > -1) {
+            this.gameObjects.splice(index, 1);
+            if(this.renderer) this.renderer.tscene.remove(object.object3D);
+        }
+    }
+
+    addGameObject(object:GameObject){
+        this.gameObjects.push(object);
     }
 }

@@ -52,6 +52,7 @@ export class MouseButtonInput {
     }
 }
 
+
 /** Subject for keyboard keys events */
 export class KeyboardInputSubject extends Subject<KeyboardInput> {
     private listeners: Function[];

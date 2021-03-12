@@ -43,6 +43,22 @@ export interface GamepadMoveInput {
     value: number;
 }
 
+/** Represents the data of our own GamepadEvent that is triggered
+    when a button is pressed */
+export interface CustomGamepadInputEvent {
+    /** The button that was pressed */
+    button: number;
+}
+
+/** Represents the data of our own GamepadEvent that is triggered 
+    when one of the sticks is moved */
+export interface CustomGamepadMoveEvent {
+    /** Identifier for the stick and direction of the moved stick */
+    axis: number;
+    /** A float number from 0 to 1 that represents the stick offset from the center */
+    value: number;
+}
+
 /** Subject for keyboard keys events */
 export class KeyboardInputSubject extends Subject<KeyboardInput> {
     private listeners: Function[];
@@ -151,21 +167,6 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
             that.notify(Action.MOUSE_INPUT, {button: e.button, state: ButtonState.UP});
         });
     }
-}
-/** Represents the data of our own GamepadEvent that is triggered
-    when a button is pressed */
-export interface CustomGamepadInputEvent {
-    /** The button that was pressed */
-    button: number;
-}
-
-/** Represents the data of our own GamepadEvent that is triggered 
-    when one of the sticks is moved */
-export interface CustomGamepadMoveEvent {
-    /** Identifier for the stick and direction of the moved stick */
-    axis: number;
-    /** A float number from 0 to 1 that represents the stick offset from the center */
-    value: number;
 }
 
 /** Subject that deals with changes on the Gamepad Buttons */

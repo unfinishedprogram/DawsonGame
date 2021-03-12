@@ -8,7 +8,7 @@ export enum ButtonState {
 }
 
 /** Represents the keyboard input */
-export class KeyboardInput {
+export interface KeyboardInput {
     key: string;
     state: ButtonState;
     /**
@@ -16,14 +16,10 @@ export class KeyboardInput {
      * @param key Keycode of the key 
      * @param state State of the key
      */
-    constructor(key: string, state: ButtonState) {
-        this.key = key;
-        this.state = state;
-    }
 }
 
 /** Represents the mouse movement input */
-export class MouseMoveInput {
+export interface MouseMoveInput {
     x: number;
     y: number;
     /**
@@ -31,25 +27,17 @@ export class MouseMoveInput {
      * @param offsetX Relative pixel location of the cursor to the canvas on the X axis
      * @param offsetY  Relative pixel location of the cursor to the canvas on the B axis
      */
-    constructor(offsetX: number, offsetY:number) {
-        this.x = offsetX;
-        this.y = offsetY;
-    }
 }
 
 /** Represents the mouse button input */
-export class MouseButtonInput {
+export interface MouseButtonInput {
     button: number;
-    buttonState: ButtonState;
+    state: ButtonState;
     /**
      * Initializes mouse button input
      * @param button Mouse button ID
      * @param state The state of the mouse button (UP/DOWN)
      */
-    constructor(button: number, state: ButtonState) {
-        this.buttonState = state;
-        this.button = button;
-    }
 }
 
 export interface GamepadButtonInput {
@@ -94,7 +82,7 @@ export class KeyboardInputSubject extends Subject<KeyboardInput> {
      */
     private keyUpListener(that: KeyboardInputSubject) {
         window.addEventListener('keyup', function (e: KeyboardEvent) {
-            that.notify(Action.KEYBOARD_INPUT, new KeyboardInput(e.code, ButtonState.UP));
+            that.notify(Action.KEYBOARD_INPUT, {key: e.code, state: ButtonState.UP});
         });
     }
     /**
@@ -103,7 +91,7 @@ export class KeyboardInputSubject extends Subject<KeyboardInput> {
      */
     private keyDownListener(that: KeyboardInputSubject) {
         window.addEventListener('keydown', function (e: KeyboardEvent) {
-            that.notify(Action.KEYBOARD_INPUT, new KeyboardInput(e.code, ButtonState.DOWN));
+            that.notify(Action.KEYBOARD_INPUT, {key: e.code, state: ButtonState.DOWN});
         });
     }
 }
@@ -129,7 +117,7 @@ export class MouseMoveInputSubject extends Subject<MouseMoveInput> {
      */
     private mouseMoveListner(that: MouseMoveInputSubject){
         document.getElementsByTagName("canvas")[0].addEventListener('mousemove', function (e: MouseEvent) {
-            that.notify(Action.MOUSE_INPUT, new MouseMoveInput(e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
+            that.notify(Action.MOUSE_INPUT, {x: e.pageX - this.offsetLeft, y: e.pageY - this.offsetTop});
         });
     }
 
@@ -157,7 +145,7 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
      */
     private mouseDownListner(that: MouseButtonInputSubject) {
         window.addEventListener('mousedown', function (e: MouseEvent) {
-            that.notify(Action.MOUSE_INPUT, new MouseButtonInput(e.button, ButtonState.DOWN));
+            that.notify(Action.MOUSE_INPUT, {button: e.button, state: ButtonState.DOWN});
         });
     }
 
@@ -167,7 +155,7 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
      */
     private mouseUpListner(that: MouseButtonInputSubject) {
         window.addEventListener('mouseup', function (e: MouseEvent) {
-            that.notify(Action.MOUSE_INPUT, new MouseButtonInput(e.button, ButtonState.UP));
+            that.notify(Action.MOUSE_INPUT, {button: e.button, state: ButtonState.UP});
         });
     }
 }

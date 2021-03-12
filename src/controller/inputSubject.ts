@@ -31,7 +31,7 @@ export class MouseMoveInput {
      * @param offsetX Relative pixel location of the cursor to the canvas on the X axis
      * @param offsetY  Relative pixel location of the cursor to the canvas on the B axis
      */
-    constructor(offsetX: number, offsetY:number){
+    constructor(offsetX: number, offsetY:number) {
         this.x = offsetX;
         this.y = offsetY;
     }
@@ -46,7 +46,7 @@ export class MouseButtonInput {
      * @param button Mouse button ID
      * @param state The state of the mouse button (UP/DOWN)
      */
-    constructor(button:number, state: ButtonState){
+    constructor(button: number, state: ButtonState) {
         this.buttonState = state;
         this.button = button;
     }
@@ -145,7 +145,7 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
      * Initializes mouse button down listener
      * @param that Mouse button input subject
      */
-    private mouseDownListner(that: MouseButtonInputSubject){
+    private mouseDownListner(that: MouseButtonInputSubject) {
         window.addEventListener('mousedown', function (e: MouseEvent) {
             that.notify(Action.MOUSE_INPUT, new MouseButtonInput(e.button, ButtonState.DOWN));
         });
@@ -155,9 +155,22 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
      * Initializes mouse button up listener
      * @param that Mouse button input subject
      */
-    private mouseUpListner(that: MouseButtonInputSubject){
+    private mouseUpListner(that: MouseButtonInputSubject) {
         window.addEventListener('mouseup', function (e: MouseEvent) {
             that.notify(Action.MOUSE_INPUT, new MouseButtonInput(e.button, ButtonState.UP));
         });
+    }
+}
+
+export class GamepadInputSubject extends Subject<Gamepad> {
+    public buttonDown(gamepad: Gamepad) {
+        console.log(this)
+        this.notify(Action.GAMEPAD_INPUT, gamepad);
+    }
+    public buttonUp(gamepad: Gamepad) {
+        this.notify(Action.GAMEPAD_INPUT, gamepad);
+    }
+    public axisMove(gamepad: Gamepad) {
+        // this.notify(Action.GAMEPAD_INPUT, gamepad);
     }
 }

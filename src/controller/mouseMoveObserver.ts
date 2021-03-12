@@ -15,7 +15,6 @@ export class MouseMoveObserver extends Observer<MouseMoveInput> {
     }
 
     onNotify(action: Action, info: MouseMoveInput) {
-
         if ( action !== Action.MOUSE_INPUT) return;
         let raycaster = new Raycaster();
 
@@ -29,6 +28,4 @@ export class MouseMoveObserver extends Observer<MouseMoveInput> {
         raycaster.setFromCamera(normalizedMouse, globalThis.Input.camera);
 		raycaster.ray.intersectPlane(this.plane, globalThis.Input.projectedMousePos);
     }
-
-    
 };

@@ -4,10 +4,12 @@ import { Scene } from './scene/scene';
 import { s1 } from './scene/s1'
 import { Clock } from 'three';
 import { KeyboardObserver } from './controller/keyboardObserver';
-import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject } from './controller/inputSubject';
+import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject, GamepadMoveSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
 import { MouseMoveObserver } from './controller/mouseMoveObserver';
 import { MouseButtonObserver } from './controller/mouseButtonObserver';
+import { GamepadListener } from './controller/gamepadListener';
+import { GamepadObserver } from './controller/gamepadObserver';
 
 class Main {
     renderer: Renderer;
@@ -42,10 +44,21 @@ class Main {
         mouseMoveInputSubject.addObserver(mouseMoveObserver);
         mouseClickInputSubject.addObserver(mouseButtonObserver);
     }
-
 }
 
 let game = new Main();
+let gamepadInputSubject = new GamepadInputSubject(); 
+let gamepadMoveSubject = new GamepadMoveSubject();
+
+let gamepadInputListener = new GamepadListener(
+    gamepadInputSubject.buttonUp.bind(gamepadInputSubject),
+    gamepadInputSubject.buttonDown.bind(gamepadInputSubject),
+    gamepadMoveSubject.moveAnalong.bind(gamepadMoveSubject),
+);
+
+
+
+gamepadInputSubject.addObserver(new GamepadObserver());
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems
@@ -58,5 +71,6 @@ function animate() {
     requestAnimationFrame(animate);
     game.scene.update(deltaTime);
     game.renderer.draw();
+    gamepadInputListener.update();
 }
 animate();

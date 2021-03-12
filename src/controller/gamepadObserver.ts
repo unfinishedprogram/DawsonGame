@@ -11,7 +11,7 @@ enum Button {
     RB,
     LT,
     RT,
-    BACK, // not sure about that one
+    BACK,
     START,
     LSTICK,
     RSTICK,
@@ -25,11 +25,10 @@ enum Button {
 export class GamepadObserver extends Observer<GamepadButtonInput> {
     onNotify(action: Action, info: GamepadButtonInput): void {
         if (action !== Action.GAMEPAD_INPUT) return;
-
         if ( info.state === ButtonState.DOWN ) {
-            console.log(`${Button[action]} was pressed.`);
+            console.log(`${Button[info.button]} was pressed.`);
         } else {
-            console.log(`${Button[action]} was released.`);
+            console.log(`${Button[info.button]} was released.`);
         }
 
 

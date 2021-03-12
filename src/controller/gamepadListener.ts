@@ -1,10 +1,15 @@
+import { CustomGamepadInputEvent, CustomGamepadMoveEvent } from './inputSubject';
+
+type GamepadInputListenerF = (e: CustomGamepadInputEvent) => void;
+type GamepadAnalogListenerF = (e: CustomGamepadMoveEvent) => void;
+
 export class GamepadListener {
     gamepads: Gamepad[];
-    buttonUp: Function;
-    buttonDown: Function;
-    stickMove: Function;
+    buttonUp: GamepadInputListenerF;
+    buttonDown: GamepadInputListenerF;
+    stickMove: GamepadAnalogListenerF;
 
-    constructor(buttonUp: Function, buttonDown: Function, stickMove: Function) {
+    constructor(buttonUp: GamepadInputListenerF, buttonDown: GamepadInputListenerF, stickMove: GamepadAnalogListenerF) {
         this.gamepads = [];
             
         this.buttonUp = buttonUp;
@@ -35,15 +40,16 @@ export class GamepadListener {
 
     private detectChanges(newGamepad: Gamepad, oldGamepad: Gamepad) {
         for (let i = 0; i < 3; i++) {
-            if (newGamepad.axes[i] != oldGamepad.axes[i])
-                this.stickMove(newGamepad);
+            if (newGamepad.axes[i] != oldGamepad.axes[i]) {
+                //this.stickMove(newGamepad);
+            }
         }
         for (let i = 0; i < 17; i++) {
             if (newGamepad.buttons[i].value != oldGamepad.buttons[i].value) {
                 if (newGamepad.buttons[i].value)
-                   this.buttonDown(newGamepad);
+                   this.buttonDown({button: i});
                 else
-                    this.buttonUp(newGamepad);
+                    this.buttonUp({button: i});
             }
         }
     }

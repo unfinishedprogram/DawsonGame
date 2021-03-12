@@ -4,7 +4,7 @@ import { Scene } from './scene/scene';
 import { s1 } from './scene/s1'
 import { Clock } from 'three';
 import { KeyboardObserver } from './controller/keyboardObserver';
-import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject } from './controller/inputSubject';
+import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject, GamepadMoveSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
 import { MouseMoveObserver } from './controller/mouseMoveObserver';
 import { MouseButtonObserver } from './controller/mouseButtonObserver';
@@ -48,11 +48,16 @@ class Main {
 
 let game = new Main();
 let gamepadInputSubject = new GamepadInputSubject(); 
-let gamepadListener = new GamepadListener(
+let gamepadMoveSubject = new GamepadMoveSubject();
+
+let gamepadInputListener = new GamepadListener(
     gamepadInputSubject.buttonUp.bind(gamepadInputSubject),
     gamepadInputSubject.buttonDown.bind(gamepadInputSubject),
-    gamepadInputSubject.axisMove.bind(gamepadInputSubject)
+    gamepadMoveSubject.moveAnalong.bind(gamepadMoveSubject),
 );
+
+
+
 gamepadInputSubject.addObserver(new GamepadObserver());
 
 //GAME LOOP
@@ -66,6 +71,6 @@ function animate() {
     requestAnimationFrame(animate);
     game.scene.update(deltaTime);
     game.renderer.draw();
-    gamepadListener.update();
+    gamepadInputListener.update();
 }
 animate();

@@ -52,14 +52,14 @@ export class MouseButtonInput {
     }
 }
 
-export class GamepadButtonInput {
+export interface GamepadButtonInput {
     button: number;
     state: ButtonState;
+}
 
-    constructor(button: number, state: ButtonState) {
-        this.button = button;
-        this.state = state;
-    }
+export interface GamepadMoveInput {
+    axis: number;
+    value: number;
 }
 
 /** Subject for keyboard keys events */
@@ -172,19 +172,26 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
     }
 }
 
-export interface CustomGamepadEvent {
+export interface CustomGamepadInputEvent {
     button: number;
 }
 
+export interface CustomGamepadMoveEvent {
+    axis: number;
+    value: number;
+}
+
 export class GamepadInputSubject extends Subject<GamepadButtonInput> {
-    public buttonDown(e: CustomGamepadEvent) {
-        console.log(this)
-        this.notify(Action.GAMEPAD_INPUT, new GamepadButtonInput(e.button, ButtonState.DOWN));
+    public buttonDown(e: CustomGamepadInputEvent) {
+        this.notify(Action.GAMEPAD_INPUT, {button: e.button, state: ButtonState.DOWN});
     }
-    public buttonUp(e: CustomGamepadEvent) {
-        this.notify(Action.GAMEPAD_INPUT, new GamepadButtonInput(e.button, ButtonState.UP));
+    public buttonUp(e: CustomGamepadInputEvent) {
+        this.notify(Action.GAMEPAD_INPUT, {button: e.button, state: ButtonState.UP});
     }
-    public axisMove(e: CustomGamepadEvent) {
-        // this.notify(Action.GAMEPAD_INPUT, gamepad);
+}
+
+export class GamepadMoveSubject extends Subject<GamepadMoveInput> {
+    public moveAnalong(e: CustomGamepadMoveEvent) {
+        this.notify(Action.GAMEPAD_MOVE, {value: e.value, axis: e.axis } )
     }
 }

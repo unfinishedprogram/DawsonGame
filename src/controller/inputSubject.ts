@@ -59,6 +59,7 @@ export interface CustomGamepadMoveEvent {
     value: number;
 }
 
+
 /** Subject for keyboard keys events */
 export class KeyboardInputSubject extends Subject<KeyboardInput> {
     private listeners: Function[];

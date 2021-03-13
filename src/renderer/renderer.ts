@@ -4,9 +4,13 @@ import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { WebGLRenderTarget } from 'three';
+import { Observer } from '../utils/observer';
+import { Action } from '../utils/action';
+import { GameObject } from '../objects/gameObject';
+import { ChangeObject } from '../subjects/objectSubject';
 
 /** Displays a given scene, and manages window dimensions */
-export class Renderer {
+export class Renderer extends Observer<ChangeObject>{
     width: number;
     height: number;
     scene: Scene;
@@ -21,6 +25,7 @@ export class Renderer {
      * @param scene Scene to render
      */
     constructor(width: number, height: number, scene: Scene) {
+        super();
         /** Current scene */
         this.scene = scene;
         /** Window width */
@@ -61,34 +66,35 @@ export class Renderer {
         // 3. How should the scene tell the renderer that it has a new
         // object? scene SHOULDN'T have a reference the renderer.
     }
-    /**
-     * Adds a 3D object to the threejs scene
-     * @param object 3D object to add to the scene
-     */
-    addObject3D(object: any){
-        this.tscene.add(object);
-    }
-
     draw() {
         this.composer.render();
     }
 
     /**
-     * Loads and adds the mesh of each game object from the scene, to the threejs scene
+     * Removes a given game object's 3D component from the scene
      */
-    load() {
-        for (let gameObject of this.scene.gameObjects) {
-            this.tscene.add(gameObject.object3D);
-        }
+    removeGameObject(object:GameObject){
+        this.tscene.remove(object.object3D);
     }
+
+    /**
+     * Adds a given game object's 3D component from the scene 
+     * Must be paired with an equivilant call to the scene otherwise the object will not be interactable
+     */
+    async addGameObject(object:GameObject){
+        await object.loadMesh();
+        this.tscene.add(object.object3D);
+    }
+
     /**
      * Updates the renderer to the new dimensions of the window
      * @param {number} windowWidth 
      * @param {number} windowHeight
      */
     resize(windowWidth: number, windowHeight: number) {
+        //THIS MIGHT NOT WORK I CHANGED IT FOR READABILTY BUT I MIGHT HAVE SCREWED UP
         let targetWidth: number = windowHeight / 9 * 16;
-        let targetHeight: number = windowWidth / 16 * 9;
+        let targetHeight: number = windowWidth  / 16 * 9;
 
         let newWidth: number;
         let newHeight: number;
@@ -112,6 +118,12 @@ export class Renderer {
         this.renderer.setRenderTarget(new WebGLRenderTarget(newWidth, newHeight));
     }
 
+    onNotify(action: Action, info: ChangeObject):void {
+        if ( action !== Action.ADD_OBJECT && action !== Action.REMOVE_OBJECT) return;
+        if ( action == Action.ADD_OBJECT) this.addGameObject(info.object);
+        if ( action == Action.REMOVE_OBJECT) this.removeGameObject(info.object);
+        return;
+    }
 
     update() {
         // Check if elements are being added or removed from 
@@ -125,5 +137,4 @@ export class Renderer {
         // were removed in the last frame and loop through it here,
         // Removing it using the 3d object itself w/ this.tscene.remove
     }
-
 }

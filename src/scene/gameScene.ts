@@ -2,7 +2,7 @@ import { Scene } from './scene';
 import { PCamera, OCamera } from '../objects/camera'
 import { Transform } from '../components/transform';
 import { Vector3 } from 'three';
-import { Cube } from '../objects/presets/cube';
+import { GamePlayer } from '../objects/presets/gamePlayer';
 
 // This is just an example scene. It holds a cube and a camera.
 
@@ -16,11 +16,10 @@ let cameraTransform = new Transform(
 let transforma = new Transform();
 
 //let s1 = new Scene(new OCamera(cameraTransform, 1280, 720, 100));
-let s1 = new Scene(new PCamera(cameraTransform, 45, 1280, 720));
+let gameScene = new Scene(new PCamera(cameraTransform, 45, 1280, 720));
 
-let cube = new Cube(transforma);
+let cube = new GamePlayer(transforma);
 // Delete this later, it is horrible
-cube.setCamera(s1.camera as PCamera);
-s1.gameObjects.push(cube);
+gameScene.gameObjects.push(cube);
 
-export { s1 };
+export { gameScene };

@@ -3,14 +3,14 @@ import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { s1 } from './scene/s1'
 import { Clock } from 'three';
-import { KeyboardObserver } from './controller/keyboardObserver';
+import { KeyboardObserver } from './controller/keyboard/keyboardObserver';
 import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject, GamepadMoveSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
-import { MouseMoveObserver } from './controller/mouseMoveObserver';
-import { MouseButtonObserver } from './controller/mouseButtonObserver';
-import { GamepadListener } from './controller/gamepadListener';
-import { GamepadButtonObserver } from './controller/gamepadButtonObserver';
-import { GamepadAnalogObserver } from './controller/gamepadAnalogObserver';
+import { MouseMoveObserver } from './controller/mouse/mouseMoveObserver';
+import { MouseButtonObserver } from './controller/mouse/mouseButtonObserver';
+import { GamepadListener } from './controller/gamepad/gamepadListener';
+import { GamepadButtonObserver } from './controller/gamepad/gamepadButtonObserver';
+import { GamepadAnalogObserver } from './controller/gamepad/gamepadAnalogObserver';
 
 class Main {
     renderer: Renderer;

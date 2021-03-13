@@ -1,7 +1,7 @@
 import { Plane, Raycaster, Vector2, Vector3 } from 'three';
-import { Action } from '../utils/action';
-import { Observer } from '../utils/observer';
-import { MouseMoveInput} from './inputSubject';
+import { Action } from '../../utils/action';
+import { Observer } from '../../utils/observer';
+import { MouseMoveInput} from '../inputSubject';
 
 /** Represents observer that processes mouse movement input */
 export class MouseMoveObserver extends Observer<MouseMoveInput> {

@@ -58,7 +58,7 @@ export interface GamepadButtonInput {
     state: ButtonState;
 }
 
-export interface GamepadMoveInput {
+export interface GamepadAnalogInput {
     stick: number,
     value: Vector2;
 }
@@ -177,7 +177,7 @@ export interface CustomGamepadInputEvent {
     button: number;
 }
 
-export interface CustomGamepadMoveEvent {
+export interface CustomGamepadAnalogEvent {
     stick: number,
     value: Vector2;
 }
@@ -191,8 +191,8 @@ export class GamepadInputSubject extends Subject<GamepadButtonInput> {
     }
 }
 
-export class GamepadMoveSubject extends Subject<GamepadMoveInput> {
-    public moveAnalong(e: CustomGamepadMoveEvent) {
+export class GamepadMoveSubject extends Subject<GamepadAnalogInput> {
+    public moveAnalong(e: CustomGamepadAnalogEvent) {
         this.notify(Action.GAMEPAD_MOVE, {stick: e.stick, value: e.value} )
     }
 }

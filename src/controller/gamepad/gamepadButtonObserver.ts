@@ -1,8 +1,8 @@
-import { Action } from "../utils/action";
-import { Observer } from "../utils/observer";
-import { ButtonState, GamepadButtonInput } from "./inputSubject";
+import { Action } from "../../utils/action";
+import { Observer } from "../../utils/observer";
+import { ButtonState, GamepadButtonInput } from "../inputSubject";
 
-enum Button {
+export enum Button {
     A,
     B,
     X,

@@ -1,8 +1,8 @@
 import { Vector2 } from 'three';
-import { CustomGamepadInputEvent, CustomGamepadMoveEvent } from './inputSubject';
+import { CustomGamepadInputEvent, CustomGamepadAnalogEvent } from '../inputSubject';
 
 type GamepadInputListenerF = (e: CustomGamepadInputEvent) => void;
-type GamepadAnalogListenerF = (e: CustomGamepadMoveEvent) => void;
+type GamepadAnalogListenerF = (e: CustomGamepadAnalogEvent) => void;
 
 export class GamepadListener {
     gamepads: Gamepad[];

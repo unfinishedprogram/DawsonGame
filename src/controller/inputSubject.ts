@@ -1,5 +1,6 @@
 import { Subject } from '../utils/subject';
 import { Action } from '../utils/action';
+import { Vector2 } from 'three';
 
 /** Represents the button state. Key can be UP or DOWN*/
 export enum ButtonState {
@@ -58,8 +59,8 @@ export interface GamepadButtonInput {
 }
 
 export interface GamepadMoveInput {
-    axis: number;
-    value: number;
+    stick: number,
+    value: Vector2;
 }
 
 /** Subject for keyboard keys events */
@@ -177,8 +178,8 @@ export interface CustomGamepadInputEvent {
 }
 
 export interface CustomGamepadMoveEvent {
-    axis: number;
-    value: number;
+    stick: number,
+    value: Vector2;
 }
 
 export class GamepadInputSubject extends Subject<GamepadButtonInput> {
@@ -192,6 +193,6 @@ export class GamepadInputSubject extends Subject<GamepadButtonInput> {
 
 export class GamepadMoveSubject extends Subject<GamepadMoveInput> {
     public moveAnalong(e: CustomGamepadMoveEvent) {
-        this.notify(Action.GAMEPAD_MOVE, {value: e.value, axis: e.axis } )
+        this.notify(Action.GAMEPAD_MOVE, {stick: e.stick, value: e.value} )
     }
 }

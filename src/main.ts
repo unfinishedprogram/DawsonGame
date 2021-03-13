@@ -9,7 +9,8 @@ import { InputSingleton } from './controller/input';
 import { MouseMoveObserver } from './controller/mouseMoveObserver';
 import { MouseButtonObserver } from './controller/mouseButtonObserver';
 import { GamepadListener } from './controller/gamepadListener';
-import { GamepadObserver } from './controller/gamepadObserver';
+import { GamepadButtonObserver } from './controller/gamepadButtonObserver';
+import { GamepadAnalogObserver } from './controller/gamepadAnalogObserver';
 
 class Main {
     renderer: Renderer;
@@ -58,7 +59,8 @@ let gamepadInputListener = new GamepadListener(
 
 
 
-gamepadInputSubject.addObserver(new GamepadObserver());
+gamepadInputSubject.addObserver(new GamepadButtonObserver());
+gamepadMoveSubject.addObserver(new GamepadAnalogObserver());
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems

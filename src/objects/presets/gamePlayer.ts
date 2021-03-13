@@ -2,8 +2,9 @@ import { GameObject } from '../gameObject';
 import { PlaneGeometry, MeshBasicMaterial, Vector2, Vector3} from 'three';
 import { Controller } from '../../components/controller';
 import { Transform } from '../../components/transform';
-import { MoreMath } from '../../utils/moreMath'
-import { PCamera } from '../camera';
+import { ChangeObject } from '../../subjects/objectSubject';
+import { GameBullet } from './bullet';
+import { Action } from '../../utils/action';
 
 
 
@@ -11,7 +12,8 @@ export class GamePlayer extends GameObject {
     material = new MeshBasicMaterial({ color: 0x00ff00 });
     geometry = new PlaneGeometry();
     controller = new Controller();
-
+    shotDelay = 1;
+    timeSinceShot = 0;
     // Movement
     velocity: Vector2 = new Vector2(0, 0);
     drag: number = 0.95;
@@ -29,7 +31,7 @@ export class GamePlayer extends GameObject {
     }
     
     shootBullet(direction:Vector3){
-        
+        globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(new GameBullet(new Transform(this.object3D.position, this.object3D.rotation.toVector3()))));
     }
 
 
@@ -37,7 +39,7 @@ export class GamePlayer extends GameObject {
         let input = this.controller.getInput();
 
         // Calculate velocity
-        this.velocity.add(input.movementDirection.multiplyScalar(deltaTime * this.acceleration));
+        this.velocity.add(input.movementDirection.multiplyScalar(this.acceleration*deltaTime));
         this.velocity.multiplyScalar(this.drag);
 
         // Set position
@@ -53,11 +55,19 @@ export class GamePlayer extends GameObject {
             if (input.gamepadViewDirection.x && input.gamepadViewDirection.y)
                 this.targetViewAngle = input.gamepadViewDirection.angle() + this.angleOffset;
             else
+                this.object3D.up = new Vector3(0,1,0);
                 this.object3D.lookAt(globalThis.Input.projectedMousePos);
                 //this.targetViewAngle = this.velocityViewAngle;
         }
 
-        // Set rotation
-        //this.object3D.rotation.y = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
+        // Shoot bullets if mouse is down
+        if(this.timeSinceShot > this.shotDelay){
+            if(globalThis.Input.isKeyDown("Space")) {
+                this.timeSinceShot = 0;
+                this.shootBullet(this.object3D.rotation.toVector3());
+            }
+        } else{
+            this.timeSinceShot += deltaTime;
+        }
     }
 }

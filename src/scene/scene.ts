@@ -1,9 +1,12 @@
 import { GameObject } from '../objects/gameObject';
 import { OCamera, PCamera } from '../objects/camera';
 import { Renderer } from '../renderer/renderer';
+import { ChangeObject } from '../subjects/objectSubject';
+import { Observer } from '../utils/observer';
+import { Action } from '../utils/action';
 
 /** Scene that contains all the objects */
-export class Scene {
+export class Scene extends Observer<ChangeObject>{
     /** The list of game objects */
     gameObjects: GameObject[] = [];
     /** Current camera */
@@ -17,6 +20,7 @@ export class Scene {
      * @param camera Camera to display the scene
      */
     constructor(camera: PCamera | OCamera) {
+        super();
         this.camera = camera;
         //this.gameObjects.push(camera);
         // I commented this line but I am not sure if the camera should
@@ -40,13 +44,6 @@ export class Scene {
      * Loads the object meshes
      * @param renderer Renderer to load into
      */
-    
-    async loadObjectMeshes(renderer: Renderer){
-        for (let obj of this.gameObjects){
-            await obj.loadMesh();
-        }
-        renderer.load();
-    }
 
     setRenderer(renderer: Renderer) {
         this.renderer = renderer;
@@ -60,7 +57,14 @@ export class Scene {
         }
     }
 
-    addGameObject(object:GameObject){
+    addGameObject(object : GameObject){
         this.gameObjects.push(object);
+    }
+
+    onNotify(action: Action, info: ChangeObject):void {
+        if ( action !== Action.ADD_OBJECT && action !== Action.REMOVE_OBJECT) return;
+        if ( action == Action.ADD_OBJECT) this.addGameObject(info.object);
+        if ( action == Action.REMOVE_OBJECT) this.removeGameObject(info.object);
+        return;
     }
 }

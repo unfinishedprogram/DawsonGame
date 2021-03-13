@@ -36,4 +36,11 @@ export class Transform extends Component {
     public setPosition(position: Vector3){
         this.position = position;
     }
+    copy():Transform {
+        let pos = this.position.clone();
+        let rot = this.rotation.clone();
+        let scale = this.scale.clone();
+       
+        return new Transform(pos, rot, scale);
+    }
 }

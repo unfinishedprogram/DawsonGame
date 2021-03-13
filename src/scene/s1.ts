@@ -23,11 +23,4 @@ let cube = new Cube(transforma);
 cube.setCamera(s1.camera as PCamera);
 s1.gameObjects.push(cube);
 
-async function loadMeshes(){
-    //await mob.loadMesh();
-    //s1.gameObjects.push(mob);
-}
-
-loadMeshes();
-
 export { s1 };

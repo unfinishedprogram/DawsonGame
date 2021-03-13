@@ -1,26 +1,30 @@
 import { GameObject } from "../objects/gameObject";
+import { Action } from "../utils/action";
 import { Subject } from "../utils/subject";
 
-
-export class RemoveObject {
+// TO BE REMOVED 
+export class ChangeObject {
     object: GameObject;
+    /**
+     * Initializes gameObject removal 
+     * @param object The gameObject to be removed
+     */
     constructor(object: GameObject){
         this.object = object;
     }
 }
 
-export class AddObject {
-    object: GameObject;
-    constructor(object: GameObject){
-        this.object = object;
-    }
-}
-
-export class RemoveObjectSubject extends Subject<RemoveObject>  {
+export class RemoveObjectSubject extends Subject<ChangeObject>  {
     private listeners: Function[];
     constructor() {
         super();
-        this.listeners = []; 
+        this.listeners = [
+            this.removeObject
+        ]; 
+    }
+
+    public removeObject(that:AddObjectSubject, object:ChangeObject){
+        that.notify(Action.REMOVE_OBJECT, object);
     }
 
     public registerListener(f: Function) {
@@ -33,12 +37,18 @@ export class RemoveObjectSubject extends Subject<RemoveObject>  {
     }
 }
 
-export class AddObjectSubject extends Subject<AddObject>  {
+export class AddObjectSubject extends Subject<ChangeObject>  {
     private listeners: Function[];
     constructor() {
         super();
-        this.listeners = []; 
+        this.listeners = [
+            this.addObject
+        ]; 
     }
+    public addObject(that:AddObjectSubject, object:ChangeObject){
+        that.notify(Action.ADD_OBJECT, object);
+    }
+
 
     public registerListener(f: Function) {
         if (!this.listeners.filter(a => f === a)) {

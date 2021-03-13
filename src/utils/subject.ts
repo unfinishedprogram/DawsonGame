@@ -3,8 +3,6 @@ import { Observer } from './observer';
 export class Subject<C extends any> {
     observers: Observer<C>[] = [];
 
-
-    // TODO -> check if it's not already registered
     addObserver(observer:Observer<C>){
         this.observers.push(observer);
     }

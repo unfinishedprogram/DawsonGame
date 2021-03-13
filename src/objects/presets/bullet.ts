@@ -33,14 +33,8 @@ export class GameBullet extends GameObject {
     update(deltaTime: number) {
 
         this.object3D.position.set(...this.transform.position.toArray());
-        console.log(this.transform.rotation);
 
-        let lookAtPoint = new Vector3();
-        lookAtPoint.add(this.transform.position);
-        lookAtPoint.add(this.transform.rotation);
-        lookAtPoint.multiplyScalar(-1);
-
-        this.object3D.lookAt(lookAtPoint);
+        this.object3D.lookAt((this.transform.rotation.clone().multiplyScalar(-1).add(this.object3D.position)));
 
         this.object3D.scale.set(...this.transform.scale.toArray());
 

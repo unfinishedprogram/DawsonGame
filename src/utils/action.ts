@@ -3,5 +3,7 @@ export enum Action {
     KEYBOARD_INPUT,
     MOUSE_INPUT,
     REMOVE_OBJECT,
-    ADD_OBJECT
+    ADD_OBJECT,
+    GAMEPAD_INPUT,
+    GAMEPAD_MOVE
 }

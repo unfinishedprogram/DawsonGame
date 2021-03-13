@@ -15,7 +15,6 @@ export class MouseMoveObserver extends Observer<MouseMoveInput> {
     }
 
     onNotify(action: Action, info: MouseMoveInput) {
-
         if ( action !== Action.MOUSE_INPUT) return;
         let raycaster = new Raycaster();
 

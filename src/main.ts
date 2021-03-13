@@ -4,13 +4,15 @@ import { Scene } from './scene/scene';
 import { gameScene } from './scene/gameScene'
 import { Clock } from 'three';
 import { KeyboardObserver } from './controller/keyboardObserver';
-import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject } from './controller/inputSubject';
+import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject, GamepadMoveSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
 import { MouseMoveObserver } from './controller/mouseMoveObserver';
 import { MouseButtonObserver } from './controller/mouseButtonObserver';
 import { RemoveObjectSubject, AddObjectSubject, ChangeObject } from './subjects/objectSubject';
 import { Action } from './utils/action';
 import { SubjectSingleton } from './utils/subjectSingleton'
+import { GamepadListener } from './controller/gamepadListener';
+import { GamepadObserver } from './controller/gamepadObserver';
 
 class Main {
     renderer: Renderer;
@@ -82,10 +84,21 @@ class Main {
             globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(object) );
         })
     }
-
 }
 
 let game = new Main();
+let gamepadInputSubject = new GamepadInputSubject(); 
+let gamepadMoveSubject = new GamepadMoveSubject();
+
+let gamepadInputListener = new GamepadListener(
+    gamepadInputSubject.buttonUp.bind(gamepadInputSubject),
+    gamepadInputSubject.buttonDown.bind(gamepadInputSubject),
+    gamepadMoveSubject.moveAnalong.bind(gamepadMoveSubject),
+);
+
+
+
+gamepadInputSubject.addObserver(new GamepadObserver());
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems
@@ -97,5 +110,6 @@ function animate() {
     requestAnimationFrame(animate);
     game.scene.update(deltaTime);
     game.renderer.draw();
+    gamepadInputListener.update();
 }
 animate();

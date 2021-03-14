@@ -2,7 +2,7 @@ import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from "three";
 
 export class InputSingleton {
     private static _instance: InputSingleton;
-    keyStates: { [id: string]: boolean } = {};
+    keyboardKeyStates: { [id: string]: boolean } = {};
     // ^ this should be private. We shouldn't allow any part of the code to change the key state.
     mosuePos: Vector2 = new Vector2();
     projectedMousePos: Vector3 = new Vector3();
@@ -18,7 +18,7 @@ export class InputSingleton {
 
     // This is useless if keyStates is not private.
     public isKeyDown(keycode: string) : boolean {
-        return this.keyStates[keycode];
+        return this.keyboardKeyStates[keycode];
     }
 
 }

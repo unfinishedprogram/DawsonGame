@@ -20,10 +20,10 @@ export class KeyboardObserver extends Observer<KeyboardInput> {
         if ( !this.inputMap.includes(info.key)) return;
 
         if (info.state === ButtonState.UP)
-            globalThis.Input.keyStates[info.key] = false; 
-        else if (info.state === ButtonState.DOWN && !globalThis.Input.keyStates[info.key])
-            globalThis.Input.keyStates[info.key] = true;
+            globalThis.Input.keyboardKeyStates[info.key] = false; 
+        else if (info.state === ButtonState.DOWN && !globalThis.Input.keyboardKeyStates[info.key])
+            globalThis.Input.keyboardKeyStates[info.key] = true;
 
-        console.log(globalThis.Input.keyStates);
+        console.log(globalThis.Input.keyboardKeyStates);
     }
 };

@@ -3,7 +3,7 @@ import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from "three";
 export class InputSingleton {
     private static _instance: InputSingleton;
     private keyboardKeyStates: { [id: string]: boolean } = {};
-    mosuePos: Vector2 = new Vector2();
+    private mousePos: Vector2 = new Vector2();
     projectedMousePos: Vector3 = new Vector3();
     mouseButtons: { [id: number]: boolean } = {};
     camera: PerspectiveCamera | OrthographicCamera = new PerspectiveCamera();
@@ -15,6 +15,7 @@ export class InputSingleton {
         return this._instance || (this._instance = new this());
     }
 
+    // Keyboard keystates
     public setKeyboardKeyState(keycode: string, value: boolean) {
         this.keyboardKeyStates[keycode] = value;
     } 
@@ -22,5 +23,11 @@ export class InputSingleton {
         return this.keyboardKeyStates[keycode];
     }
 
-
+    // Mouse position
+    public setMousePosition(newPosition: Vector2) {
+        this.mousePos = newPosition;
+    }
+    public getMousePosition(): Vector2 {
+        return this.mousePos;
+    }
 }

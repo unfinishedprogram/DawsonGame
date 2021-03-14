@@ -18,8 +18,8 @@ export class MouseMoveObserver extends Observer<MouseMoveInput> {
         if ( action !== Action.MOUSE_INPUT) return;
         let raycaster = new Raycaster();
 
-        globalThis.Input.mosuePos.x = info.x; 
-        globalThis.Input.mosuePos.y = info.y; 
+        globalThis.Input.getMousePosition().x = info.x; 
+        globalThis.Input.getMousePosition().y = info.y; 
 
         let cvsWidth = this.canvasElm.clientWidth;
         let cvsHeight = this.canvasElm.clientHeight;

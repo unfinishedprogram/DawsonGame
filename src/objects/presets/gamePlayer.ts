@@ -62,7 +62,7 @@ export class GamePlayer extends GameObject {
 
         // Shoot bullets if mouse is down
         if(this.timeSinceShot > this.shotDelay){
-            if(globalThis.Input.isKeyDown("Space")) {
+            if(globalThis.Input.isKeyboardKeyDown("Space")) {
                 this.timeSinceShot = 0;
                 this.shootBullet(this.object3D.rotation.toVector3());
             }

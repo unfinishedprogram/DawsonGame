@@ -1,6 +1,6 @@
-import { Action } from '../utils/action';
-import { Observer } from '../utils/observer';
-import { ButtonState, MouseButtonInputSubject, MouseButtonInput} from './inputSubject';
+import { Action } from '../../utils/action';
+import { Observer } from '../../utils/observer';
+import { ButtonState, MouseButtonInputSubject, MouseButtonInput} from '../inputSubject';
 
 /** Represents the mouse observer that processes all the mouse movement button */
 export class MouseButtonObserver extends Observer<MouseButtonInput> {

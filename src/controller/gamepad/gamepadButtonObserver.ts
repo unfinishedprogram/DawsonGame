@@ -2,7 +2,7 @@ import { Action } from "../../utils/action";
 import { Observer } from "../../utils/observer";
 import { ButtonState, GamepadButtonInput } from "../inputSubject";
 
-export enum Button {
+export enum GamepadButtons {
     A,
     B,
     X,
@@ -22,14 +22,14 @@ export enum Button {
     GUIDE 
 }
 
-
+/** Represents the observer that processes all gamepad button input */
 export class GamepadButtonObserver extends Observer<GamepadButtonInput> {
     onNotify(action: Action, info: GamepadButtonInput): void {
         if (action !== Action.GAMEPAD_INPUT) return;
         if ( info.state === ButtonState.DOWN ) {
-            console.log(`${Button[info.button]} was pressed.`);
+            console.log(`${GamepadButtons[info.button]} was pressed.`);
         } else {
-            console.log(`${Button[info.button]} was released.`);
+            console.log(`${GamepadButtons[info.button]} was released.`);
         }
     }
 }

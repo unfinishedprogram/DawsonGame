@@ -25,7 +25,7 @@ export class GameBullet extends GameObject {
         this.transform = transform.copy();
        
 
-        this.transform.rotation.subVectors(this.transform.position, globalThis.Input.projectedMousePos).normalize().multiplyScalar(-1);
+        this.transform.rotation.subVectors(this.transform.position, globalThis.Input.getProjectedMousePosition()).normalize().multiplyScalar(-1);
 
         this.VOXName = "bullet";
     }

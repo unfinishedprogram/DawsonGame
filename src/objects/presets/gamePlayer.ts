@@ -56,7 +56,7 @@ export class GamePlayer extends GameObject {
                 this.targetViewAngle = input.gamepadViewDirection.angle() + this.angleOffset;
             else
                 this.object3D.up = new Vector3(0,1,0);
-                this.object3D.lookAt(globalThis.Input.projectedMousePos);
+                this.object3D.lookAt(globalThis.Input.getProjectedMousePosition());
                 //this.targetViewAngle = this.velocityViewAngle;
         }
 

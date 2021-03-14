@@ -6,7 +6,7 @@ export class InputSingleton {
     private keyboardKeyStates: { [id: string]: boolean } = {};
     private mousePos: Vector2 = new Vector2();
     private projectedMousePos: Vector3 = new Vector3();
-    private mouseButtons: { [id: number]: boolean } = {};
+    private mouseButtonStates: { [id: number]: boolean } = {};
     camera: PerspectiveCamera | OrthographicCamera = new PerspectiveCamera();
 
     private constructor() { }
@@ -42,9 +42,9 @@ export class InputSingleton {
 
     // Mouse buttons
     public setMouseButtonKeyState(button: MouseButtons, value: boolean) {
-        this.mouseButtons[button] = value;
+        this.mouseButtonStates[button] = value;
     }
     public isMouseButtonDown(button: MouseButtons): boolean {
-        return this.mouseButtons[button];
+        return this.mouseButtonStates[button];
     }
 }

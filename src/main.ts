@@ -3,16 +3,17 @@ import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { gameScene } from './scene/gameScene'
 import { Clock } from 'three';
-import { KeyboardObserver } from './controller/keyboardObserver';
+import { KeyboardObserver } from './controller/keyboard/keyboardObserver';
 import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject, GamepadMoveSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
-import { MouseMoveObserver } from './controller/mouseMoveObserver';
-import { MouseButtonObserver } from './controller/mouseButtonObserver';
-import { RemoveObjectSubject, AddObjectSubject, ChangeObject } from './subjects/objectSubject';
+import { MouseMoveObserver } from './controller/mouse/mouseMoveObserver';
+import { MouseButtonObserver } from './controller/mouse/mouseButtonObserver';
+import { ChangeObject } from './subjects/objectSubject';
 import { Action } from './utils/action';
 import { SubjectSingleton } from './utils/subjectSingleton'
-import { GamepadListener } from './controller/gamepadListener';
-import { GamepadObserver } from './controller/gamepadObserver';
+import { GamepadListener } from './controller/gamepad/gamepadListener';
+import { GamepadAnalogObserver } from './controller/gamepad/gamepadAnalogObserver';
+import { GamepadButtonObserver } from './controller/gamepad/gamepadButtonObserver';
 
 class Main {
     renderer: Renderer;
@@ -98,7 +99,8 @@ let gamepadInputListener = new GamepadListener(
 
 
 
-gamepadInputSubject.addObserver(new GamepadObserver());
+gamepadInputSubject.addObserver(new GamepadButtonObserver());
+gamepadMoveSubject.addObserver(new GamepadAnalogObserver());
 
 //GAME LOOP
 //the game loop is outside the Main class because it caused problems

@@ -1,5 +1,6 @@
 import { Subject } from '../utils/subject';
 import { Action } from '../utils/action';
+import { Vector2 } from 'three';
 
 /** Represents the button state. Key can be UP or DOWN*/
 export enum ButtonState {
@@ -8,57 +9,59 @@ export enum ButtonState {
 }
 
 /** Represents the keyboard input */
-export interface KeyboardInput {
-    /** Keycode of the key */
+export class KeyboardInput {
     key: string;
-    /** State of the key */
     state: ButtonState;
+    /**
+     * Initializes keyboard input 
+     * @param key Keycode of the key 
+     * @param state State of the key
+     */
+    constructor(key: string, state: ButtonState) {
+        this.key = key;
+        this.state = state;
+    }
 }
 
 /** Represents the mouse movement input */
-export interface MouseMoveInput {
-    /** Relative pixel location of the cursor to the canvas on the X axis */
+export class MouseMoveInput {
     x: number;
-    /** Relative pixel location of the cursor to the canvas on the B axis */
     y: number;
+    /**
+     * Initializes the mouse movement input 
+     * @param offsetX Relative pixel location of the cursor to the canvas on the X axis
+     * @param offsetY  Relative pixel location of the cursor to the canvas on the B axis
+     */
+    constructor(offsetX: number, offsetY:number) {
+        this.x = offsetX;
+        this.y = offsetY;
+    }
 }
 
 /** Represents the mouse button input */
-export interface MouseButtonInput {
-    /** Mouse button ID */
+export class MouseButtonInput {
     button: number;
-    /**  The state of the mouse button (UP/DOWN) */
-    state: ButtonState;
+    buttonState: ButtonState;
+    /**
+     * Initializes mouse button input
+     * @param button Mouse button ID
+     * @param state The state of the mouse button (UP/DOWN)
+     */
+    constructor(button: number, state: ButtonState) {
+        this.buttonState = state;
+        this.button = button;
+    }
 }
 
-/** Represents the Gamepad button input */
 export interface GamepadButtonInput {
     button: number;
     state: ButtonState;
 }
 
-/** Represents the Gampead stick input */
-export interface GamepadMoveInput {
-    axis: number;
-    value: number;
+export interface GamepadAnalogInput {
+    stick: number,
+    value: Vector2;
 }
-
-/** Represents the data of our own GamepadEvent that is triggered
-    when a button is pressed */
-export interface CustomGamepadInputEvent {
-    /** The button that was pressed */
-    button: number;
-}
-
-/** Represents the data of our own GamepadEvent that is triggered 
-    when one of the sticks is moved */
-export interface CustomGamepadMoveEvent {
-    /** Identifier for the stick and direction of the moved stick */
-    axis: number;
-    /** A float number from 0 to 1 that represents the stick offset from the center */
-    value: number;
-}
-
 
 /** Subject for keyboard keys events */
 export class KeyboardInputSubject extends Subject<KeyboardInput> {
@@ -92,7 +95,7 @@ export class KeyboardInputSubject extends Subject<KeyboardInput> {
      */
     private keyUpListener(that: KeyboardInputSubject) {
         window.addEventListener('keyup', function (e: KeyboardEvent) {
-            that.notify(Action.KEYBOARD_INPUT, {key: e.code, state: ButtonState.UP});
+            that.notify(Action.KEYBOARD_INPUT, new KeyboardInput(e.code, ButtonState.UP));
         });
     }
     /**
@@ -101,7 +104,7 @@ export class KeyboardInputSubject extends Subject<KeyboardInput> {
      */
     private keyDownListener(that: KeyboardInputSubject) {
         window.addEventListener('keydown', function (e: KeyboardEvent) {
-            that.notify(Action.KEYBOARD_INPUT, {key: e.code, state: ButtonState.DOWN});
+            that.notify(Action.KEYBOARD_INPUT, new KeyboardInput(e.code, ButtonState.DOWN));
         });
     }
 }
@@ -127,7 +130,7 @@ export class MouseMoveInputSubject extends Subject<MouseMoveInput> {
      */
     private mouseMoveListner(that: MouseMoveInputSubject){
         document.getElementsByTagName("canvas")[0].addEventListener('mousemove', function (e: MouseEvent) {
-            that.notify(Action.MOUSE_INPUT, {x: e.pageX - this.offsetLeft, y: e.pageY - this.offsetTop});
+            that.notify(Action.MOUSE_INPUT, new MouseMoveInput(e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
         });
     }
 
@@ -155,7 +158,7 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
      */
     private mouseDownListner(that: MouseButtonInputSubject) {
         window.addEventListener('mousedown', function (e: MouseEvent) {
-            that.notify(Action.MOUSE_INPUT, {button: e.button, state: ButtonState.DOWN});
+            that.notify(Action.MOUSE_INPUT, new MouseButtonInput(e.button, ButtonState.DOWN));
         });
     }
 
@@ -165,12 +168,20 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
      */
     private mouseUpListner(that: MouseButtonInputSubject) {
         window.addEventListener('mouseup', function (e: MouseEvent) {
-            that.notify(Action.MOUSE_INPUT, {button: e.button, state: ButtonState.UP});
+            that.notify(Action.MOUSE_INPUT, new MouseButtonInput(e.button, ButtonState.UP));
         });
     }
 }
 
-/** Subject that deals with changes on the Gamepad Buttons */
+export interface CustomGamepadInputEvent {
+    button: number;
+}
+
+export interface CustomGamepadAnalogEvent {
+    stick: number,
+    value: Vector2;
+}
+
 export class GamepadInputSubject extends Subject<GamepadButtonInput> {
     public buttonDown(e: CustomGamepadInputEvent) {
         this.notify(Action.GAMEPAD_INPUT, {button: e.button, state: ButtonState.DOWN});
@@ -180,9 +191,8 @@ export class GamepadInputSubject extends Subject<GamepadButtonInput> {
     }
 }
 
-/** Subject that deals with changes on the Gamepad sticks */
-export class GamepadMoveSubject extends Subject<GamepadMoveInput> {
-    public moveAnalong(e: CustomGamepadMoveEvent) {
-        this.notify(Action.GAMEPAD_MOVE, {value: e.value, axis: e.axis } )
+export class GamepadMoveSubject extends Subject<GamepadAnalogInput> {
+    public moveAnalong(e: CustomGamepadAnalogEvent) {
+        this.notify(Action.GAMEPAD_MOVE, {stick: e.stick, value: e.value} )
     }
 }

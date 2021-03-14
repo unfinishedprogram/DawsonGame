@@ -1,6 +1,6 @@
-import { Action } from '../utils/action';
-import { Observer } from '../utils/observer';
-import { KeyboardInput, ButtonState} from './inputSubject';
+import { Action } from '../../utils/action';
+import { Observer } from '../../utils/observer';
+import { KeyboardInput, ButtonState} from '../inputSubject';
 
 /** Represents the keyboard observer that processes all keyboard input */
 export class KeyboardObserver extends Observer<KeyboardInput> {

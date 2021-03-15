@@ -94,6 +94,7 @@ export class InputSingleton {
         return this.useGamepad;
     }
 
+
     private hasGamepadInput(): boolean {
         let buttonInput = false;
         if (Object.values(this.gamepadButtonStates).length > 0)

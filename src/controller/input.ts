@@ -28,6 +28,8 @@ export class InputSingleton {
     // Keyboard keystates
     public setKeyboardKeyState(keycode: string, value: boolean) {
         this.keyboardKeyStates[keycode] = value;
+        if (value)
+            this.useGamepad = false;
     } 
     public isKeyboardKeyDown(keycode: string) : boolean {
         return this.keyboardKeyStates[keycode];
@@ -52,6 +54,8 @@ export class InputSingleton {
     // Mouse buttons
     public setMouseButtonKeyState(button: MouseButtons, value: boolean) {
         this.mouseButtonsStates[button] = value;
+        if (value)
+            this.useGamepad = false;
     }
     public isMouseButtonDown(button: MouseButtons) {
         return this.mouseButtonsStates[button];
@@ -60,6 +64,8 @@ export class InputSingleton {
     // Gamepad buttons
     public setGamepadButtonState(button: GamepadButtons, value: boolean) {
         this.gamepadButtonStates[button] = value;
+        if (value)
+            this.useGamepad = true;
     }
     public isGamepadButtonPressed(button: GamepadButtons): boolean {
         return this.gamepadButtonStates[button];
@@ -68,15 +74,14 @@ export class InputSingleton {
     // Gamepad axis
     public setGamepadAxis(axis: GamepadAxis, value: Vector2) {
         this.gamepadAxis[axis] = value;
+        if (value.length() != 0)
+            this.useGamepad = true;
     }
     public getGamepadAxis(axis: GamepadAxis): Vector2 {
         return this.gamepadAxis[axis];
     }
 
     // Use gamepad
-    public setUseGamepad(value: boolean) {
-        this.useGamepad = value;
-    }
     public getUseGamepad(): boolean {
         return this.useGamepad;
     }

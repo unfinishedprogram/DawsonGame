@@ -6,8 +6,6 @@ import { ChangeObject } from '../../subjects/objectSubject';
 import { GameBullet } from './bullet';
 import { Action } from '../../utils/action';
 
-
-
 export class GamePlayer extends GameObject {
     material = new MeshBasicMaterial({ color: 0x00ff00 });
     geometry = new PlaneGeometry();
@@ -18,6 +16,7 @@ export class GamePlayer extends GameObject {
     velocity: Vector2 = new Vector2(0, 0);
     drag: number = 0.95;
     acceleration: number = 1;
+    useGamepad: boolean = false;
 
     // View
     velocityViewAngle: number = 0;
@@ -37,6 +36,10 @@ export class GamePlayer extends GameObject {
 
     update(deltaTime: number) {
         let input = this.controller.getInput();
+        if (this.useGamepad != globalThis.Input.getUseGamepad()) {
+            this.useGamepad = globalThis.Input.getUseGamepad();
+            console.log(this.useGamepad);
+        }
 
         // Calculate velocity
         this.velocity.add(input.movementDirection.multiplyScalar(this.acceleration*deltaTime));
@@ -66,7 +69,7 @@ export class GamePlayer extends GameObject {
                 this.timeSinceShot = 0;
                 this.shootBullet(this.object3D.rotation.toVector3());
             }
-        } else{
+        } else {
             this.timeSinceShot += deltaTime;
         }
     }

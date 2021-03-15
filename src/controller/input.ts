@@ -1,12 +1,19 @@
 import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from "three";
+import { GamepadAxis } from "./gamepad/gamepadAnalogObserver";
+import { GamepadButtons } from "./gamepad/gamepadButtonObserver";
 import { MouseButtons } from "./mouse/mouseButtonObserver";
 
 export class InputSingleton {
     private static _instance: InputSingleton;
+    // Keyboard
     private keyboardKeyStates: { [id: string]: boolean } = {};
+    // Mouse
     private mousePos: Vector2 = new Vector2();
     private projectedMousePos: Vector3 = new Vector3();
-    private mouseButtonStates: { [id: number]: boolean } = {};
+    private mouseButtonsStates: { [id: number]: boolean } = {};
+    // Gamepad
+    private gamepadButtonStates: { [id: number]: boolean } = {};
+    private gamepadAxis: { [axis: number]: Vector2 } = {};    
     camera: PerspectiveCamera | OrthographicCamera = new PerspectiveCamera();
 
     private constructor() { }
@@ -42,9 +49,25 @@ export class InputSingleton {
 
     // Mouse buttons
     public setMouseButtonKeyState(button: MouseButtons, value: boolean) {
-        this.mouseButtonStates[button] = value;
+        this.mouseButtonsStates[button] = value;
     }
-    public isMouseButtonDown(button: MouseButtons): boolean {
-        return this.mouseButtonStates[button];
+    public isMouseButtonDown(button: MouseButtons) {
+        return this.mouseButtonsStates[button];
+    }
+
+    // Gamepad buttons
+    public setGamepadButtonState(button: GamepadButtons, value: boolean) {
+        this.gamepadButtonStates[button] = value;
+    }
+    public isGamepadButtonPressed(button: GamepadButtons): boolean {
+        return this.gamepadButtonStates[button];
+    }
+
+    // Gamepad axis
+    public setGamepadAxis(axis: GamepadAxis, value: Vector2) {
+        this.gamepadAxis[axis] = value;
+    }
+    public getGamepadAxis(axis: GamepadAxis): Vector2 {
+        return this.gamepadAxis[axis];
     }
 }

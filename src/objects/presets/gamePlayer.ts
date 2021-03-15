@@ -16,7 +16,7 @@ export class GamePlayer extends GameObject {
     velocity: Vector2 = new Vector2(0, 0);
     drag: number = 0.95;
     acceleration: number = 1;
-    useGamepad: boolean = false;
+    useGamepad: boolean = true;
 
     // View
     velocityViewAngle: number = 0;

@@ -66,6 +66,10 @@ export class InputSingleton {
         this.gamepadButtonStates[button] = value;
         if (value)
             this.useGamepad = true;
+        else {
+            if (!this.hasGamepadInput() && this.hasKeyboardAndMouseInput())
+                this.useGamepad = false;
+        }
     }
     public isGamepadButtonPressed(button: GamepadButtons): boolean {
         return this.gamepadButtonStates[button];
@@ -76,6 +80,10 @@ export class InputSingleton {
         this.gamepadAxis[axis] = value;
         if (value.length() != 0)
             this.useGamepad = true;
+        else {
+            if (!this.hasGamepadInput() && this.hasKeyboardAndMouseInput())
+                this.useGamepad = false;
+        }
     }
     public getGamepadAxis(axis: GamepadAxis): Vector2 {
         return this.gamepadAxis[axis];
@@ -84,5 +92,30 @@ export class InputSingleton {
     // Use gamepad
     public getUseGamepad(): boolean {
         return this.useGamepad;
+    }
+
+    private hasGamepadInput(): boolean {
+        let buttonInput = false;
+        if (Object.values(this.gamepadButtonStates).length > 0)
+            buttonInput = Object.values(this.gamepadButtonStates).includes(true);
+
+        let stickInput = false;
+        if (Object.values(this.gamepadAxis).length > 0) {
+            Object.values(this.gamepadAxis).forEach(axis => {
+                stickInput = stickInput || !!axis.length();
+            });
+        }
+        return buttonInput || stickInput;
+    }
+    private hasKeyboardAndMouseInput(): boolean {
+        let keyboardInput = false;
+        if (Object.values(this.keyboardKeyStates).length > 0)
+            keyboardInput = Object.values(this.keyboardKeyStates).includes(true);
+
+        let mouseInput = false;
+        if (Object.values(this.mouseButtonsStates).length > 0)
+            mouseInput = Object.values(this.mouseButtonsStates).includes(true);
+
+        return keyboardInput || mouseInput;
     }
 }

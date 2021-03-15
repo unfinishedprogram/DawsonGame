@@ -13,7 +13,9 @@ export class InputSingleton {
     private mouseButtonsStates: { [id: number]: boolean } = {};
     // Gamepad
     private gamepadButtonStates: { [id: number]: boolean } = {};
-    private gamepadAxis: { [axis: number]: Vector2 } = {};    
+    private gamepadAxis: { [axis: number]: Vector2 } = {};
+    // Other
+    private useGamepad: boolean = false;
     camera: PerspectiveCamera | OrthographicCamera = new PerspectiveCamera();
 
     private constructor() { }
@@ -69,5 +71,13 @@ export class InputSingleton {
     }
     public getGamepadAxis(axis: GamepadAxis): Vector2 {
         return this.gamepadAxis[axis];
+    }
+
+    // Use gamepad
+    public setUseGamepad(value: boolean) {
+        this.useGamepad = value;
+    }
+    public getUseGamepad(): boolean {
+        return this.useGamepad;
     }
 }

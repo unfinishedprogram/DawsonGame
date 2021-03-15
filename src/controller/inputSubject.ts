@@ -166,17 +166,21 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
 
 
 // Gamepad
+/** Represents the gamepad button input */
 export interface GamepadButtonInput {
     button: number;
     state: ButtonState;
 }
+/** Represents the stick input */
 export interface GamepadAnalogInput {
     stick: number,
     value: Vector2;
 }
+/** Represents the gamepad button input */
 export interface CustomGamepadInputEvent {
     button: number;
 }
+/** Represents the stick input */
 export interface CustomGamepadAnalogEvent {
     stick: number,
     value: Vector2;
@@ -184,15 +188,27 @@ export interface CustomGamepadAnalogEvent {
 
 /** Subject for gamepad button input*/
 export class GamepadInputSubject extends Subject<GamepadButtonInput> {
+    /**
+     * Function that is called when the gamepad button is pressed
+     * @param e Gamepad input event
+     */
     public buttonDown(e: CustomGamepadInputEvent) {
         this.notify(Action.GAMEPAD_INPUT, {button: e.button, state: ButtonState.DOWN});
     }
+    /**
+     * Function that is called when the gamepad button is unpressed
+     * @param e Gamepad input event
+     */
     public buttonUp(e: CustomGamepadInputEvent) {
         this.notify(Action.GAMEPAD_INPUT, {button: e.button, state: ButtonState.UP});
     }
 }
 /** Subject for gamepad analog input*/
 export class GamepadMoveSubject extends Subject<GamepadAnalogInput> {
+    /**
+     * Function that is called when the gamepad stick is moved
+     * @param e Gamepad input event
+     */
     public moveAnalong(e: CustomGamepadAnalogEvent) {
         this.notify(Action.GAMEPAD_MOVE, {stick: e.stick, value: e.value} )
     }

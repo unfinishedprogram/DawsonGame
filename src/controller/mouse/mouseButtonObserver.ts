@@ -1,6 +1,6 @@
 import { Action } from '../../utils/action';
 import { Observer } from '../../utils/observer';
-import { ButtonState, MouseButtonInputSubject, MouseButtonInput} from '../inputSubject';
+import { ButtonState, MouseButtonInput} from '../inputSubject';
 
 export enum MouseButtons {
     LEFT_MOUSE_BUTTON,
@@ -19,6 +19,9 @@ export class MouseButtonObserver extends Observer<MouseButtonInput> {
 
     onNotify(action: Action, info: MouseButtonInput) {
         if ( action !== Action.MOUSE_INPUT) return;
-        console.log(MouseButtons[info.button]);
+        if (info.buttonState === ButtonState.DOWN)
+            globalThis.Input.setMouseButtonKeyState(info.button, true);
+        else
+            globalThis.Input.setMouseButtonKeyState(info.button, false);
     }
 };

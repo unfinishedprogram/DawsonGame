@@ -26,10 +26,9 @@ export enum GamepadButtons {
 export class GamepadButtonObserver extends Observer<GamepadButtonInput> {
     onNotify(action: Action, info: GamepadButtonInput): void {
         if (action !== Action.GAMEPAD_INPUT) return;
-        if ( info.state === ButtonState.DOWN ) {
-            console.log(`${GamepadButtons[info.button]} was pressed.`);
-        } else {
-            console.log(`${GamepadButtons[info.button]} was released.`);
-        }
+        if ( info.state === ButtonState.DOWN )
+            globalThis.Input.setGamepadButtonState(info.button, true);
+        else 
+            globalThis.Input.setGamepadButtonState(info.button, false);
     }
 }

@@ -11,6 +11,6 @@ export enum GamepadAxis {
 export class GamepadAnalogObserver extends Observer<GamepadAnalogInput> {
     onNotify(action: Action, info: GamepadAnalogInput): void {
         if (action !== Action.GAMEPAD_MOVE) return;
-        console.log(GamepadAxis[info.stick] + ' stick moved to ' + info.value.x + ', ' + info.value.y);
+        globalThis.Input.setGamepadAxis(info.stick, info.value);
     }
 }

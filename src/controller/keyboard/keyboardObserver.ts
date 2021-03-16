@@ -24,4 +24,22 @@ export class KeyboardObserver extends Observer<KeyboardInput> {
         else if (info.state === ButtonState.DOWN && !globalThis.Input.isKeyboardKeyDown(info.key))
             globalThis.Input.setKeyboardKeyState(info.key, true);
     }
+
+    // Input map
+    public getInputMap(): string[] {
+        return this.inputMap;
+    }
+    public setInputMap(inputMap: string[]) {
+        this.inputMap = inputMap;
+    }
+    public addToInputMap(key: string) {
+        this.inputMap.push(key);
+    }
+    public removeFromInputMap(key: string) {
+        const index = this.inputMap.indexOf(key);
+        if (index == -1)
+            return;
+        else
+            this.inputMap.splice(index, 1);
+    }
 };

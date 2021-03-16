@@ -16,8 +16,8 @@ export class KeyboardObserver extends Observer<KeyboardInput> {
     }
 
     onNotify(action: Action, info: KeyboardInput) {
-        if ( action !== Action.KEYBOARD_INPUT) return;
-        if ( !this.inputMap.includes(info.key)) return;
+        if (action !== Action.KEYBOARD_INPUT) return;
+        if (!this.inputMap.includes(info.key)) return;
 
         if (info.state === ButtonState.UP)
             globalThis.Input.setKeyboardKeyState(info.key, false);

@@ -20,11 +20,12 @@ export class GamePlayer extends GameObject {
 
     // View
     targetViewAngle: number = 0;
+    interpolatedViewAngle: number = 0;
     angleOffset: number = Math.PI / 2;
 
     constructor(transform: Transform) {
         super(transform);
-        this.VOXName = "char";
+        this.VOXName = "shaman";
     }
     
     shootBullet(direction:Vector3){
@@ -45,17 +46,30 @@ export class GamePlayer extends GameObject {
 
         // Calculte target view angle and rotate the object smoothly to it
         this.targetViewAngle = this.velocity.angle() + this.angleOffset;
+        this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.035);
+
         if (globalThis.Input.getUseGamepad()) {
-            this.targetViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.velocity.angle() + this.angleOffset, 0.035);
             if (input.gamepadLookDirection) {
                 if (input.gamepadLookDirection.x || input.gamepadLookDirection.y) {
-                    console.log(input.gamepadLookDirection);
-                    this.targetViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, input.gamepadLookDirection.angle() + this.angleOffset, 0.05);
+                    this.targetViewAngle = input.gamepadLookDirection.angle() + this.angleOffset;
+                    this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
                 }
             }
-            this.object3D.rotation.y = this.targetViewAngle;
-
         }
+        else {
+            // Hacky way of getting look at rotation, CHANGE IT LATER
+            if (input.mouseLookPoint) {
+                let previousRotation = this.object3D.rotation;
+                this.object3D.lookAt(input.mouseLookPoint);
+                this.targetViewAngle = this.object3D.rotation.y;
+                this.object3D.rotation.x = previousRotation.x;
+                this.object3D.rotation.y = previousRotation.y;
+                this.object3D.rotation.z = previousRotation.z;
+                this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
+            }
+        }
+        
+        this.object3D.rotation.y = this.interpolatedViewAngle;
         
         /*
         // Calculate view angle

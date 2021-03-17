@@ -28,8 +28,8 @@ export class GamePlayer extends GameObject {
         this.VOXName = "shaman";
     }
     
-    shootBullet(direction:Vector3){
-        globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(new GameBullet(new Transform(this.object3D.position, direction))));
+    shootBullet(direction: number){
+        globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(new GameBullet(new Transform(this.object3D.position, new Vector3()))));
     }
 
 
@@ -67,10 +67,17 @@ export class GamePlayer extends GameObject {
         if (this.timeSinceShot > this.shotDelay) {
             if (input.shoot) {
                 this.timeSinceShot = 0;
-                this.shootBullet(new Vector3());
+                this.shootBullet(this.targetViewAngle);
             }
         }
         else
             this.timeSinceShot += deltaTime;
     }
 }
+
+/*
+    Please make it compile
+    The direction of the bullet should be a number and not a Vector3 because all the physics will be done on a plane, so we do not care about other 2 rotation axes
+    The bullet should go in the specified direction and not the cursor point location
+    PLEASE DO NOT BREAK ANYTHING HERE, ALL OF IT JUST WORKS
+*/

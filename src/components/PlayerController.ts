@@ -100,14 +100,16 @@ export class PlayerController extends Component {
         }
     }
 
-    public getControls() : PlayerActions {
+    public getInput() : PlayerActions {
         const useGamepad: boolean = globalThis.Input.getUseGamepad();
         let playerActions: PlayerActions = {movementDirection: new Vector2(0, 0), shoot: false};
 
         if (useGamepad) {
             playerActions.movementDirection = new Vector2(
-                this.isKeybindActive('forward').gamepadOutput - this.isKeybindActive('backward').gamepadOutput,
-                this.isKeybindActive('rightward').gamepadOutput - this.isKeybindActive('leftward').gamepadOutput);
+                this.isKeybindActive('rightward').gamepadOutput - this.isKeybindActive('leftward').gamepadOutput,
+                this.isKeybindActive('forward').gamepadOutput - this.isKeybindActive('backward').gamepadOutput);
+
+            console.log(this.isKeybindActive('forward'));
             playerActions.gamepadLookDirection = new Vector2(
                 this.isKeybindActive('gp_lookUp').gamepadOutput - this.isKeybindActive('gp_lookDown').gamepadOutput,
                 this.isKeybindActive('gp_lookRight').gamepadOutput - this.isKeybindActive('gp_LookRight').gamepadOutput);
@@ -115,8 +117,8 @@ export class PlayerController extends Component {
         }
         else {
             playerActions.movementDirection = new Vector2(
-                +this.isKeybindActive('forward').keyboardMouseOutput - +this.isKeybindActive('backward').keyboardMouseOutput,
-                +this.isKeybindActive('rightward').keyboardMouseOutput - +this.isKeybindActive('leftward').keyboardMouseOutput);
+                +this.isKeybindActive('rightward').keyboardMouseOutput - +this.isKeybindActive('leftward').keyboardMouseOutput,
+                +this.isKeybindActive('forward').keyboardMouseOutput - +this.isKeybindActive('backward').keyboardMouseOutput);
             playerActions.mouseLookPoint = globalThis.Input.getProjectedMousePosition();
             playerActions.shoot = this.isKeybindActive('shoot').keyboardMouseOutput;
         }
@@ -181,6 +183,6 @@ export class PlayerController extends Component {
         gamepadOutput = (+gamepadButtonOutput || gamepadOutput);
 
         // Return all
-        return {keyboardMouseOutput: keyboardMouseOutput, gamepadOutput: gamepadAxisOutput};
+        return {keyboardMouseOutput: keyboardMouseOutput || false, gamepadOutput: gamepadAxisOutput || 0};
     }
 }

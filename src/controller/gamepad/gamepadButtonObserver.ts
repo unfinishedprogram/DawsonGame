@@ -28,7 +28,7 @@ export class GamepadButtonObserver extends Observer<GamepadButtonInput> {
         if (action !== Action.GAMEPAD_INPUT) return;
         if ( info.state === ButtonState.DOWN )
             globalThis.Input.setGamepadButtonState(info.button, true);
-        else 
+        else
             globalThis.Input.setGamepadButtonState(info.button, false);
     }
 }

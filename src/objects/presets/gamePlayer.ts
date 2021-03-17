@@ -1,22 +1,21 @@
 import { GameObject } from '../gameObject';
 import { PlaneGeometry, MeshBasicMaterial, Vector2, Vector3} from 'three';
-import { Controller } from '../../components/controller';
 import { Transform } from '../../components/transform';
 import { ChangeObject } from '../../subjects/objectSubject';
 import { GameBullet } from './bullet';
 import { Action } from '../../utils/action';
+import { PlayerController } from '../../components/PlayerController';
 
 export class GamePlayer extends GameObject {
     material = new MeshBasicMaterial({ color: 0x00ff00 });
     geometry = new PlaneGeometry();
-    controller = new Controller();
+    controller = new PlayerController();
     shotDelay = 1;
     timeSinceShot = 0;
     // Movement
     velocity: Vector2 = new Vector2(0, 0);
     drag: number = 0.95;
     acceleration: number = 1;
-    useGamepad: boolean = true;
 
     // View
     velocityViewAngle: number = 0;
@@ -35,13 +34,12 @@ export class GamePlayer extends GameObject {
 
 
     update(deltaTime: number) {
-        let input = this.controller.getInput();
+        const input = this.controller.getInput();
         
-        if (this.useGamepad != globalThis.Input.getUseGamepad()) {
-            this.useGamepad = globalThis.Input.getUseGamepad();
-            console.log(this.useGamepad);
-        }
+        this.object3D.position.x += input.movementDirection.x * deltaTime;
 
+        /*
+        
         // Calculate velocity
         this.velocity.add(input.movementDirection.multiplyScalar(this.acceleration*deltaTime));
         this.velocity.multiplyScalar(this.drag);
@@ -73,5 +71,7 @@ export class GamePlayer extends GameObject {
         } else {
             this.timeSinceShot += deltaTime;
         }
+
+        */
     }
 }

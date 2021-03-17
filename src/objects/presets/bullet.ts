@@ -17,14 +17,11 @@ export class GameBullet extends GameObject {
     // Movement
     speed: number = 100;
 
-    // View
-    angleOffset: number = Math.PI / 2;
     // Delete this later
     constructor(transform: Transform) {
         super(transform.copy());
         this.transform = transform.copy();
        
-
         this.transform.rotation.subVectors(this.transform.position, globalThis.Input.getProjectedMousePosition()).normalize().multiplyScalar(-1);
 
         this.VOXName = "bullet";
@@ -40,7 +37,7 @@ export class GameBullet extends GameObject {
 
 
         let velocity = this.transform.rotation.clone();
-        velocity.normalize().multiplyScalar(deltaTime*this.speed);
+        velocity.normalize().multiplyScalar(deltaTime * this.speed);
         this.transform.position.add(velocity);
         
 
@@ -48,7 +45,7 @@ export class GameBullet extends GameObject {
             this.transform.position.x < -400 ||
             this.transform.position.z > 400 ||
             this.transform.position.z < -400 ){
-                console.log("removing bullet");
+                // console.log("removing bullet");
                 globalThis.Subjects.removeObjectSubject.notify(Action.REMOVE_OBJECT, new ChangeObject(this));
             }
     }

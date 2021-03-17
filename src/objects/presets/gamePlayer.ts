@@ -11,7 +11,7 @@ export class GamePlayer extends GameObject {
     material = new MeshBasicMaterial({ color: 0x00ff00 });
     geometry = new PlaneGeometry();
     controller = new PlayerController();
-    shotDelay = 1;
+    shotDelay = 0.2;
     timeSinceShot = 0;
     // Movement
     velocity: Vector2 = new Vector2(0, 0);
@@ -29,7 +29,7 @@ export class GamePlayer extends GameObject {
     }
     
     shootBullet(direction:Vector3){
-        globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(new GameBullet(new Transform(this.object3D.position, this.object3D.rotation.toVector3()))));
+        globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(new GameBullet(new Transform(this.object3D.position, direction))));
     }
 
 
@@ -64,39 +64,13 @@ export class GamePlayer extends GameObject {
         }
         
         this.object3D.rotation.y = this.interpolatedViewAngle;
-        
-        /*
-        // Calculate view angle
-        if (globalThis.Input.getUseGamepad()) {
-            if (input.gamepadLookDirection)
-                if (input.gamepadLookDirection.x  && input.gamepadLookDirection.y)
-                    this.targetViewAngle = input.gamepadLookDirection.angle() + this.angleOffset;
-        }
-        else {
-            this.object3D.up = new Vector3(0,1,0);
-            this.object3D.lookAt(globalThis.Input.getProjectedMousePosition());
-            //this.targetViewAngle = this.velocityViewAngle;
-        }
-        */
-
-        /*
-        
-        // Calculate velocity
-        //this.object3D.position.set(...globalThis.Input.projectedMousePos.toArray());
-
-        // Calculate view angle
-
-
-        // Shoot bullets if mouse is down
-        if(this.timeSinceShot > this.shotDelay){
-            if(globalThis.Input.isKeyboardKeyDown("Space")) {
+        if (this.timeSinceShot > this.shotDelay) {
+            if (input.shoot) {
                 this.timeSinceShot = 0;
-                this.shootBullet(this.object3D.rotation.toVector3());
+                this.shootBullet(new Vector3());
             }
-        } else {
-            this.timeSinceShot += deltaTime;
         }
-
-        */
+        else
+            this.timeSinceShot += deltaTime;
     }
 }

@@ -62,12 +62,12 @@ export class PlayerController extends Component {
         },
         leftward: {
             keyboardKeycodes: ['KeyA', 'LeftArrow'],
-            gamepadAnalog: {axis: GamepadAxis.LEFT, direction: GamepadAxisDirection.HORIZONTAL, positive: true},
+            gamepadAnalog: {axis: GamepadAxis.LEFT, direction: GamepadAxisDirection.HORIZONTAL, positive: false},
             gamepadButtons: [GamepadButtons.LEFT]
         },
         rightward: {
             keyboardKeycodes: ['KeyD', 'RightArrow'],
-            gamepadAnalog: {axis: GamepadAxis.LEFT, direction: GamepadAxisDirection.HORIZONTAL, positive: false},
+            gamepadAnalog: {axis: GamepadAxis.LEFT, direction: GamepadAxisDirection.HORIZONTAL, positive: true},
             gamepadButtons: [GamepadButtons.RIGHT]
         },
         shoot: {
@@ -77,8 +77,8 @@ export class PlayerController extends Component {
         },
         gp_lookUp: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.VERTICAL, positive: true} },
         gp_lookDown: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.VERTICAL, positive: false} },
-        gp_lookLeft: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.HORIZONTAL, positive: true} },
-        gp_lookRight: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.HORIZONTAL, positive: false} }
+        gp_lookLeft: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.HORIZONTAL, positive: false} },
+        gp_lookRight: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.HORIZONTAL, positive: true} }
     };
 
     /**
@@ -108,8 +108,6 @@ export class PlayerController extends Component {
             playerActions.movementDirection = new Vector2(
                 this.isKeybindActive('rightward').gamepadOutput - this.isKeybindActive('leftward').gamepadOutput,
                 this.isKeybindActive('forward').gamepadOutput - this.isKeybindActive('backward').gamepadOutput);
-
-            console.log(this.isKeybindActive('forward'));
             playerActions.gamepadLookDirection = new Vector2(
                 this.isKeybindActive('gp_lookUp').gamepadOutput - this.isKeybindActive('gp_lookDown').gamepadOutput,
                 this.isKeybindActive('gp_lookRight').gamepadOutput - this.isKeybindActive('gp_LookRight').gamepadOutput);
@@ -169,20 +167,19 @@ export class PlayerController extends Component {
             const gamepadAnalogBind: GamepadAxisBind = keyBinds.gamepadAnalog;
             const gamepadAnalogInputVector: Vector2 = globalThis.Input.getGamepadAxis(gamepadAnalogBind.axis);
             gamepadAxisOutput = gamepadAnalogInputVector.toArray()[+(gamepadAnalogBind.direction === GamepadAxisDirection.VERTICAL)];
+
+            if (gamepadAnalogBind.positive)
+                gamepadAxisOutput = Math.max(0, gamepadAxisOutput);
+            else
+                gamepadAxisOutput = -Math.min(0, gamepadAxisOutput);
         }
         // Finalize gamepad output
         // Write analog input
-        let gamepadOutput: number = 0;
-        if (gamepadAxisOutput) {
-            if (keyBinds?.gamepadAnalog?.positive)
-                gamepadOutput = Math.max(0, gamepadAxisOutput);
-            else
-                gamepadOutput = Math.min(0, gamepadAxisOutput);
-        }
+        let gamepadOutput: number = gamepadAxisOutput;
         // Override with button input (buttons are more important)
         gamepadOutput = (+gamepadButtonOutput || gamepadOutput);
 
         // Return all
-        return {keyboardMouseOutput: keyboardMouseOutput || false, gamepadOutput: gamepadAxisOutput || 0};
+        return {keyboardMouseOutput: keyboardMouseOutput || false, gamepadOutput: gamepadOutput || 0};
     }
 }

@@ -35,8 +35,8 @@ export class GamePlayer extends GameObject {
 
     update(deltaTime: number) {
         const input = this.controller.getInput();
-        
-        this.object3D.position.x += input.movementDirection.x * deltaTime;
+
+        this.object3D.position.x += input.movementDirection.x * deltaTime * 5;
 
         /*
         

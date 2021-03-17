@@ -26,7 +26,6 @@ export class GamePlayer extends GameObject {
     constructor(transform: Transform) {
         super(transform);
         this.VOXName = "shaman";
-        this.object3D.up = new Vector3(0,1,0);
     }
     
     shootBullet(direction:Vector3){
@@ -57,14 +56,14 @@ export class GamePlayer extends GameObject {
                 }
             }
         }
-        
         else {
             if (input.mouseLookPoint) {
-                // TODO make look at function
+                this.targetViewAngle = Math.atan2(this.object3D.position.z - input.mouseLookPoint.z, input.mouseLookPoint.x - this.object3D.position.x) + this.angleOffset;
+                this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
             }
         }
         
-        // this.object3D.rotation.y = this.interpolatedViewAngle;
+        this.object3D.rotation.y = this.interpolatedViewAngle;
         
         /*
         // Calculate view angle

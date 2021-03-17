@@ -26,6 +26,7 @@ export class GamePlayer extends GameObject {
     constructor(transform: Transform) {
         super(transform);
         this.VOXName = "shaman";
+        this.object3D.up = new Vector3(0,1,0);
     }
     
     shootBullet(direction:Vector3){
@@ -56,20 +57,14 @@ export class GamePlayer extends GameObject {
                 }
             }
         }
+        
         else {
-            // Hacky way of getting look at rotation, CHANGE IT LATER
             if (input.mouseLookPoint) {
-                let previousRotation = this.object3D.rotation;
-                this.object3D.lookAt(input.mouseLookPoint);
-                this.targetViewAngle = this.object3D.rotation.y;
-                this.object3D.rotation.x = previousRotation.x;
-                this.object3D.rotation.y = previousRotation.y;
-                this.object3D.rotation.z = previousRotation.z;
-                this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
+                // TODO make look at function
             }
         }
         
-        this.object3D.rotation.y = this.interpolatedViewAngle;
+        // this.object3D.rotation.y = this.interpolatedViewAngle;
         
         /*
         // Calculate view angle

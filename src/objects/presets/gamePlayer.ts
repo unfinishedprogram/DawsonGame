@@ -36,6 +36,7 @@ export class GamePlayer extends GameObject {
 
     update(deltaTime: number) {
         let input = this.controller.getInput();
+        
         if (this.useGamepad != globalThis.Input.getUseGamepad()) {
             this.useGamepad = globalThis.Input.getUseGamepad();
             console.log(this.useGamepad);

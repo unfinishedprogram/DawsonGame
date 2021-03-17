@@ -86,7 +86,7 @@ export class InputSingleton {
         }
     }
     public getGamepadAxis(axis: GamepadAxis): Vector2 {
-        return this.gamepadAxis[axis];
+        return this.gamepadAxis[axis] || new Vector2(0, 0);
     }
 
     // Use gamepad

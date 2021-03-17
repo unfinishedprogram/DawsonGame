@@ -1,3 +1,5 @@
+import { Vector2 } from "three";
+
 /**
  * Class that provides more math functions
  */
@@ -32,5 +34,21 @@ export class MoreMath {
         let interpolated = (start + ((end - start) * mu));
 
         return interpolated;
+    }
+
+    /**
+     * Takes an axis input remaps it to have a deadzone with clamping
+     * @param input 2D Vector of an axis input
+     * @param deadzone The cut out value. The inputs lower than this value will be ignored (default = 0.25)
+     */
+    public static clampInputVector(input: Vector2, deadzone: number = 0.25) {
+        if (input.x && input.y) {
+            // Find the length of the current input
+            let length: number = input.length();
+            // Calculate percentage of the maximum input length
+            length = Math.min(Math.max((length - deadzone) / (1 - deadzone), 0), 1)
+            // Set it
+            input.setLength(length);
+        }
     }
 }

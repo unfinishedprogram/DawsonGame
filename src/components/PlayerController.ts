@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2, Vector3 } from "three";
 import { GamepadAxis, GamepadAxisDirection } from "../controller/gamepad/gamepadAnalogObserver";
 import { GamepadButtons } from "../controller/gamepad/gamepadButtonObserver";
 import { MouseButtons } from "../controller/mouse/mouseButtonObserver";
@@ -24,12 +24,21 @@ export interface KeyBinds {
     leftward?: KeyBind;
     rightward?: KeyBind;
     shoot?: KeyBind;
+    // Gamepad specific
+    gp_lookUp?: KeyBind;
+    gp_lookDown?: KeyBind;
+    gp_lookLeft?: KeyBind;
+    gp_lookRight?: KeyBind;
 }
 /** Represents the output of the player controller */
 export interface PlayerActions {
     movementDirection: Vector2;
-    gamepadLookDirection: Vector2;
     shoot: boolean;
+    // Gamepad specific
+    gamepadLookDirection?: Vector2;
+    // Keyboard specific
+    mouseLookPoint?: Vector3;
+    
 }
 /** Represents the output of a keybind */
 interface BindOutput {
@@ -65,7 +74,11 @@ export class PlayerController extends Component {
             keyboardKeycodes: ['KeySpace'],
             gamepadButtons: [GamepadButtons.RB, GamepadButtons.RT],
             mouseButtons: [MouseButtons.LEFT_MOUSE_BUTTON]
-        }
+        },
+        gp_lookUp: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.VERTICAL, positive: true} },
+        gp_lookDown: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.VERTICAL, positive: false} },
+        gp_lookLeft: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.HORIZONTAL, positive: true} },
+        gp_lookRight: { gamepadAnalog: {axis: GamepadAxis.RIGHT, direction: GamepadAxisDirection.HORIZONTAL, positive: false} }
     };
 
     /**
@@ -85,6 +98,30 @@ export class PlayerController extends Component {
                     this.controls[key] = customControls[key];
             }
         }
+    }
+
+    public getControls() : PlayerActions {
+        const useGamepad: boolean = globalThis.Input.getUseGamepad();
+        let playerActions: PlayerActions = {movementDirection: new Vector2(0, 0), shoot: false};
+
+        if (useGamepad) {
+            playerActions.movementDirection = new Vector2(
+                this.isKeybindActive('forward').gamepadOutput - this.isKeybindActive('backward').gamepadOutput,
+                this.isKeybindActive('rightward').gamepadOutput - this.isKeybindActive('leftward').gamepadOutput);
+            playerActions.gamepadLookDirection = new Vector2(
+                this.isKeybindActive('gp_lookUp').gamepadOutput - this.isKeybindActive('gp_lookDown').gamepadOutput,
+                this.isKeybindActive('gp_lookRight').gamepadOutput - this.isKeybindActive('gp_LookRight').gamepadOutput);
+            playerActions.shoot = !!this.isKeybindActive('shoot').gamepadOutput;
+        }
+        else {
+            playerActions.movementDirection = new Vector2(
+                +this.isKeybindActive('forward').keyboardMouseOutput - +this.isKeybindActive('backward').keyboardMouseOutput,
+                +this.isKeybindActive('rightward').keyboardMouseOutput - +this.isKeybindActive('leftward').keyboardMouseOutput);
+            playerActions.mouseLookPoint = globalThis.Input.getProjectedMousePosition();
+            playerActions.shoot = this.isKeybindActive('shoot').keyboardMouseOutput;
+        }
+
+        return playerActions;
     }
 
     /**

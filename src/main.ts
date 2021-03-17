@@ -2,7 +2,7 @@ import { Networking } from './multiplayer/networking';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { gameScene } from './scene/gameScene'
-import { Clock } from 'three';
+import { Clock, Vector2 } from 'three';
 import { KeyboardObserver } from './controller/keyboard/keyboardObserver';
 import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject, GamepadMoveSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';

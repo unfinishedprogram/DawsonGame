@@ -4,7 +4,7 @@ import { Transform } from '../../components/transform';
 import { ChangeObject } from '../../subjects/objectSubject';
 import { GameBullet } from './bullet';
 import { Action } from '../../utils/action';
-import { PlayerController } from '../../components/PlayerController';
+import { PlayerController } from '../../components/playerController';
 
 export class GamePlayer extends GameObject {
     material = new MeshBasicMaterial({ color: 0x00ff00 });
@@ -36,7 +36,8 @@ export class GamePlayer extends GameObject {
     update(deltaTime: number) {
         const input = this.controller.getInput();
 
-        this.object3D.position.x += input.movementDirection.x * deltaTime * 5;
+        this.object3D.position.x += input.movementDirection.x * deltaTime * 20;
+        this.object3D.position.z -= input.movementDirection.y * deltaTime * 20;
 
         /*
         

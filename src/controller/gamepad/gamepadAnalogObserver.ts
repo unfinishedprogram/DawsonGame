@@ -7,6 +7,11 @@ export enum GamepadAxis {
     RIGHT
 }
 
+export enum GamepadAxisDirection {
+    HORIZONTAL,
+    VERTICAL
+}
+
 /** Represents the observer that processes all the analog (stick) gamepad input */
 export class GamepadAnalogObserver extends Observer<GamepadAnalogInput> {
     onNotify(action: Action, info: GamepadAnalogInput): void {

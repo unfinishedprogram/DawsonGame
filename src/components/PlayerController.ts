@@ -87,6 +87,11 @@ export class PlayerController extends Component {
         }
     }
 
+    /**
+     * Checks if the keybind is pressed
+     * @param key The key of the keybind
+     * @returns If the keybind is pressed (separate for the keyboard and mouse)
+     */
     private isKeybindActive(key: string) : BindOutput {
         // Return no input if the key is not valid
         if (!Object.keys(this.controls).includes(key))

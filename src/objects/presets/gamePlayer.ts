@@ -5,6 +5,7 @@ import { ChangeObject } from '../../subjects/objectSubject';
 import { GameBullet } from './bullet';
 import { Action } from '../../utils/action';
 import { PlayerController } from '../../components/playerController';
+import { MoreMath } from '../../utils/moreMath';
 
 export class GamePlayer extends GameObject {
     material = new MeshBasicMaterial({ color: 0x00ff00 });
@@ -18,8 +19,6 @@ export class GamePlayer extends GameObject {
     acceleration: number = 1;
 
     // View
-    velocityViewAngle: number = 0;
-    inputViewAngle: number = 0;
     targetViewAngle: number = 0;
     angleOffset: number = Math.PI / 2;
 
@@ -36,32 +35,49 @@ export class GamePlayer extends GameObject {
     update(deltaTime: number) {
         const input = this.controller.getInput();
 
-        this.object3D.position.x += input.movementDirection.x * deltaTime * 20;
-        this.object3D.position.z -= input.movementDirection.y * deltaTime * 20;
-
-        /*
-        
         // Calculate velocity
-        this.velocity.add(input.movementDirection.multiplyScalar(this.acceleration*deltaTime));
+        this.velocity.add(input.movementDirection.multiplyScalar(this.acceleration * deltaTime));
         this.velocity.multiplyScalar(this.drag);
 
         // Set position
         this.object3D.position.x += this.velocity.x;
         this.object3D.position.z -= this.velocity.y;
 
+        // Calculte target view angle and rotate the object smoothly to it
+        this.targetViewAngle = this.velocity.angle() + this.angleOffset;
+        if (globalThis.Input.getUseGamepad()) {
+            this.targetViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.velocity.angle() + this.angleOffset, 0.035);
+            if (input.gamepadLookDirection) {
+                if (input.gamepadLookDirection.x || input.gamepadLookDirection.y) {
+                    console.log(input.gamepadLookDirection);
+                    this.targetViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, input.gamepadLookDirection.angle() + this.angleOffset, 0.05);
+                }
+            }
+            this.object3D.rotation.y = this.targetViewAngle;
+
+        }
+        
+        /*
+        // Calculate view angle
+        if (globalThis.Input.getUseGamepad()) {
+            if (input.gamepadLookDirection)
+                if (input.gamepadLookDirection.x  && input.gamepadLookDirection.y)
+                    this.targetViewAngle = input.gamepadLookDirection.angle() + this.angleOffset;
+        }
+        else {
+            this.object3D.up = new Vector3(0,1,0);
+            this.object3D.lookAt(globalThis.Input.getProjectedMousePosition());
+            //this.targetViewAngle = this.velocityViewAngle;
+        }
+        */
+
+        /*
+        
+        // Calculate velocity
         //this.object3D.position.set(...globalThis.Input.projectedMousePos.toArray());
 
         // Calculate view angle
-        this.velocityViewAngle = this.velocity.angle() + this.angleOffset;
 
-        if (input.useGamepadViewVector) {
-            if (input.gamepadViewDirection.x && input.gamepadViewDirection.y)
-                this.targetViewAngle = input.gamepadViewDirection.angle() + this.angleOffset;
-            else
-                this.object3D.up = new Vector3(0,1,0);
-                this.object3D.lookAt(globalThis.Input.getProjectedMousePosition());
-                //this.targetViewAngle = this.velocityViewAngle;
-        }
 
         // Shoot bullets if mouse is down
         if(this.timeSinceShot > this.shotDelay){

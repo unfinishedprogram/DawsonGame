@@ -2,6 +2,7 @@ import { Vector2, Vector3 } from "three";
 import { GamepadAxis, GamepadAxisDirection } from "../controller/gamepad/gamepadAnalogObserver";
 import { GamepadButtons } from "../controller/gamepad/gamepadButtonObserver";
 import { MouseButtons } from "../controller/mouse/mouseButtonObserver";
+import { MoreMath } from "../utils/moreMath";
 import { Component } from "./component";
 
 /** Represents a bind for a gamepad axis */
@@ -109,8 +110,8 @@ export class PlayerController extends Component {
                 this.isKeybindActive('rightward').gamepadOutput - this.isKeybindActive('leftward').gamepadOutput,
                 this.isKeybindActive('forward').gamepadOutput - this.isKeybindActive('backward').gamepadOutput);
             playerActions.gamepadLookDirection = new Vector2(
-                this.isKeybindActive('gp_lookUp').gamepadOutput - this.isKeybindActive('gp_lookDown').gamepadOutput,
-                this.isKeybindActive('gp_lookRight').gamepadOutput - this.isKeybindActive('gp_LookRight').gamepadOutput);
+                this.isKeybindActive('gp_lookRight').gamepadOutput - this.isKeybindActive('gp_lookLeft').gamepadOutput,
+                this.isKeybindActive('gp_lookUp').gamepadOutput - this.isKeybindActive('gp_lookDown').gamepadOutput);
             playerActions.shoot = !!this.isKeybindActive('shoot').gamepadOutput;
         }
         else {
@@ -120,6 +121,8 @@ export class PlayerController extends Component {
             playerActions.mouseLookPoint = globalThis.Input.getProjectedMousePosition();
             playerActions.shoot = this.isKeybindActive('shoot').keyboardMouseOutput;
         }
+
+        MoreMath.clampInputVector(playerActions.movementDirection);
 
         return playerActions;
     }

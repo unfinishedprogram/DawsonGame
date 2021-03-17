@@ -14,6 +14,7 @@ import { SubjectSingleton } from './utils/subjectSingleton'
 import { GamepadListener } from './controller/gamepad/gamepadListener';
 import { GamepadAnalogObserver } from './controller/gamepad/gamepadAnalogObserver';
 import { GamepadButtonObserver } from './controller/gamepad/gamepadButtonObserver';
+import { PlayerController } from './components/PlayerController';
 
 class Main {
     renderer: Renderer;
@@ -42,10 +43,7 @@ class Main {
         window.onload = () => this.renderer.resize(window.innerWidth, window.innerHeight);
 
 
-        /**
-         * Initalizing observers and subjects
-         */
-
+        //Initalizing observers and subjects
         globalThis.Input = InputSingleton.Instance; 
         globalThis.Input.camera = this.scene.camera.camera;
         globalThis.Subjects = SubjectSingleton.Instance;
@@ -61,6 +59,9 @@ class Main {
         this.startSubjects();
 
         this.loadObjects();
+
+        // Test stuff, delete this later
+        let controller = new PlayerController({forward: {keyboardKeycodes: ['KeyK']}});
     }
 
     

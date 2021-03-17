@@ -18,6 +18,7 @@ export interface KeyBind {
     mouseButtons?: MouseButtons[];
 }
 
+/** The interface that represents all the actions and controls assigned to them */
 export interface KeyBinds {
     forward?: KeyBind;
     backward?: KeyBind;
@@ -55,4 +56,23 @@ export class PlayerController extends Component {
             mouseButtons: [MouseButtons.LEFT_MOUSE_BUTTON]
         }
     };
+
+    /**
+     * Initialize player controller
+     * @param customControls Custom key binds (if nothing is specified the controls will be default)
+     */
+    constructor(customControls?: KeyBinds) {
+        super();
+
+        // Set custom controls if they are specified
+        if (customControls) {
+            // Iterate through each key inside custom controls and set controls if custom bind is specified
+            const keys = Object.keys(customControls);
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i] as keyof KeyBinds;
+                if (customControls[key])
+                    this.controls[key] = customControls[key];
+            }
+        }
+    }
 }

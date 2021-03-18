@@ -32,7 +32,7 @@ export class InputSingleton {
             this.useGamepad = false;
     } 
     public isKeyboardKeyDown(keycode: string) : boolean {
-        return this.keyboardKeyStates[keycode];
+        return this.keyboardKeyStates[keycode] || false;
     }
 
     // Mouse position
@@ -40,7 +40,7 @@ export class InputSingleton {
         this.mousePos = newPosition;
     }
     public getMousePosition(): Vector2 {
-        return this.mousePos;
+        return this.mousePos || new Vector2(0, 0);
     }
 
     // Projected mouse position
@@ -48,7 +48,7 @@ export class InputSingleton {
         this.projectedMousePos = newPosition;
     }
     public getProjectedMousePosition(): Vector3 {
-        return this.projectedMousePos;
+        return this.projectedMousePos || new Vector3(0, 0, 0);
     }
 
     // Mouse buttons
@@ -58,7 +58,7 @@ export class InputSingleton {
             this.useGamepad = false;
     }
     public isMouseButtonDown(button: MouseButtons) {
-        return this.mouseButtonsStates[button];
+        return this.mouseButtonsStates[button] || false;
     }
 
     // Gamepad buttons
@@ -72,7 +72,7 @@ export class InputSingleton {
         }
     }
     public isGamepadButtonPressed(button: GamepadButtons): boolean {
-        return this.gamepadButtonStates[button];
+        return this.gamepadButtonStates[button] || false;
     }
 
     // Gamepad axis
@@ -91,7 +91,7 @@ export class InputSingleton {
 
     // Use gamepad
     public getUseGamepad(): boolean {
-        return this.useGamepad;
+        return this.useGamepad || false;
     }
 
 

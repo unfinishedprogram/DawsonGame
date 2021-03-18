@@ -1,5 +1,5 @@
 import { GameObject } from '../gameObject';
-import { PlaneGeometry, MeshBasicMaterial, Vector2, Vector3} from 'three';
+import { PlaneGeometry, MeshBasicMaterial, Vector2, Vector3, Euler} from 'three';
 import { Transform } from '../../components/transform';
 import { ChangeObject } from '../../subjects/objectSubject';
 import { GameBullet } from './bullet';
@@ -29,7 +29,14 @@ export class GamePlayer extends GameObject {
     }
     
     shootBullet(direction: number){
-        globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(new GameBullet(new Transform(this.object3D.position, new Vector3()))));
+        let rotationAngle = new Vector3(0, 0, 0)
+        //.subVectors(this.object3D.position, globalThis.Input.getProjectedMousePosition()).normalize().multiplyScalar(-1);
+
+
+        let bulletTransform = new Transform(this.object3D.position);
+        bulletTransform.rotation.setY(direction)
+        let bullet = new GameBullet(bulletTransform);
+        globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(bullet));
     }
 
 
@@ -66,8 +73,12 @@ export class GamePlayer extends GameObject {
         this.object3D.rotation.y = this.interpolatedViewAngle;
         if (this.timeSinceShot > this.shotDelay) {
             if (input.shoot) {
-                this.timeSinceShot = 0;
-                this.shootBullet(this.targetViewAngle);
+                this.timeSinceShot = 1;// Change this to zero to fix shoot speed
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
             }
         }
         else

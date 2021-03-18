@@ -53,7 +53,7 @@ export class GamePlayer extends GameObject {
 
         // Calculte target view angle and rotate the object smoothly to it
         this.targetViewAngle = this.velocity.angle() + this.angleOffset;
-        this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.035);
+        this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.075);
 
         if (globalThis.Input.getUseGamepad()) {
             if (input.gamepadLookDirection) {
@@ -74,10 +74,6 @@ export class GamePlayer extends GameObject {
         if (this.timeSinceShot > this.shotDelay) {
             if (input.shoot) {
                 this.timeSinceShot = 1;// Change this to zero to fix shoot speed
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
                 this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
             }
         }

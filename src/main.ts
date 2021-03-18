@@ -30,6 +30,7 @@ class Main {
     tracker:number = 0;
 
     constructor() {
+      
         this.scene = gameScene;
         this.renderer = new Renderer(1, 1, this.scene);
         this.scene.setRenderer(this.renderer);
@@ -109,6 +110,7 @@ function animate() {
     requestAnimationFrame(animate);
     game.scene.update(deltaTime);
     game.renderer.draw();
+    game.renderer.renderStats.update();
     gamepadInputListener.update();
 }
 animate();

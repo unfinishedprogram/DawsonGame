@@ -8,6 +8,7 @@ import { Observer } from '../utils/observer';
 import { Action } from '../utils/action';
 import { GameObject } from '../objects/gameObject';
 import { ChangeObject } from '../subjects/objectSubject';
+import { RendererStats } from '../utils/renderStats';
 
 /** Displays a given scene, and manages window dimensions */
 export class Renderer extends Observer<ChangeObject>{
@@ -17,6 +18,7 @@ export class Renderer extends Observer<ChangeObject>{
     tscene: THREE.Scene; // Better name?
     renderer: THREE.WebGLRenderer;
     composer: EffectComposer;
+    renderStats: RendererStats;
 
     /**
      * Initializes the renderer
@@ -39,21 +41,27 @@ export class Renderer extends Observer<ChangeObject>{
 
         this.renderer.domElement.oncontextmenu  = () => {return false};
         //Setting up post processing passes and compositor
-        this.composer = new EffectComposer(this.renderer, new WebGLRenderTarget(this.width*2, this.height*2));
-        this.composer.addPass (new RenderPass(this.tscene, this.scene.camera.camera) );
+        this.composer = new EffectComposer(this.renderer, new WebGLRenderTarget(this.width, this.height));
+
+        this.renderStats = new RendererStats(this.renderer);
+
         var SSAO = new SSAOPass(this.tscene, this.scene.camera.camera, this.width, this.height);
        
         SSAO.kernelRadius = 1;
         SSAO.minDistance = 0.0001;
-        
+
+        this.composer.addPass (new RenderPass(this.tscene, this.scene.camera.camera) );
+
         this.composer.addPass (SSAO);
         
         this.renderer.setSize(width, height);
         
-        const color = 0XFFFFFF;
-        const intensity = 1;
-        const light = new THREE.AmbientLight(color, intensity);
+        const lightColor = 0XFFFFFF;
+        const lightIntensity = 1;
+        const light = new THREE.AmbientLight(lightColor, lightIntensity);
+
         this.tscene.add(light);
+
         this.renderer.setClearColor(new THREE.Color(0XFFFFFF), 1);
         
         // Add each element of a the scene to the renderer.
@@ -73,7 +81,9 @@ export class Renderer extends Observer<ChangeObject>{
     /**
      * Removes a given game object's 3D component from the scene
      */
-    removeGameObject(object:GameObject){
+    removeGameObject(object:GameObject){   
+        object.object3D.remove();
+
         this.tscene.remove(object.object3D);
     }
 
@@ -112,8 +122,9 @@ export class Renderer extends Observer<ChangeObject>{
         this.height = newHeight;
         
         this.composer.setSize(newWidth, newHeight);
-        for (let pass of this.composer.passes) pass.setSize(newWidth, newHeight);
         this.renderer.setSize(newWidth, newHeight);
+        for (let pass of this.composer.passes) pass.setSize(newWidth, newHeight);
+        
 
         this.renderer.setRenderTarget(new WebGLRenderTarget(newWidth, newHeight));
     }

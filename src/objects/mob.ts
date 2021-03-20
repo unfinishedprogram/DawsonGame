@@ -17,11 +17,9 @@ export class Mob extends GameObject {
     stats: Stats;
     VOXName: string;
     transform: Transform; //temp
-    mesh: Mesh;
 
     constructor(transform: Transform, stats: Stats, VOXName: string) {
         super(transform);
-        this.mesh = new Mesh(new PlaneGeometry(), new MeshBasicMaterial({ color: 0x00ff00 }));
         this.stats = stats;
         this.VOXName = VOXName;
         this.transform = transform; //temp

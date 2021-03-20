@@ -66,7 +66,7 @@ export class Controller extends Component {
             // This actually works
             let keyAction = action as keyof Controls;
             this.controls[keyAction].forEach((key: string) => {
-                this.actions[action][key] = globalThis.Input.keyStates[key];
+                this.actions[action][key] = globalThis.Input.isKeyboardKeyDown(key);
             });
         });
 

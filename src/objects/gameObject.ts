@@ -12,7 +12,7 @@ export abstract class GameObject {
     abstract update(deltaTime: number): void;
 
     async loadMesh(){
-        console.log('Loading new object FROM LOADING');
+        //console.log('Loading new object FROM LOADING');
         if(this.VOXName){
             var mesh = await AssetLoader.getVOXMesh('models/chr_' + this.VOXName + '.vox');
         } else{

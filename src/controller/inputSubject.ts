@@ -8,6 +8,7 @@ export enum ButtonState {
     DOWN,
 }
 
+// Keyboard
 /** Represents the keyboard input */
 export class KeyboardInput {
     key: string;
@@ -21,46 +22,6 @@ export class KeyboardInput {
         this.key = key;
         this.state = state;
     }
-}
-
-/** Represents the mouse movement input */
-export class MouseMoveInput {
-    x: number;
-    y: number;
-    /**
-     * Initializes the mouse movement input 
-     * @param offsetX Relative pixel location of the cursor to the canvas on the X axis
-     * @param offsetY  Relative pixel location of the cursor to the canvas on the B axis
-     */
-    constructor(offsetX: number, offsetY:number) {
-        this.x = offsetX;
-        this.y = offsetY;
-    }
-}
-
-/** Represents the mouse button input */
-export class MouseButtonInput {
-    button: number;
-    buttonState: ButtonState;
-    /**
-     * Initializes mouse button input
-     * @param button Mouse button ID
-     * @param state The state of the mouse button (UP/DOWN)
-     */
-    constructor(button: number, state: ButtonState) {
-        this.buttonState = state;
-        this.button = button;
-    }
-}
-
-export interface GamepadButtonInput {
-    button: number;
-    state: ButtonState;
-}
-
-export interface GamepadAnalogInput {
-    stick: number,
-    value: Vector2;
 }
 
 /** Subject for keyboard keys events */
@@ -109,6 +70,37 @@ export class KeyboardInputSubject extends Subject<KeyboardInput> {
     }
 }
 
+
+// Mouse
+/** Represents the mouse movement input */
+export class MouseMoveInput {
+    x: number;
+    y: number;
+    /**
+     * Initializes the mouse movement input 
+     * @param offsetX Relative pixel location of the cursor to the canvas on the X axis
+     * @param offsetY  Relative pixel location of the cursor to the canvas on the B axis
+     */
+    constructor(offsetX: number, offsetY:number) {
+        this.x = offsetX;
+        this.y = offsetY;
+    }
+}
+/** Represents the mouse button input */
+export class MouseButtonInput {
+    button: number;
+    buttonState: ButtonState;
+    /**
+     * Initializes mouse button input
+     * @param button Mouse button ID
+     * @param state The state of the mouse button (UP/DOWN)
+     */
+    constructor(button: number, state: ButtonState) {
+        this.buttonState = state;
+        this.button = button;
+    }
+}
+
 /** Subject for mouse movement input */
 export class MouseMoveInputSubject extends Subject<MouseMoveInput> {
     private listeners: Function[];
@@ -135,7 +127,6 @@ export class MouseMoveInputSubject extends Subject<MouseMoveInput> {
     }
 
 }
-
 /** Subject for mouse button input*/
 export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
     private listeners: Function[];
@@ -173,25 +164,51 @@ export class MouseButtonInputSubject extends Subject<MouseButtonInput> {
     }
 }
 
+
+// Gamepad
+/** Represents the gamepad button input */
+export interface GamepadButtonInput {
+    button: number;
+    state: ButtonState;
+}
+/** Represents the stick input */
+export interface GamepadAnalogInput {
+    stick: number,
+    value: Vector2;
+}
+/** Represents the gamepad button input */
 export interface CustomGamepadInputEvent {
     button: number;
 }
-
+/** Represents the stick input */
 export interface CustomGamepadAnalogEvent {
     stick: number,
     value: Vector2;
 }
 
+/** Subject for gamepad button input*/
 export class GamepadInputSubject extends Subject<GamepadButtonInput> {
+    /**
+     * Function that is called when the gamepad button is pressed
+     * @param e Gamepad input event
+     */
     public buttonDown(e: CustomGamepadInputEvent) {
         this.notify(Action.GAMEPAD_INPUT, {button: e.button, state: ButtonState.DOWN});
     }
+    /**
+     * Function that is called when the gamepad button is unpressed
+     * @param e Gamepad input event
+     */
     public buttonUp(e: CustomGamepadInputEvent) {
         this.notify(Action.GAMEPAD_INPUT, {button: e.button, state: ButtonState.UP});
     }
 }
-
+/** Subject for gamepad analog input*/
 export class GamepadMoveSubject extends Subject<GamepadAnalogInput> {
+    /**
+     * Function that is called when the gamepad stick is moved
+     * @param e Gamepad input event
+     */
     public moveAnalong(e: CustomGamepadAnalogEvent) {
         this.notify(Action.GAMEPAD_MOVE, {stick: e.stick, value: e.value} )
     }

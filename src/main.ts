@@ -2,7 +2,7 @@ import { Networking } from './multiplayer/networking';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene/scene';
 import { gameScene } from './scene/gameScene'
-import { Clock } from 'three';
+import { Clock, Vector2 } from 'three';
 import { KeyboardObserver } from './controller/keyboard/keyboardObserver';
 import { KeyboardInputSubject, MouseButtonInputSubject, MouseMoveInputSubject, GamepadInputSubject, GamepadMoveSubject } from './controller/inputSubject';
 import { InputSingleton } from './controller/input';
@@ -30,6 +30,7 @@ class Main {
     tracker:number = 0;
 
     constructor() {
+      
         this.scene = gameScene;
         this.renderer = new Renderer(1, 1, this.scene);
         this.scene.setRenderer(this.renderer);
@@ -42,10 +43,7 @@ class Main {
         window.onload = () => this.renderer.resize(window.innerWidth, window.innerHeight);
 
 
-        /**
-         * Initalizing observers and subjects
-         */
-
+        //Initalizing observers and subjects
         globalThis.Input = InputSingleton.Instance; 
         globalThis.Input.camera = this.scene.camera.camera;
         globalThis.Subjects = SubjectSingleton.Instance;
@@ -112,6 +110,7 @@ function animate() {
     requestAnimationFrame(animate);
     game.scene.update(deltaTime);
     game.renderer.draw();
+    game.renderer.renderStats.update();
     gamepadInputListener.update();
 }
 animate();

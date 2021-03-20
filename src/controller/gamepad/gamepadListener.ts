@@ -1,15 +1,23 @@
 import { Vector2 } from 'three';
+import { MoreMath } from '../../utils/moreMath';
 import { CustomGamepadInputEvent, CustomGamepadAnalogEvent } from '../inputSubject';
 
 type GamepadInputListenerF = (e: CustomGamepadInputEvent) => void;
 type GamepadAnalogListenerF = (e: CustomGamepadAnalogEvent) => void;
 
+/** Represents the listener that listens for all gamepad inptu */
 export class GamepadListener {
     gamepads: Gamepad[];
     buttonUp: GamepadInputListenerF;
     buttonDown: GamepadInputListenerF;
     stickMove: GamepadAnalogListenerF;
 
+    /**
+     * Initialize new GamepadListener
+     * @param buttonUp The callout that will be called if the button is unpressed
+     * @param buttonDown The callout that will be called if the button is pressed
+     * @param stickMove The callout that will be called if the stick is moved
+     */
     constructor(buttonUp: GamepadInputListenerF, buttonDown: GamepadInputListenerF, stickMove: GamepadAnalogListenerF) {
         this.gamepads = [];
             
@@ -39,6 +47,11 @@ export class GamepadListener {
             });
     }
 
+    /**
+     * Compare 2 gamepad instances and call needed events
+     * @param newGamepad Instance of a new gamepad
+     * @param oldGamepad Instance of a old Gamepad
+     */
     private detectChanges(newGamepad: Gamepad, oldGamepad: Gamepad) {
         // Check sticks
         let oldSticks: Vector2[] = [
@@ -51,8 +64,8 @@ export class GamepadListener {
         ];
         
         for (let i = 0; i < 2; i++) {
-            this.clampInputVector(oldSticks[i]);
-            this.clampInputVector(newSticks[i]);
+            MoreMath.clampInputVector(oldSticks[i]);
+            MoreMath.clampInputVector(newSticks[i]);
 
             if (oldSticks[i].x != newSticks[i].x || oldSticks[i].y != newSticks[i].y)
                 this.stickMove({stick: i, value: newSticks[i]});
@@ -66,23 +79,6 @@ export class GamepadListener {
                 else
                     this.buttonUp({button: i});
             }
-        }
-    }
-
-    /**
-     * Takes an axis input remaps it to have a deadzone with clamping
-     * @param input 2D Vector of an axis input
-     * @param deadzone The cut out value. The inputs lower than this value will be ignored (default = 0.25)
-     */
-    private clampInputVector(input: Vector2, deadzone: number = 0.25) {
-        if (input.x && input.y) {
-            // Apply deadzone
-            // Find the length of the current input
-            let length: number = input.length();
-            // Calculate percentage of the maximum input length
-            length = Math.min(Math.max((length - deadzone) / (1 - deadzone), 0), 1)
-            // Set it
-            input.setLength(length);
         }
     }
 }

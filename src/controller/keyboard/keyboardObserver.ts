@@ -16,14 +16,30 @@ export class KeyboardObserver extends Observer<KeyboardInput> {
     }
 
     onNotify(action: Action, info: KeyboardInput) {
-        if ( action !== Action.KEYBOARD_INPUT) return;
-        if ( !this.inputMap.includes(info.key)) return;
+        if (action !== Action.KEYBOARD_INPUT) return;
+        if (!this.inputMap.includes(info.key)) return;
 
         if (info.state === ButtonState.UP)
-            globalThis.Input.keyStates[info.key] = false; 
-        else if (info.state === ButtonState.DOWN && !globalThis.Input.keyStates[info.key])
-            globalThis.Input.keyStates[info.key] = true;
+            globalThis.Input.setKeyboardKeyState(info.key, false);
+        else if (info.state === ButtonState.DOWN && !globalThis.Input.isKeyboardKeyDown(info.key))
+            globalThis.Input.setKeyboardKeyState(info.key, true);
+    }
 
-        console.log(globalThis.Input.keyStates);
+    // Input map
+    public getInputMap(): string[] {
+        return this.inputMap;
+    }
+    public setInputMap(inputMap: string[]) {
+        this.inputMap = inputMap;
+    }
+    public addToInputMap(key: string) {
+        this.inputMap.push(key);
+    }
+    public removeFromInputMap(key: string) {
+        const index = this.inputMap.indexOf(key);
+        if (index == -1)
+            return;
+        else
+            this.inputMap.splice(index, 1);
     }
 };

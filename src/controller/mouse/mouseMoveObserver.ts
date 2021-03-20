@@ -17,21 +17,19 @@ export class MouseMoveObserver extends Observer<MouseMoveInput> {
     onNotify(action: Action, info: MouseMoveInput) {
         if ( action !== Action.MOUSE_INPUT) return;
         let raycaster = new Raycaster();
+        let intersectionPoint = new Vector3();
 
-        globalThis.Input.mosuePos.x = info.x; 
-        globalThis.Input.mosuePos.y = info.y; 
+        globalThis.Input.getMousePosition().x = info.x; 
+        globalThis.Input.getMousePosition().y = info.y; 
 
         let cvsWidth = this.canvasElm.clientWidth;
         let cvsHeight = this.canvasElm.clientHeight;
 
-        
-
         let normalizedX = (info.x / cvsWidth) * 2 - 1;
         let normalizedY = -(info.y / cvsHeight * 2 -1);
 
-        
-
         raycaster.setFromCamera(new Vector2(normalizedX, normalizedY), globalThis.Input.camera);
-		raycaster.ray.intersectPlane(this.plane, globalThis.Input.projectedMousePos);
+		raycaster.ray.intersectPlane(this.plane, intersectionPoint);
+        globalThis.Input.setProjectedMousePosition(intersectionPoint);
     }
 };

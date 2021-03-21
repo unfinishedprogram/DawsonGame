@@ -6,9 +6,10 @@ import { Transform } from '../components/transform';
 /** Class representing an object with components. */
 export abstract class GameObject {
     components: Component[] = [];
-    object3D: Object3D = new Object3D();
+    object3D: Mesh = new Mesh();
+    material: MeshBasicMaterial = new MeshBasicMaterial();
 
-    VOXName: string = "";
+    VOXName: string = '';
     abstract update(deltaTime: number): void;
 
     async loadMesh(){
@@ -19,7 +20,9 @@ export abstract class GameObject {
             console.error("Object must have a VOXName assigned before the mesh can be loaded");
             return;
         }
+
         this.object3D = mesh;
+
         return;
     }
 
@@ -33,10 +36,6 @@ export abstract class GameObject {
      * @param transform The transform component of the gameObject
      */
     constructor(transform: Transform) {
-        let geometry = new BoxGeometry();
-        let material = new MeshBasicMaterial( { color: 0x00ff00 } );
-        this.object3D = new Mesh( geometry, material );
-
         this.components.push(transform);
     }
 

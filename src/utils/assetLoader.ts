@@ -12,9 +12,10 @@ export class AssetLoader {
         var myChunk = chunks[0] as Chunk;
         var paletteChunk = chunks[chunks.length-1] as Chunk;
         myChunk.palette = paletteChunk.palette as Chunk;
-        //myChunk.palette = testPalette;
 
-        return new VOXMesh(myChunk);
+        let mesh = new VOXMesh(myChunk)
+        
+        return mesh;
     }
 
     //Loads all chunks from a VOX file and returns an array of meshes.

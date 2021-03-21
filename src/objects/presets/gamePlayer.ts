@@ -8,8 +8,6 @@ import { PlayerController } from '../../components/playerController';
 import { MoreMath } from '../../utils/moreMath';
 
 export class GamePlayer extends GameObject {
-    material = new MeshBasicMaterial({ color: 0x00ff00 });
-    geometry = new PlaneGeometry();
     controller = new PlayerController();
     shotDelay = 0.2;
     timeSinceShot = 0;

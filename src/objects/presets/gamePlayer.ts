@@ -25,7 +25,7 @@ export class GamePlayer extends GameObject {
 
     constructor(transform: Transform) {
         super(transform);
-        this.VOXName = "shaman";
+        this.VOXName = "tile_test";
     }
     
     shootBullet(direction: number){

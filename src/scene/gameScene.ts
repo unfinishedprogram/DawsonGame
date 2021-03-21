@@ -8,7 +8,7 @@ import { GamePlayer } from '../objects/presets/gamePlayer';
 
 /** The transform (location and rotation) of the in game camera */
 let cameraTransform = new Transform(
-    new Vector3(0, 200, 0), // Location
+    new Vector3(0, 300, 0), // Location
     new Vector3(-Math.PI / 2, 0, 0) // Rotation
 );
 

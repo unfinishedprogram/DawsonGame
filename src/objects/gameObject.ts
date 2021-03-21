@@ -14,7 +14,7 @@ export abstract class GameObject {
     async loadMesh(){
         //console.log('Loading new object FROM LOADING');
         if(this.VOXName){
-            var mesh = await AssetLoader.getVOXMesh('models/chr_' + this.VOXName + '.vox');
+            var mesh = await AssetLoader.getVOXMesh('models/' + this.VOXName + '.vox');
         } else{
             console.error("Object must have a VOXName assigned before the mesh can be loaded");
             return;

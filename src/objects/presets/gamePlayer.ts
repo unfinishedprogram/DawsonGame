@@ -23,9 +23,11 @@ export class GamePlayer extends GameObject {
 
     constructor(transform: Transform) {
         super(transform);
-        this.VOXName = "shaman";
+        this.VOXName = "shaman_new";
     }
     
+    meshLoaded(){};
+
     shootBullet(direction: number){
         let rotationAngle = new Vector3(0, 0, 0)
         //.subVectors(this.object3D.position, globalThis.Input.getProjectedMousePosition()).normalize().multiplyScalar(-1);

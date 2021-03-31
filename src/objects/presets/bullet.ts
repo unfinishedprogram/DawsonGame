@@ -8,6 +8,7 @@ import { ChangeObject } from '../../subjects/objectSubject';
 
 
 export class GameBullet extends GameObject {
+    material = new MeshBasicMaterial({ color: 0x00ff00 });
     controller = new Controller();
     velocity : Vector3; 
     transform: Transform;
@@ -23,7 +24,7 @@ export class GameBullet extends GameObject {
         this.velocity = new Vector3(Math.sin(this.transform.rotation.y), 0, Math.cos(this.transform.rotation.y));
         this.velocity.multiplyScalar(this.speed);
     }
-    
+    meshLoaded(){};
     update(deltaTime: number) {
         this.object3D.position.set(...this.transform.position.toArray());
         this.object3D.rotation.set(...this.transform.rotation.toArray());

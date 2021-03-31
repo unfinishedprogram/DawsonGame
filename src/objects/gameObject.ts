@@ -1,26 +1,30 @@
 import { Component } from '../components/component';
-import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry } from 'three';
+import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry, BufferGeometry, Material } from 'three';
 import { AssetLoader } from '../utils/assetLoader';
 import { Transform } from '../components/transform';
+import { Action } from '../utils/action';
 
 /** Class representing an object with components. */
 export abstract class GameObject {
     components: Component[] = [];
-    object3D: Mesh = new Mesh();
-    material: MeshBasicMaterial = new MeshBasicMaterial();
+    object3D: Object3D = new Object3D();
+    geometry: BufferGeometry|undefined = undefined;
+    material: Material | Material[];
 
     VOXName: string = '';
     abstract update(deltaTime: number): void;
+    abstract meshLoaded(): void;
 
     async loadMesh(){
         //console.log('Loading new object FROM LOADING');
         if(this.VOXName){
-            var mesh = await AssetLoader.getVOXMesh('models/chr_' + this.VOXName + '.vox');
+            var mesh = await AssetLoader.getVOXMesh('models/' + this.VOXName + '.vox');
         } else{
             console.error("Object must have a VOXName assigned before the mesh can be loaded");
             return;
         }
-
+        this.material = mesh.material;
+        this.geometry = mesh.geometry;
         this.object3D = mesh;
 
         return;
@@ -36,7 +40,9 @@ export abstract class GameObject {
      * @param transform The transform component of the gameObject
      */
     constructor(transform: Transform) {
-        this.components.push(transform);
+        let geometry = new BoxGeometry();
+        this.material = new MeshBasicMaterial( { color: 0x00ff00 } );
+        this.object3D = new Mesh( geometry, this.material );
     }
 
     // We should be adding and removing components with a function so we can update anything 

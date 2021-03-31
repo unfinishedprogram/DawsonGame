@@ -34,6 +34,8 @@ export class OCamera extends GameObject {
         this.camera.position.set(...transform.position.toArray());
         this.camera.rotation.set(...transform.rotation.toArray());
     }
+
+    meshLoaded(){};
     // update methods are not being called yet. This is just a 
     // placeholder.
     update(deltaTime: number): void {
@@ -80,7 +82,7 @@ export class PCamera extends GameObject {
             this.components[i].update(deltaTime);
         }
     }
-
+    meshLoaded(){};
     public projectScreenPoint(relativeSreenCoords: Vector2): Vector3 {
         let vec = new Vector3();
         let pos = new Vector3();

@@ -34,6 +34,8 @@ export class Cube extends GameObject {
         this.camera = camera;
     }
     
+    meshLoaded(){};
+
     update(deltaTime: number) {
         let input = this.controller.getInput();
 

@@ -2,11 +2,13 @@ import { BufferGeometry, Matrix4, Quaternion, Vector3 } from "three";
 import { BufferGeometryUtils } from "three/examples/jsm/utils/BufferGeometryUtils";
 
 export function createTiledGeometry(geo:BufferGeometry, tileSize:number, width:number, height:number): BufferGeometry{
-    let tiledGeo = new BufferGeometry();
     let matrix = new Matrix4();
     let quaternion = new Quaternion();
     let scale = new Vector3(1,1,1);
     let geometries = [];
+
+    let finalTransform = new Vector3(-0.5*(tileSize*(width-1)),0,-0.5*(tileSize*(height-1)));
+    
     for(let i = 0; i < width; i++){
         for(let j = 0; j < height; j++){
             let instance = geo.clone();
@@ -18,7 +20,7 @@ export function createTiledGeometry(geo:BufferGeometry, tileSize:number, width:n
             geometries.push(instance);
         }
     }
-    return BufferGeometryUtils.mergeBufferGeometries(geometries);
-    console.log(tiledGeo);
-    return tiledGeo;
+    let finalGeo = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    finalGeo.translate(...finalTransform.toArray());
+    return finalGeo;
 }

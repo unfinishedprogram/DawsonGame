@@ -14,7 +14,7 @@ export class LevelGeo extends GameObject {
     meshLoaded = ():void  => {
         console.log("LOPAD MESH ");
         if(this.geometry){
-            let tiledGeo = createTiledGeometry(this.geometry, 8, 8, 8);
+            let tiledGeo = createTiledGeometry(this.geometry, 8, 54, 30);
             let tiledMesh = new Mesh(tiledGeo);
             tiledMesh.material = this.material;
             this.geometry = tiledMesh.geometry;

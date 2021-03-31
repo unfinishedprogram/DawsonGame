@@ -11,7 +11,7 @@ export abstract class GameObject {
     geometry: BufferGeometry|undefined = undefined;
     material: Material | Material[];
 
-    VOXName: string = "";
+    VOXName: string = '';
     abstract update(deltaTime: number): void;
     abstract meshLoaded(): void;
 
@@ -26,6 +26,7 @@ export abstract class GameObject {
         this.material = mesh.material;
         this.geometry = mesh.geometry;
         this.object3D = mesh;
+
         return;
     }
 
@@ -42,8 +43,6 @@ export abstract class GameObject {
         let geometry = new BoxGeometry();
         this.material = new MeshBasicMaterial( { color: 0x00ff00 } );
         this.object3D = new Mesh( geometry, this.material );
-
-        this.components.push(transform);
     }
 
     // We should be adding and removing components with a function so we can update anything 

@@ -33,10 +33,10 @@ export class GameBullet extends GameObject {
         this.transform.position.add(this.velocity.clone().multiplyScalar(deltaTime));
         
 
-        if( this.transform.position.x > 150 ||
-            this.transform.position.x < -150 ||
-            this.transform.position.z > 100 ||
-            this.transform.position.z < -100 ){
+        if( this.transform.position.x > 50 ||
+            this.transform.position.x < -50 ||
+            this.transform.position.z > 50 ||
+            this.transform.position.z < -50 ){
                 globalThis.Subjects.removeObjectSubject.notify(Action.REMOVE_OBJECT, new ChangeObject(this));
             }
     }

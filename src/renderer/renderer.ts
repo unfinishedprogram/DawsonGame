@@ -82,7 +82,7 @@ export class Renderer extends Observer<ChangeObject>{
      * Removes a given game object's 3D component from the scene
      */
     removeGameObject(object:GameObject){   
-        if(object){
+        if(object) {
             this.tscene.remove(object.object3D);
         }
     }
@@ -93,7 +93,7 @@ export class Renderer extends Observer<ChangeObject>{
      */
     
     async addGameObject(object:GameObject){
-        if(object){
+        if(object) {
             if(!(object.object3D && object.geometry)){
                 await object.loadMesh();
             }
@@ -120,7 +120,6 @@ export class Renderer extends Observer<ChangeObject>{
      * @param {number} windowHeight
      */
     resize(windowWidth: number, windowHeight: number) {
-        //THIS MIGHT NOT WORK I CHANGED IT FOR READABILTY BUT I MIGHT HAVE SCREWED UP
         let targetWidth: number = windowHeight / 9 * 16;
         let targetHeight: number = windowWidth  / 16 * 9;
 

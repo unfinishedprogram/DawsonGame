@@ -8,8 +8,6 @@ import { PCamera } from '../camera';
 
 
 export class Cube extends GameObject {
-    material = new MeshBasicMaterial({ color: 0x00ff00 });
-    geometry = new PlaneGeometry();
     controller = new Controller();
 
     // Movement

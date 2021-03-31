@@ -18,6 +18,7 @@ export class Mob extends GameObject {
     VOXName: string;
     transform: Transform; //temp
 
+    meshLoaded(){};
     constructor(transform: Transform, stats: Stats, VOXName: string) {
         super(transform);
         this.stats = stats;

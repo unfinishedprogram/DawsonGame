@@ -82,19 +82,37 @@ export class Renderer extends Observer<ChangeObject>{
      * Removes a given game object's 3D component from the scene
      */
     removeGameObject(object:GameObject){   
-        object.object3D.remove();
-
-        this.tscene.remove(object.object3D);
+        if(object){
+            this.tscene.remove(object.object3D);
+        }
     }
 
     /**
      * Adds a given game object's 3D component from the scene 
      * Must be paired with an equivilant call to the scene otherwise the object will not be interactable
      */
+    
     async addGameObject(object:GameObject){
-        await object.loadMesh();
-        this.tscene.add(object.object3D);
+        if(object){
+            if(!(object.object3D && object.geometry)){
+                await object.loadMesh();
+            }
+            object.meshLoaded();
+            
+            this.tscene.add(object.object3D);
+        }
     }
+
+    async updateGameObject (object:GameObject){
+        if(object){
+            this.tscene.remove(object.object3D);
+            if(!(object.object3D && object.geometry)){
+                await object.loadMesh();
+            }
+            this.tscene.add(object.object3D);
+        }
+    }
+
 
     /**
      * Updates the renderer to the new dimensions of the window

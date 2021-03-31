@@ -3,7 +3,7 @@ import { PCamera, OCamera } from '../objects/camera'
 import { Transform } from '../components/transform';
 import { Vector3 } from 'three';
 import { GamePlayer } from '../objects/presets/gamePlayer';
-
+import { LevelGeo } from '../objects/presets/levelGeo';
 // This is just an example scene. It holds a cube and a camera.
 
 /** The transform (location and rotation) of the in game camera */
@@ -19,7 +19,9 @@ let transforma = new Transform();
 let gameScene = new Scene(new PCamera(cameraTransform, 45, 1280, 720));
 
 let cube = new GamePlayer(transforma);
+let floor = new LevelGeo(transforma);
 // Delete this later, it is horrible
 gameScene.gameObjects.push(cube);
+gameScene.gameObjects.push(floor);
 
 export { gameScene };

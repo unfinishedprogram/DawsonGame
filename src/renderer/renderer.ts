@@ -11,7 +11,7 @@ import { ChangeObject } from '../subjects/objectSubject';
 import { RendererStats } from '../utils/renderStats';
 
 /** Displays a given scene, and manages window dimensions */
-export class Renderer extends Observer<ChangeObject>{
+export class Renderer extends Observer<ChangeObject> {
     width: number;
     height: number;
     scene: Scene;
@@ -81,7 +81,7 @@ export class Renderer extends Observer<ChangeObject>{
     /**
      * Removes a given game object's 3D component from the scene
      */
-    removeGameObject(object:GameObject){
+    removeGameObject(object:GameObject) {
         //object.object3D.geometry.dispose();
         //object.object3D.remove();
         this.tscene.remove(object.object3D);
@@ -93,14 +93,14 @@ export class Renderer extends Observer<ChangeObject>{
      * Must be paired with an equivilant call to the scene otherwise the object will not be interactable
      */
     
-    async addGameObject(object:GameObject){
+    async addGameObject(object:GameObject) {
         if(object) {
             await object.loadMesh();
             this.tscene.add(object.object3D);
         }
     }
 
-    async updateGameObject (object:GameObject){
+    async updateGameObject (object:GameObject) {
         if(object){
             this.tscene.add(object.object3D);
         }

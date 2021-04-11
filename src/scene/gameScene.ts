@@ -7,7 +7,7 @@ import { LevelGeo } from '../objects/presets/levelGeo';
 // This is just an example scene. It holds a cube and a camera.
 
 /** The transform (location and rotation) of the in game camera */
-let cameraTransform = new Transform(
+let cameraTransform = new Transform (
     new Vector3(0, 300, 0), // Location
     new Vector3(-Math.PI / 2, 0, 0) // Rotation
 );

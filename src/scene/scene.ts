@@ -6,7 +6,7 @@ import { Observer } from '../utils/observer';
 import { Action } from '../utils/action';
 
 /** Scene that contains all the objects */
-export class Scene extends Observer<ChangeObject>{
+export class Scene extends Observer<ChangeObject> {
     /** The list of game objects */
     gameObjects: GameObject[] = [];
     /** Current camera */
@@ -34,8 +34,8 @@ export class Scene extends Observer<ChangeObject>{
      * Updates the scene and all the objects in it
      * @param deltaTime the delta time between frames (to untie physics from framerate)
      */
-    update(deltaTime: number){
-        for(let gameObject of this.gameObjects){
+    update(deltaTime: number) {
+        for(let gameObject of this.gameObjects) {
             gameObject.update(deltaTime);
         }
     }
@@ -57,7 +57,7 @@ export class Scene extends Observer<ChangeObject>{
         }
     }
 
-    addGameObject(object : GameObject){
+    addGameObject(object : GameObject) {
         this.gameObjects.push(object);
     }
 

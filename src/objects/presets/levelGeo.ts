@@ -1,5 +1,4 @@
 import { GameObject } from '../gameObject';
-import { Mesh} from 'three';
 import { Transform } from '../../components/transform';
 //import { createTiledGeometry } from '../../utils/tileGeometry';
 
@@ -8,7 +7,7 @@ export class LevelGeo extends GameObject {
         super(transform, "tile_test");
     }
     
-    meshLoaded = ():void  => {
+    meshLoaded = (): void  => {
         /*
         if(this.geometry){
             let tiledGeo = createTiledGeometry(this.geometry, 8, 54, 30);

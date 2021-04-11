@@ -1,5 +1,5 @@
 import { GameObject } from '../gameObject';
-import { PlaneGeometry, MeshBasicMaterial, Vector2, Vector3, Euler} from 'three';
+import { Vector2, Vector3 } from 'three';
 import { Transform } from '../../components/transform';
 import { ChangeObject } from '../../subjects/objectSubject';
 import { GameBullet } from './bullet';

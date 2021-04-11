@@ -25,7 +25,7 @@ export class GamePlayer extends GameObject {
     
     meshLoaded(){};
 
-    shootBullet(direction: number){
+    shootBullet(direction: number) {
         let bulletTransform = new Transform(this.object3D.position);
         bulletTransform.rotation.setY(direction + Math.PI / 2);
         let bullet = new GameBullet(bulletTransform);
@@ -68,15 +68,15 @@ export class GamePlayer extends GameObject {
             if (input.shoot) {
                 this.timeSinceShot = 1;// Change this to zero to fix shoot speed
 
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
-                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
             }
         }
         else

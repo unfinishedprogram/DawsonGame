@@ -18,7 +18,6 @@ export class GamePlayer extends GameObject {
     // View
     targetViewAngle: number = 0;
     interpolatedViewAngle: number = 0;
-    angleOffset: number = Math.PI / 2;
 
     constructor(transform:Transform) {
         super(transform, "shaman_new");
@@ -27,10 +26,8 @@ export class GamePlayer extends GameObject {
     meshLoaded(){};
 
     shootBullet(direction: number){
-        let rotationAngle = new Vector3(0, 0, 0)
-        //.subVectors(this.object3D.position, globalThis.Input.getProjectedMousePosition()).normalize().multiplyScalar(-1);
         let bulletTransform = new Transform(this.object3D.position);
-        bulletTransform.rotation.setY(direction);
+        bulletTransform.rotation.setY(direction + Math.PI / 2);
         let bullet = new GameBullet(bulletTransform);
         globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(bullet));
     }
@@ -48,20 +45,20 @@ export class GamePlayer extends GameObject {
         this.object3D.position.z -= this.velocity.y;
 
         // Calculte target view angle and rotate the object smoothly to it
-        this.targetViewAngle = this.velocity.angle() + this.angleOffset;
+        this.targetViewAngle = this.velocity.angle();
         this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.075);
 
         if (globalThis.Input.getUseGamepad()) {
             if (input.gamepadLookDirection) {
                 if (input.gamepadLookDirection.x || input.gamepadLookDirection.y) {
-                    this.targetViewAngle = input.gamepadLookDirection.angle() + this.angleOffset;
+                    this.targetViewAngle = input.gamepadLookDirection.angle();
                     this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
                 }
             }
         }
         else {
             if (input.mouseLookPoint) {
-                this.targetViewAngle = Math.atan2(this.object3D.position.z - input.mouseLookPoint.z, input.mouseLookPoint.x - this.object3D.position.x) + this.angleOffset;
+                this.targetViewAngle = Math.atan2(this.object3D.position.z - input.mouseLookPoint.z, input.mouseLookPoint.x - this.object3D.position.x);
                 this.interpolatedViewAngle = MoreMath.interpolateAngle(this.object3D.rotation.y, this.targetViewAngle, 0.1);
             }
         }
@@ -86,10 +83,3 @@ export class GamePlayer extends GameObject {
             this.timeSinceShot += deltaTime;
     }
 }
-
-/*
-    Please make it compile
-    The direction of the bullet should be a number and not a Vector3 because all the physics will be done on a plane, so we do not care about other 2 rotation axes
-    The bullet should go in the specified direction and not the cursor point location
-    PLEASE DO NOT BREAK ANYTHING HERE, ALL OF IT JUST WORKS
-*/

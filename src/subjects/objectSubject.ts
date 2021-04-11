@@ -9,12 +9,12 @@ export class ChangeObject {
      * Initializes gameObject removal 
      * @param object The gameObject to be removed
      */
-    constructor(object: GameObject){
+    constructor(object: GameObject) {
         this.object = object;
     }
 }
 
-export class RemoveObjectSubject extends Subject<ChangeObject>  {
+export class RemoveObjectSubject extends Subject<ChangeObject> {
     private listeners: Function[];
     constructor() {
         super();
@@ -23,7 +23,7 @@ export class RemoveObjectSubject extends Subject<ChangeObject>  {
         ]; 
     }
 
-    public removeObject(that:AddObjectSubject, object:ChangeObject){
+    public removeObject(that:AddObjectSubject, object:ChangeObject) {
         that.notify(Action.REMOVE_OBJECT, object);
     }
 
@@ -37,7 +37,7 @@ export class RemoveObjectSubject extends Subject<ChangeObject>  {
     }
 }
 
-export class AddObjectSubject extends Subject<ChangeObject>  {
+export class AddObjectSubject extends Subject<ChangeObject> {
     private listeners: Function[];
     constructor() {
         super();
@@ -45,7 +45,7 @@ export class AddObjectSubject extends Subject<ChangeObject>  {
             this.addObject
         ]; 
     }
-    public addObject(that:AddObjectSubject, object:ChangeObject){
+    public addObject(that:AddObjectSubject, object:ChangeObject) {
         that.notify(Action.ADD_OBJECT, object);
     }
 

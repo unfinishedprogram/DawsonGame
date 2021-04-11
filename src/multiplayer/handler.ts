@@ -8,7 +8,7 @@ export class EventHandler {
         new JoinEvent(),
     ];
 
-    constructor(parent: Networking){
+    constructor(parent: Networking) {
         this.parent = parent;
 
     }

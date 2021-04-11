@@ -1,6 +1,6 @@
 import { Action } from './action';
 
-export abstract class Observer<C extends any>{
+export abstract class Observer<C extends any> {
     abstract onNotify(action: Action, info: C) : void;
 }
 

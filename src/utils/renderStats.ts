@@ -27,7 +27,7 @@ export class RendererStats {
 
     renderer: WebGLRenderer;
 
-    constructor(renderer:WebGLRenderer){
+    constructor(renderer:WebGLRenderer) {
         this.renderer = renderer;
         this.container = document.createElement( 'div' );
 

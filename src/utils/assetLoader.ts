@@ -1,6 +1,6 @@
 // Class to load image, 3D, map, or any other async data
 
-import { BoxGeometry, Mesh, MeshBasicMaterial } from 'three';
+import { Mesh } from 'three';
 import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader';
 
 
@@ -29,13 +29,13 @@ export class AssetLoader {
     }
 
     //Loads all chunks from a VOX file and returns an array of meshes.
-    static async getVOXMeshes(dir:string): Promise<Array<Mesh>>{
+    static async getVOXMeshes(dir:string): Promise<Array<Mesh>> {
         const loader = new VOXLoader();
         let chunks = await loader.loadAsync(dir, undefined);
         let meshes: Array<Mesh> = [];
         for (let chunk of chunks) {
             meshes.push(new VOXMesh(chunk)); 
-        }
+        };
         return meshes;
     }
 }
@@ -44,5 +44,4 @@ interface Chunk {
     size: any;
     data: any;
     palette: any;
-
 }

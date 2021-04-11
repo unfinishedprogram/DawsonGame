@@ -1,8 +1,5 @@
 import { Component } from '../components/component';
-import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry, BufferGeometry, Material } from 'three';
-import { AssetLoader } from '../utils/assetLoader';
 import { Transform } from '../components/transform';
-import { Action } from '../utils/action';
 import { Drawable } from '../baseClasses/drawable';
 
 /** Class representing an object with components. */
@@ -32,7 +29,7 @@ export abstract class GameObject extends Drawable {
      * @param component Component to add
      * @returns If component can be added
      */
-    public addComponent(component: Component): boolean{
+    public addComponent(component: Component): boolean {
         this.components.push(component);
         return true;
     }
@@ -45,7 +42,7 @@ export abstract class GameObject extends Drawable {
      * @param component Component to remove
      * @returns If component can be removed
      */
-    public removeComponent(component: Component): boolean{
+    public removeComponent(component: Component): boolean {
         return false;
     }
 }

@@ -7,7 +7,8 @@ import { Action } from '../utils/action';
 /** Class representing an object with components. */
 export abstract class GameObject {
     components: Component[] = [];
-    object3D: Object3D = new Object3D();
+    object3D: Mesh = new Mesh();
+
     geometry: BufferGeometry|undefined = undefined;
     material: Material | Material[];
 

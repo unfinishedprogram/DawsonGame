@@ -81,11 +81,12 @@ export class Renderer extends Observer<ChangeObject>{
     /**
      * Removes a given game object's 3D component from the scene
      */
-    removeGameObject(object:GameObject){   
-        if(object) {
-            this.tscene.remove(object.object3D);
-        }
+    removeGameObject(object:GameObject){
+        object.object3D.geometry.dispose();
+        object.object3D.remove();
+        this.tscene.remove(object.object3D);
     }
+
 
     /**
      * Adds a given game object's 3D component from the scene 

@@ -20,7 +20,7 @@ export class Mob extends GameObject {
 
     meshLoaded(){};
     constructor(transform: Transform, stats: Stats, VOXName: string) {
-        super(transform);
+        super(transform, "garbo");
         this.stats = stats;
         this.VOXName = VOXName;
         this.transform = transform; //temp

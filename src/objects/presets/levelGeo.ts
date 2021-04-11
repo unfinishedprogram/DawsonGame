@@ -1,18 +1,15 @@
 import { GameObject } from '../gameObject';
-import { MeshBasicMaterial, Object3D , Mesh} from 'three';
+import { Mesh} from 'three';
 import { Transform } from '../../components/transform';
-import { createTiledGeometry } from '../../utils/tileGeometry';
-import { ChangeObject } from '../../subjects/objectSubject';
-import { Action } from '../../utils/action';
+//import { createTiledGeometry } from '../../utils/tileGeometry';
 
 export class LevelGeo extends GameObject {
     constructor(transform: Transform) {
-        super(transform);
-        this.VOXName = "tile_test";
+        super(transform, "tile_test");
     }
     
     meshLoaded = ():void  => {
-        console.log("LOPAD MESH ");
+        /*
         if(this.geometry){
             let tiledGeo = createTiledGeometry(this.geometry, 8, 54, 30);
             let tiledMesh = new Mesh(tiledGeo);
@@ -20,9 +17,8 @@ export class LevelGeo extends GameObject {
             this.geometry = tiledMesh.geometry;
             this.object3D = tiledMesh;
         }
+        */
     };
-
-
+    
     update(deltaTime: number) {}
-
 }

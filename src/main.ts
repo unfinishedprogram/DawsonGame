@@ -79,7 +79,6 @@ class Main {
     private async loadObjects() {
         this.scene.gameObjects.forEach(async (object) => {
             this.tracker++;
-            await object.loadMesh();
             globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(object) );
         })
     }

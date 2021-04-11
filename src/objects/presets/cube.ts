@@ -24,8 +24,7 @@ export class Cube extends GameObject {
     camera: PCamera | undefined = undefined;
 
     constructor(transform: Transform) {
-        super(transform);
-        this.VOXName = "shaman";
+        super(transform, "shaman" );
         //this.object3D = new Mesh(this.geometry, this.material);
     }
 

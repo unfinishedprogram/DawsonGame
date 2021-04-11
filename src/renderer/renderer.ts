@@ -82,8 +82,8 @@ export class Renderer extends Observer<ChangeObject>{
      * Removes a given game object's 3D component from the scene
      */
     removeGameObject(object:GameObject){
-        object.object3D.geometry.dispose();
-        object.object3D.remove();
+        //object.object3D.geometry.dispose();
+        //object.object3D.remove();
         this.tscene.remove(object.object3D);
     }
 
@@ -95,21 +95,13 @@ export class Renderer extends Observer<ChangeObject>{
     
     async addGameObject(object:GameObject){
         if(object) {
-            if(!(object.object3D && object.geometry)){
-                await object.loadMesh();
-            }
-            object.meshLoaded();
-            
+            await object.loadMesh();
             this.tscene.add(object.object3D);
         }
     }
 
     async updateGameObject (object:GameObject){
         if(object){
-            this.tscene.remove(object.object3D);
-            if(!(object.object3D && object.geometry)){
-                await object.loadMesh();
-            }
             this.tscene.add(object.object3D);
         }
     }

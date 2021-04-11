@@ -15,15 +15,13 @@ export class GamePlayer extends GameObject {
     velocity: Vector2 = new Vector2(0, 0);
     drag: number = 0.95;
     acceleration: number = 1;
-
     // View
     targetViewAngle: number = 0;
     interpolatedViewAngle: number = 0;
     angleOffset: number = Math.PI / 2;
 
-    constructor(transform: Transform) {
-        super(transform);
-        this.VOXName = "shaman_new";
+    constructor(transform:Transform) {
+        super(transform, "shaman_new");
     }
     
     meshLoaded(){};
@@ -31,10 +29,8 @@ export class GamePlayer extends GameObject {
     shootBullet(direction: number){
         let rotationAngle = new Vector3(0, 0, 0)
         //.subVectors(this.object3D.position, globalThis.Input.getProjectedMousePosition()).normalize().multiplyScalar(-1);
-
-
         let bulletTransform = new Transform(this.object3D.position);
-        bulletTransform.rotation.setY(direction)
+        bulletTransform.rotation.setY(direction);
         let bullet = new GameBullet(bulletTransform);
         globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(bullet));
     }
@@ -74,6 +70,15 @@ export class GamePlayer extends GameObject {
         if (this.timeSinceShot > this.shotDelay) {
             if (input.shoot) {
                 this.timeSinceShot = 1;// Change this to zero to fix shoot speed
+
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
+                this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
                 this.shootBullet(this.targetViewAngle + (Math.random())/2.5 - 0.2);
             }
         }

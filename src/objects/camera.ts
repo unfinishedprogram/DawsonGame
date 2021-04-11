@@ -4,7 +4,7 @@ import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from 'three';
 import { Transform } from '../components/transform';
 
 /** Orthographic camera */
-export class OCamera extends GameObject {
+export class OCamera {
     components: Component[] = [];
     camera: OrthographicCamera;
     width: number;
@@ -19,7 +19,6 @@ export class OCamera extends GameObject {
      * @param zoom Zoom of the camera
      */
     constructor(transform: Transform, width: number, height: number, zoom: number) {
-        super(transform);
         this.width = width;
         this.height = height;
         this.zoom = zoom;
@@ -46,7 +45,7 @@ export class OCamera extends GameObject {
 }
 
 /** Perspective camera */
-export class PCamera extends GameObject {
+export class PCamera {
     components: Component[] = [];
     camera: PerspectiveCamera;
     width: number;
@@ -60,7 +59,6 @@ export class PCamera extends GameObject {
      * @param height Height of the viewport (used for aspect ratio)
      */
     constructor(transform: Transform, FOV:number, width: number, height: number) {
-        super(transform);
         this.width = width;
         this.height = height;
         this.camera = new PerspectiveCamera(

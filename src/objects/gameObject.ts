@@ -3,33 +3,14 @@ import { Mesh, MeshBasicMaterial, Object3D, BoxGeometry, BufferGeometry, Materia
 import { AssetLoader } from '../utils/assetLoader';
 import { Transform } from '../components/transform';
 import { Action } from '../utils/action';
+import { Drawable } from '../baseClasses/drawable';
 
 /** Class representing an object with components. */
-export abstract class GameObject {
+export abstract class GameObject extends Drawable {
     components: Component[] = [];
-    object3D: Mesh = new Mesh();
 
-    geometry: BufferGeometry|undefined = undefined;
-    material: Material | Material[];
-
-    VOXName: string = '';
     abstract update(deltaTime: number): void;
     abstract meshLoaded(): void;
-
-    async loadMesh(){
-        //console.log('Loading new object FROM LOADING');
-        if(this.VOXName){
-            var mesh = await AssetLoader.getVOXMesh('models/' + this.VOXName + '.vox');
-        } else{
-            console.error("Object must have a VOXName assigned before the mesh can be loaded");
-            return;
-        }
-        this.material = mesh.material;
-        this.geometry = mesh.geometry;
-        this.object3D = mesh;
-
-        return;
-    }
 
     // Every game object has a transform. This obliges us to specify
     // its initial state. We can also define another constructor to
@@ -40,12 +21,9 @@ export abstract class GameObject {
      * Initializes the game object
      * @param transform The transform component of the gameObject
      */
-    constructor(transform: Transform) {
-        let geometry = new BoxGeometry();
-        this.material = new MeshBasicMaterial( { color: 0x00ff00 } );
-        this.object3D = new Mesh( geometry, this.material );
+    constructor(transform: Transform, VOXName: string) {
+        super(VOXName); 
     }
-
     // We should be adding and removing components with a function so we can update anything 
     // nececary and check compatibility with other components
 

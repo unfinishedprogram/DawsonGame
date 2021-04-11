@@ -8,7 +8,6 @@ import { ChangeObject } from '../../subjects/objectSubject';
 
 
 export class GameBullet extends GameObject {
-    material = new MeshBasicMaterial({ color: 0x00ff00 });
     controller = new Controller();
     velocity : Vector3; 
     transform: Transform;
@@ -18,13 +17,17 @@ export class GameBullet extends GameObject {
 
     // Delete this later
     constructor(transform: Transform) {
-        super(transform.copy());
+        super(transform.copy(), "bullet");
         this.transform = transform.copy();
-        this.VOXName = "bullet";
+        console.log(this.transform);
         this.velocity = new Vector3(Math.sin(this.transform.rotation.y), 0, Math.cos(this.transform.rotation.y));
         this.velocity.multiplyScalar(this.speed);
     }
-    meshLoaded(){};
+
+    meshLoaded(){
+
+    };
+
     update(deltaTime: number) {
         this.object3D.position.set(...this.transform.position.toArray());
         this.object3D.rotation.set(...this.transform.rotation.toArray());
@@ -32,12 +35,8 @@ export class GameBullet extends GameObject {
        
         this.transform.position.add(this.velocity.clone().multiplyScalar(deltaTime));
         
-
-        if( this.transform.position.x > 50 ||
-            this.transform.position.x < -50 ||
-            this.transform.position.z > 50 ||
-            this.transform.position.z < -50 ){
-                globalThis.Subjects.removeObjectSubject.notify(Action.REMOVE_OBJECT, new ChangeObject(this));
-            }
+        if( this.transform.position.x > 300 || this.transform.position.x < -300 || this.transform.position.z > 150 || this.transform.position.z < -150 ){
+            globalThis.Subjects.removeObjectSubject.notify(Action.REMOVE_OBJECT, new ChangeObject(this));
+        }
     }
 }

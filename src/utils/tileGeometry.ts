@@ -1,7 +1,10 @@
+/*
+
 import { BufferGeometry, Matrix4, Quaternion, Vector3 } from "three";
 import { BufferGeometryUtils } from "three/examples/jsm/utils/BufferGeometryUtils";
 
-export function createTiledGeometry(geo:BufferGeometry, tileSize:number, width:number, height:number): BufferGeometry{
+
+export function createTiledGeometry(geo:levelGeometryLookup, levelMap:levelMapData): BufferGeometry{
     let matrix = new Matrix4();
     let quaternion = new Quaternion();
     let scale = new Vector3(1,1,1);
@@ -24,3 +27,4 @@ export function createTiledGeometry(geo:BufferGeometry, tileSize:number, width:n
     finalGeo.translate(...finalTransform.toArray());
     return finalGeo;
 }
+*/

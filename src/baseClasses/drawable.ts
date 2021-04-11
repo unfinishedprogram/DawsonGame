@@ -1,8 +1,8 @@
-import { BufferGeometry, Material, Mesh, MeshBasicMaterial } from "three";
+import { BufferGeometry, Material, Mesh } from "three";
 import { AssetLoader } from "../utils/assetLoader";
 
 
-export abstract class Drawable{
+export abstract class Drawable {
     static initalObject3D:Mesh = new Mesh();
     static initalGeometry:BufferGeometry = new BufferGeometry();
     static initalMaterial:Material = new Material();
@@ -14,7 +14,7 @@ export abstract class Drawable{
 
     abstract meshLoaded(): void;
 
-    async loadMesh(){
+    async loadMesh() {
         //console.log('Loading new object FROM LOADING');
         if(this.VOXName){
             var mesh = await AssetLoader.getVOXMesh('models/' + this.VOXName + '.vox');
@@ -27,7 +27,7 @@ export abstract class Drawable{
         return mesh
     }
 
-    constructor(VOXName:string){
+    constructor(VOXName:string) {
         this.object3D = Drawable.initalObject3D;
         this.geometry = Drawable.initalGeometry;
         this.material = Drawable.initalMaterial;

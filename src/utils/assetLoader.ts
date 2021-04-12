@@ -13,14 +13,7 @@ export class AssetLoader {
             return new Mesh(loadedMesh.geometry, loadedMesh.material);
         } else{
             console.log("SlowLoad")
-            AssetLoader.loadedMeshes[dir] = new Promise((resolve, reject)=>{
-                resolve:{
-                    console.log("resolved");
-                }
-                reject:{
-                    console.log("rejected");
-                }
-            })
+            AssetLoader.loadedMeshes[dir] = new Promise((resolve, reject)=>{});
             const loader = new VOXLoader();
             let chunks = await loader.loadAsync(dir, undefined);
             

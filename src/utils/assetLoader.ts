@@ -5,16 +5,22 @@ import { VOXLoader, VOXMesh } from 'three/examples/jsm/loaders/VOXLoader';
 
 
 export class AssetLoader {
-    static loadedMeshes: { [key: string]: Mesh } = {};
+    static loadedMeshes: { [key: string]: Mesh | Promise<Mesh> } = {};
     //Only loads the first chunk of the given VOX file
     static async getVOXMesh(dir:string): Promise<Mesh> {
-       
-
         if(AssetLoader.loadedMeshes[dir]){
-            return new Mesh(AssetLoader.loadedMeshes[dir].geometry, AssetLoader.loadedMeshes[dir].material);
+            let loadedMesh = await AssetLoader.loadedMeshes[dir];
+            return new Mesh(loadedMesh.geometry, loadedMesh.material);
         } else{
             console.log("SlowLoad")
-
+            AssetLoader.loadedMeshes[dir] = new Promise((resolve, reject)=>{
+                resolve:{
+                    console.log("resolved");
+                }
+                reject:{
+                    console.log("rejected");
+                }
+            })
             const loader = new VOXLoader();
             let chunks = await loader.loadAsync(dir, undefined);
             
@@ -24,7 +30,8 @@ export class AssetLoader {
     
             let mesh = new VOXMesh(myChunk)
             AssetLoader.loadedMeshes[dir] = mesh;
-            return AssetLoader.loadedMeshes[dir];
+            Promise.resolve(AssetLoader.loadedMeshes[dir]);
+            return mesh;
         }
     }
 

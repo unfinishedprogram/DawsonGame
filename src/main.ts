@@ -106,7 +106,6 @@ export class Main {
 
     private async loadObjects(scene: Scene) {
         scene.gameObjects.forEach(async (object) => {
-            this.tracker++;
             globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(object) );
         })
     }
@@ -117,7 +116,7 @@ export class Main {
         this.renderer.scene.update(deltaTime);
         this.renderer.draw();
         this.renderer.renderStats.update();
-        console.log("delta time: ", 1 / deltaTime);
+        //console.log("delta time: ", 1 / deltaTime);
         window.requestAnimationFrame(this.update.bind(this));
     }
 }

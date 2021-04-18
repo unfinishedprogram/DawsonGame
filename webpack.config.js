@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   watch: true,
-  entry: './src/main.ts',
+  entry: './src/diepIo/diepio.ts',
   module: {
     rules: [
       {

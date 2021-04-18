@@ -17,7 +17,9 @@ export class DiepIo {
 
     }
 
-    update() {}
+    update() {
+        
+    }
 }
 
 new DiepIo();

@@ -38,6 +38,7 @@ export class Scene extends Observer<ChangeObject> {
         for(let gameObject of this.gameObjects) {
             gameObject.update(deltaTime);
         }
+        this.camera.update(deltaTime);
     }
 
     /**

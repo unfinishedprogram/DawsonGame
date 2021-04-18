@@ -19,7 +19,7 @@ export class GameBullet extends GameObject {
     constructor(transform: Transform) {
         super(transform.copy(), "bullet");
         this.transform = transform.copy();
-        console.log(this.transform);
+        //console.log(this.transform);
         this.velocity = new Vector3(Math.sin(this.transform.rotation.y), 0, Math.cos(this.transform.rotation.y));
         this.velocity.multiplyScalar(this.speed);
     }

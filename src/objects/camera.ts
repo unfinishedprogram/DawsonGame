@@ -1,5 +1,4 @@
 import { Component } from '../components/component';
-import { GameObject } from './gameObject';
 import { OrthographicCamera, PerspectiveCamera, Vector2, Vector3 } from 'three';
 import { Transform } from '../components/transform';
 

@@ -13,6 +13,7 @@ import { GamepadListener } from './controller/gamepad/gamepadListener';
 import { GamepadAnalogObserver } from './controller/gamepad/gamepadAnalogObserver';
 import { GamepadButtonObserver } from './controller/gamepad/gamepadButtonObserver';
 import { DiepIo } from './diepIo/diepio';
+import { CollisionSignleton } from './collision/collisionSingleton';
 
 interface InputListeners {
     mouse?: boolean,
@@ -56,6 +57,7 @@ export class Main {
         globalThis.Input = InputSingleton.Instance; 
         globalThis.Input.camera = scene.camera.camera;
         globalThis.Subjects = SubjectSingleton.Instance;
+        globalThis.Collision = CollisionSignleton.Instance;
 
         if (inputListeners.keyboard) {
             this.keyboardObserver = new KeyboardObserver(inputListeners.keyboard);

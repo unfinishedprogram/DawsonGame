@@ -1,5 +1,8 @@
+import { Collidable } from "./colidable";
+
 export class CollisionSignleton {
     private static _instance: CollisionSignleton;
+    private static collisionLayers: Collidable[][];
 
     private constructor() { };
 

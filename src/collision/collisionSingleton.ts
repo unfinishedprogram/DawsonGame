@@ -5,7 +5,6 @@ export class CollisionSignleton {
     private static collisionLayers: Collidable[][];
 
     private constructor() { };
-
     public static get Instance() {
         return this._instance || (this._instance = new this());
     }

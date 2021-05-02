@@ -1,4 +1,7 @@
 import { Vector2 } from "three";
+import { HitboxPrimitive } from "./primitives/hitboxPrimitive";
+
+// Multiple hitmeshes 
 
 export interface Collidable {
     /**
@@ -9,12 +12,8 @@ export interface Collidable {
      * The list of numbers that represent with what collision layers the object should generate collision events
      */
     collisionLayerResponse: number[];
-    /**
-     * The size of the collision (from the center)
-     */
-    collisionSize: Vector2 | number;
 
-    onContactStart(collidedWith: Collidable): void;
-    onContactContinue(Collidable: Collidable): void;
-    onContactEnd(collidedWith: Collidable): void;
+    collisionPrimitives: HitboxPrimitive[];
+
+    onContact(collidedWith: Collidable): void;
 }

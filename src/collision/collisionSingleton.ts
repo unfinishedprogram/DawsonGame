@@ -16,8 +16,8 @@ export class CollisionSignleton {
     */
 
     private static _instance: CollisionSignleton;
-    private static collisionResponseLookUp: number[][] = [];
-    private static collidables: Collidable[][] = [];
+    private collisionResponseLookUp: number[][] = [];
+    private collidables: Collidable[][] = [];
 
     private constructor() { };
 
@@ -25,17 +25,19 @@ export class CollisionSignleton {
         return this._instance || (this._instance = new this());
     }
 
-    public static modifyLayerResponseLookup(layer : number, response : number[]) : void {
+    public modifyLayerResponseLookup(layer : number, response : number[]) : void {
         this.collisionResponseLookUp[layer] = response;
     }
 
-    public static addCollidable(collidable : Collidable) {
+    public addCollidable(collidable : Collidable) {
         this.collidables[collidable.collisionLayer].push(collidable);
+        console.log("ADDED OBJECT", collidable);
     }
     
-    public static removeCollidable(collidable : Collidable) {
+    public removeCollidable(collidable : Collidable) {
         let index = this.collidables[collidable.collisionLayer].indexOf(collidable);
         if (index > -1)
             this.collidables[collidable.collisionLayer].splice(index);
+        console.log("REMOVED OBJECT", collidable);
     }
 }

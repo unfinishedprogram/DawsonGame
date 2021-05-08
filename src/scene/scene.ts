@@ -4,6 +4,8 @@ import { Renderer } from '../renderer/renderer';
 import { ChangeObject } from '../subjects/objectSubject';
 import { Observer } from '../utils/observer';
 import { Action } from '../utils/action';
+import { CollisionSignleton } from '../collision/collisionSingleton';
+import { Collidable } from '../collision/colidable';
 
 /** Scene that contains all the objects */
 export class Scene extends Observer<ChangeObject> {
@@ -54,11 +56,17 @@ export class Scene extends Observer<ChangeObject> {
         if (index > -1) {
             this.gameObjects.splice(index, 1);
             if(this.renderer) this.renderer.tscene.remove(object.object3D);
+            // Ugly hack to see if it implements Collidable interface
+            if ('collisionLayer' in object)
+                globalThis.Collision.removeCollidable(object as Collidable);
         }
     }
 
     addGameObject(object : GameObject) {
         this.gameObjects.push(object);
+        // Ugly hack to see if it implements Collidable interface
+        if ('collisionLayer' in object)
+            globalThis.Collision.addCollidable(object as Collidable);
     }
 
     onNotify(action: Action, info: ChangeObject):void {

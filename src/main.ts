@@ -119,7 +119,6 @@ export class Main {
         this.renderer.scene.update(deltaTime);
         this.renderer.draw();
         this.renderer.renderStats.update();
-        console.log("delta time: ", 1 / deltaTime);
         window.requestAnimationFrame(this.update.bind(this));
     }
 }

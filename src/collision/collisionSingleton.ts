@@ -1,3 +1,5 @@
+import { Collidable } from "./colidable";
+
 export class CollisionSignleton {
     /* TODO 
      * Implementation ideas:
@@ -13,16 +15,27 @@ export class CollisionSignleton {
      * (For example: the player needs to know if he collided with the buller, and the bullet needs to know if it collided with the player - bidirectional between player and bullet)
     */
 
-
     private static _instance: CollisionSignleton;
-    private static collisionResponseLookUp: number[][] = [
-        [0, 1], // Player can collide with other players and walls
-        [0]     // Walls can only collide with players
-    ];
+    private static collisionResponseLookUp: number[][] = [];
+    private static collidables: Collidable[][] = [];
 
     private constructor() { };
 
     public static get Instance() {
         return this._instance || (this._instance = new this());
+    }
+
+    public static modifyLayerResponseLookup(layer : number, response : number[]) : void {
+        this.collisionResponseLookUp[layer] = response;
+    }
+
+    public static addCollidable(collidable : Collidable) {
+        this.collidables[collidable.collisionLayer].push(collidable);
+    }
+    
+    public static removeCollidable(collidable : Collidable) {
+        let index = this.collidables[collidable.collisionLayer].indexOf(collidable);
+        if (index > -1)
+            this.collidables[collidable.collisionLayer].splice(index);
     }
 }

@@ -1,7 +1,7 @@
 import { Vector2 } from "three";
 import { HitboxPrimitive } from "./hitboxPrimitive";
 
-export class CircleHitbox implements HitboxPrimitive {
+export class RectangleHitbox implements HitboxPrimitive {
     offset: Vector2;
     dimensions: Vector2;
 

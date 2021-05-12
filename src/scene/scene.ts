@@ -11,6 +11,7 @@ import { Collidable } from '../collision/colidable';
 export class Scene extends Observer<ChangeObject> {
     /** The list of game objects */
     private gameObjects: GameObject[] = [];
+    private initalGameObjects: GameObject[] = [];
     /** Current camera */
     camera: OCamera | PCamera; // ....... shouldn't exist?
 
@@ -21,6 +22,7 @@ export class Scene extends Observer<ChangeObject> {
      * Initializes scence
      * @param camera Camera to display the scene
      */
+
     constructor(camera: PCamera | OCamera) {
         super();
         this.camera = camera;
@@ -54,6 +56,12 @@ export class Scene extends Observer<ChangeObject> {
         this.renderer = renderer;
     }
 
+    initalizeObjects() {
+        for( let obj  of this.initalGameObjects){
+            globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(obj));
+        }
+    }
+
     removeGameObject(object:GameObject){
         let index = this.gameObjects.indexOf(object, 0);
         if (index > -1) {
@@ -72,8 +80,16 @@ export class Scene extends Observer<ChangeObject> {
             globalThis.Collision.addCollidable(object as Collidable);
     }
 
+    addInitalGameObject(object : GameObject){
+        this.initalGameObjects.push(object);
+    }
+
     getGameObjects() : GameObject[] {
         return this.gameObjects;
+    }
+
+    getInitalGameObjects() : GameObject[] {
+        return this.initalGameObjects;
     }
 
     onNotify(action: Action, info: ChangeObject):void {

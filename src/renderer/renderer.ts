@@ -74,6 +74,7 @@ export class Renderer extends Observer<ChangeObject> {
         // 3. How should the scene tell the renderer that it has a new
         // object? scene SHOULDN'T have a reference the renderer.
     }
+    
     draw() {
         this.composer.render();
     }
@@ -87,7 +88,6 @@ export class Renderer extends Observer<ChangeObject> {
         this.tscene.remove(object.object3D);
     }
 
-
     /**
      * Adds a given game object's 3D component from the scene 
      * Must be paired with an equivilant call to the scene otherwise the object will not be interactable
@@ -99,13 +99,6 @@ export class Renderer extends Observer<ChangeObject> {
             this.tscene.add(object.object3D);
         }
     }
-
-    async updateGameObject (object:GameObject) {
-        if(object){
-            this.tscene.add(object.object3D);
-        }
-    }
-
 
     /**
      * Updates the renderer to the new dimensions of the window

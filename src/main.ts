@@ -38,22 +38,20 @@ export class Main {
 
     tracker:number = 0;
 
-    last = new Date(); // REMOVE IT!!
-
     constructor(inputListeners: InputListeners, scene: Scene, game: DiepIo) {
       
         this.game = game;
         this.renderer = new Renderer(1, 1, scene);
         scene.setRenderer(this.renderer);
-        //this.networkManager = new Networking('127.0.0.1', 8765);
-        //this.networkManager = null;
+        // this.networkManager = new Networking('127.0.0.1', 8765);
+        // this.networkManager = null;
 
         document.body.appendChild(this.renderer.renderer.domElement);
         
         window.onresize = () => this.renderer.resize(window.innerWidth, window.innerHeight);
         window.onload = () => this.renderer.resize(window.innerWidth, window.innerHeight);
 
-        //Initalizing observers and subjects
+        // Initalizing observers and subjects
         globalThis.Input = InputSingleton.Instance; 
         globalThis.Input.camera = scene.camera.camera;
         globalThis.Subjects = SubjectSingleton.Instance;
@@ -72,25 +70,23 @@ export class Main {
 
             this.mouseMoveInputSubject = new MouseMoveInputSubject();
             this.mouseClickInputSubject = new MouseButtonInputSubject();
+            
             this.startMouseSubject();
         }
 
-        this.startSubjects(scene);
-        this.loadObjects(scene);
+        this.startSubjects( [ scene, this.renderer ] );
+        scene.initalizeObjects();
     }
 
     public start() {
         window.requestAnimationFrame(this.update.bind(this));
     }
 
-    private startSubjects(scene: Scene) {
-
-        globalThis.Subjects.removeObjectSubject.addObserver(this.renderer);
-        globalThis.Subjects.removeObjectSubject.addObserver(scene);
-
-        globalThis.Subjects.addObjectSubject.addObserver(this.renderer);
-        globalThis.Subjects.addObjectSubject.addObserver(scene);
-
+    private startSubjects(listners: any[]) {
+        for(let listner of listners) {
+            globalThis.Subjects.removeObjectSubject.addObserver(listner);
+            globalThis.Subjects.addObjectSubject.addObserver(listner);
+        }
     }
 
     private startKeyboardSubject() {
@@ -105,13 +101,6 @@ export class Main {
             this.mouseClickInputSubject.addObserver(this.mouseButtonObserver);
             this.mouseMoveInputSubject.addObserver(this.mouseMoveObserver);
         }
-    }
-
-    private async loadObjects(scene: Scene) {
-        scene.getGameObjects().forEach(async (object) => {
-            this.tracker++;
-            globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(object) );
-        })
     }
 
     // TODO: call renderer.update instead of updating 3 renderer here...

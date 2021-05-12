@@ -21,7 +21,7 @@ let gameScene = new Scene(new PCamera(cameraTransform, 45, 1280, 720));
 let cube = new GamePlayer(transforma);
 let floor = new LevelGeo(transforma);
 // Delete this later, it is horrible
-gameScene.addGameObject(cube);
-gameScene.addGameObject(floor);
+gameScene.addInitalGameObject(cube);
+gameScene.addInitalGameObject(floor);
 
 export { gameScene };

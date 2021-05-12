@@ -16,7 +16,7 @@ export class GameBullet extends GameObject implements Collidable {
     transform: Transform;
 
     // Movement
-    speed: number = 100;
+    speed: number = 5;
 
     // Delete this later
     constructor(transform: Transform) {

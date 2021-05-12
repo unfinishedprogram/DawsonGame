@@ -17,8 +17,8 @@ export class CollisionSignleton {
     */
 
     private static _instance: CollisionSignleton;
-    private collisionResponseLookUp: number[][] = [[]];
-    private collidables: Collidable[][] = [[]];
+    private collisionResponseLookUp: number[][] = [];
+    private collidables: Collidable[][] = [];
 
     private constructor() { };
 
@@ -48,22 +48,33 @@ export class CollisionSignleton {
 
     public updateCollision() {
         // Go through each collision layer
+        if (!this.collidables)
+            return;
+
         for (let collisionLayer of this.collidables) {
             // Go through each object
+            if (!collisionLayer)
+                continue;
+
             for (let collidable of collisionLayer) {
                 // Get the appropriate responses for the object
                 let response : number[] = this.collisionResponseLookUp[collidable.collisionLayer];
-
+                if (!response)
+                    continue;
+                
                 for (let targetLayer of response) {
                     let targetCollisionLayer : Collidable[] = this.collidables[targetLayer];
-
+                    if (!targetCollisionLayer)
+                        continue;
+                    
                     for (let targetObject of targetCollisionLayer) {
                         let oCollidable = collidable as unknown as GameObject;
                         let oTargetObject = targetObject as unknown as GameObject;
                         let distance : number = oCollidable.object3D.position.distanceTo(oTargetObject.object3D.position);
-                        if (distance < 100)
+                        if (distance < 5)
                             collidable.onCollision(targetObject);
                     }
+                    
                 }
             }
         }

@@ -76,9 +76,10 @@ export class GamePlayer extends GameObject implements Collidable {
         this.object3D.rotation.y = this.interpolatedViewAngle;
         if (this.timeSinceShot > this.shotDelay) {
             if (input.shoot) {
-                this.timeSinceShot = 1;// Change this to zero to fix shoot speed
+                this.timeSinceShot = 0;// Change this to zero to fix shoot speed
 
                 this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                /*
                 this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
                 this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
                 this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
@@ -87,6 +88,7 @@ export class GamePlayer extends GameObject implements Collidable {
                 this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
                 this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
                 this.shootBullet(this.targetViewAngle + (Math.random()) / 2.5 - 0.2);
+                */
             }
         }
         else

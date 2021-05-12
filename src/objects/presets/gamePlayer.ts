@@ -6,8 +6,11 @@ import { GameBullet } from './bullet';
 import { Action } from '../../utils/action';
 import { PlayerController } from '../../components/playerController';
 import { MoreMath } from '../../utils/moreMath';
+import { Collidable } from '../../collision/colidable';
+import { HitboxPrimitive } from '../../collision/primitives/hitboxPrimitive';
+import { CircleHitbox } from '../../collision/primitives/circleHitbox';
 
-export class GamePlayer extends GameObject {
+export class GamePlayer extends GameObject implements Collidable {
     controller = new PlayerController();
     shotDelay = 0.2;
     timeSinceShot = 0;
@@ -19,8 +22,15 @@ export class GamePlayer extends GameObject {
     targetViewAngle: number = 0;
     interpolatedViewAngle: number = 0;
 
+    collisionPrimitives: HitboxPrimitive[] = [ new CircleHitbox(new Vector2(0, 0), 25) ];
+    collisionLayer: number = 0;
+
     constructor(transform:Transform) {
         super(transform, "shaman_new");
+    }
+
+    onCollision(colliidable: Collidable): void {
+        throw new Error('Method not implemented.');
     }
     
     meshLoaded(){};

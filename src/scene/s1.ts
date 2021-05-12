@@ -21,6 +21,6 @@ let s1 = new Scene(new PCamera(cameraTransform, 45, 1280, 720));
 let cube = new Cube(transforma);
 // Delete this later, it is horrible
 cube.setCamera(s1.camera as PCamera);
-s1.gameObjects.push(cube);
+s1.addGameObject(cube);
 
 export { s1 };

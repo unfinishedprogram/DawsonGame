@@ -16,8 +16,8 @@ export class CollisionSignleton {
     */
 
     private static _instance: CollisionSignleton;
-    private collisionResponseLookUp: number[][] = [];
-    private collidables: Collidable[][] = [];
+    private collisionResponseLookUp: number[][] = [[]];
+    private collidables: Collidable[][] = [[]];
 
     private constructor() { };
 

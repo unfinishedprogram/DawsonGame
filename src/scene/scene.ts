@@ -10,7 +10,7 @@ import { Collidable } from '../collision/colidable';
 /** Scene that contains all the objects */
 export class Scene extends Observer<ChangeObject> {
     /** The list of game objects */
-    gameObjects: GameObject[] = [];
+    private gameObjects: GameObject[] = [];
     /** Current camera */
     camera: OCamera | PCamera; // ....... shouldn't exist?
 
@@ -24,6 +24,9 @@ export class Scene extends Observer<ChangeObject> {
     constructor(camera: PCamera | OCamera) {
         super();
         this.camera = camera;
+        //TODO Find a better way of initializing collision singleton before the scene
+        if (!globalThis.Collision)
+            globalThis.Collision = CollisionSignleton.Instance;
         //this.gameObjects.push(camera);
         // I commented this line but I am not sure if the camera should
         // be inside the game objects list.
@@ -67,6 +70,10 @@ export class Scene extends Observer<ChangeObject> {
         // Ugly hack to see if it implements Collidable interface
         if ('collisionLayer' in object)
             globalThis.Collision.addCollidable(object as Collidable);
+    }
+
+    getGameObjects() : GameObject[] {
+        return this.gameObjects;
     }
 
     onNotify(action: Action, info: ChangeObject):void {

@@ -57,7 +57,8 @@ export class Main {
         globalThis.Input = InputSingleton.Instance; 
         globalThis.Input.camera = scene.camera.camera;
         globalThis.Subjects = SubjectSingleton.Instance;
-        globalThis.Collision = CollisionSignleton.Instance;
+        //TODO Find a better way of initializing collision singleton before the scene
+        // globalThis.Collision = CollisionSignleton.Instance;
 
         if (inputListeners.keyboard) {
             this.keyboardObserver = new KeyboardObserver(inputListeners.keyboard);
@@ -107,7 +108,7 @@ export class Main {
     }
 
     private async loadObjects(scene: Scene) {
-        scene.gameObjects.forEach(async (object) => {
+        scene.getGameObjects().forEach(async (object) => {
             this.tracker++;
             globalThis.Subjects.addObjectSubject.notify(Action.ADD_OBJECT, new ChangeObject(object) );
         })

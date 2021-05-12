@@ -71,6 +71,7 @@ export class CollisionSignleton {
                         let oCollidable = collidable as unknown as GameObject;
                         let oTargetObject = targetObject as unknown as GameObject;
                         let distance : number = oCollidable.object3D.position.distanceTo(oTargetObject.object3D.position);
+                        // TODO implement actual check if the objects collided
                         if (distance < 5)
                             collidable.onCollision(targetObject);
                     }

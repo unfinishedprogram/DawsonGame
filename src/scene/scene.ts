@@ -26,9 +26,6 @@ export class Scene extends Observer<ChangeObject> {
     constructor(camera: PCamera | OCamera) {
         super();
         this.camera = camera;
-        //TODO Find a better way of initializing collision singleton before the scene
-        if (!globalThis.Collision)
-            globalThis.Collision = CollisionSignleton.Instance;
         //this.gameObjects.push(camera);
         // I commented this line but I am not sure if the camera should
         // be inside the game objects list.

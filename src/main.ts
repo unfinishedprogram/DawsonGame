@@ -55,6 +55,7 @@ export class Main {
         globalThis.Input = InputSingleton.Instance; 
         globalThis.Input.camera = scene.camera.camera;
         globalThis.Subjects = SubjectSingleton.Instance;
+        globalThis.Collision = CollisionSignleton.Instance;
         //TODO Find a better way of initializing collision singleton before the scene
         // globalThis.Collision = CollisionSignleton.Instance;
 

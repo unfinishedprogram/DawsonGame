@@ -1,11 +1,17 @@
 import { GameObject } from '../gameObject';
 import { Transform } from '../../components/transform';
+import { Collidable } from '../../collision/colidable';
+import { HitboxPrimitive } from '../../collision/primitives/hitboxPrimitive';
+import { RectangleHitbox } from '../../collision/primitives/rectangleHitbox';
+import { Vector2 } from 'three';
 //import { createTiledGeometry } from '../../utils/tileGeometry';
 
 export class LevelGeo extends GameObject {
     constructor(transform: Transform) {
         super(transform, "tile_test");
     }
+    // collisionPrimitives: HitboxPrimitive[] = [ new RectangleHitbox(new Vector2(), 50) ];
+    // collisionLayer: number = 1;
     
     meshLoaded = (): void  => {
         /*

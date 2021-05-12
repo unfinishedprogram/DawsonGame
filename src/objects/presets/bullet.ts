@@ -1,13 +1,16 @@
 import { GameObject } from '../gameObject';
-import { Vector3 } from 'three';
+import { Vector2, Vector3 } from 'three';
 import { Controller } from '../../components/controller';
 import { Transform } from '../../components/transform';
 import { Action } from '../../utils/action';
 import { ChangeObject } from '../../subjects/objectSubject';
+import { Collidable } from '../../collision/colidable';
+import { HitboxPrimitive } from '../../collision/primitives/hitboxPrimitive';
+import { RectangleHitbox } from '../../collision/primitives/rectangleHitbox';
 
 
 
-export class GameBullet extends GameObject {
+export class GameBullet extends GameObject implements Collidable {
     controller = new Controller();
     velocity : Vector3; 
     transform: Transform;
@@ -22,6 +25,12 @@ export class GameBullet extends GameObject {
         //console.log(this.transform);
         this.velocity = new Vector3(Math.sin(this.transform.rotation.y), 0, Math.cos(this.transform.rotation.y));
         this.velocity.multiplyScalar(this.speed);
+    }
+    collisionPrimitives: HitboxPrimitive[] = [ new RectangleHitbox(new Vector2(), 10) ];
+    collisionLayer: number = 1;
+
+    onCollision(colliidable: Collidable): void {
+        throw new Error('Method not implemented.');
     }
 
     meshLoaded(){

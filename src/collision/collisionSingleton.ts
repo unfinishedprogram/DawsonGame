@@ -1,3 +1,4 @@
+import { GameObject } from "../objects/gameObject";
 import { Collidable } from "./colidable";
 
 export class CollisionSignleton {
@@ -30,14 +31,41 @@ export class CollisionSignleton {
     }
 
     public addCollidable(collidable : Collidable) {
+        if (!this.collidables[collidable.collisionLayer])
+            this.collidables[collidable.collisionLayer] = [];
+
         this.collidables[collidable.collisionLayer].push(collidable);
-        console.log("ADDED OBJECT", collidable);
     }
     
     public removeCollidable(collidable : Collidable) {
+        if (!this.collidables[collidable.collisionLayer])
+            return;
+
         let index = this.collidables[collidable.collisionLayer].indexOf(collidable);
         if (index > -1)
             this.collidables[collidable.collisionLayer].splice(index);
-        console.log("REMOVED OBJECT", collidable);
+    }
+
+    public updateCollision() {
+        // Go through each collision layer
+        for (let collisionLayer of this.collidables) {
+            // Go through each object
+            for (let collidable of collisionLayer) {
+                // Get the appropriate responses for the object
+                let response : number[] = this.collisionResponseLookUp[collidable.collisionLayer];
+
+                for (let targetLayer of response) {
+                    let targetCollisionLayer : Collidable[] = this.collidables[targetLayer];
+
+                    for (let targetObject of targetCollisionLayer) {
+                        let oCollidable = collidable as unknown as GameObject;
+                        let oTargetObject = targetObject as unknown as GameObject;
+                        let distance : number = oCollidable.object3D.position.distanceTo(oTargetObject.object3D.position);
+                        if (distance < 100)
+                            collidable.onCollision(targetObject);
+                    }
+                }
+            }
+        }
     }
 }

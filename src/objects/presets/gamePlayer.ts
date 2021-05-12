@@ -30,7 +30,7 @@ export class GamePlayer extends GameObject implements Collidable {
     }
 
     onCollision(colliidable: Collidable): void {
-        throw new Error('Method not implemented.');
+        console.log('Collided');
     }
     
     meshLoaded(){};

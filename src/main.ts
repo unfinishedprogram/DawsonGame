@@ -39,7 +39,7 @@ export class Main {
     tracker:number = 0;
 
     constructor(inputListeners: InputListeners, scene: Scene, game: DiepIo) {
-      
+
         this.game = game;
         this.renderer = new Renderer(1, 1, scene);
         scene.setRenderer(this.renderer);
@@ -56,8 +56,7 @@ export class Main {
         globalThis.Input.camera = scene.camera.camera;
         globalThis.Subjects = SubjectSingleton.Instance;
         globalThis.Collision = CollisionSignleton.Instance;
-        //TODO Find a better way of initializing collision singleton before the scene
-        // globalThis.Collision = CollisionSignleton.Instance;
+        globalThis.Collision.modifyLayerResponseLookup(0, [1]);
 
         if (inputListeners.keyboard) {
             this.keyboardObserver = new KeyboardObserver(inputListeners.keyboard);
@@ -111,6 +110,7 @@ export class Main {
         this.renderer.draw();
         this.renderer.renderStats.update();
         window.requestAnimationFrame(this.update.bind(this));
+        globalThis.Collision.updateCollision();
     }
 }
 

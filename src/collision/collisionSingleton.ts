@@ -1,5 +1,6 @@
 import { GameObject } from "../objects/gameObject";
 import { Collidable } from "./colidable";
+import { HitboxPrimitive } from "./primitives/hitboxPrimitive";
 
 export class CollisionSignleton {
     /* TODO 
@@ -68,16 +69,26 @@ export class CollisionSignleton {
                         continue;
                     
                     for (let targetObject of targetCollisionLayer) {
-                        let oCollidable = collidable as unknown as GameObject;
-                        let oTargetObject = targetObject as unknown as GameObject;
-                        let distance : number = oCollidable.object3D.position.distanceTo(oTargetObject.object3D.position);
-                        // TODO implement actual check if the objects collided
-                        if (distance < 5)
+                        if (this.doesCollidableCollide(collidable, targetObject))
                             collidable.onCollision(targetObject);
                     }
-                    
                 }
             }
         }
+    }
+
+    public doesCollidableCollide(object : Collidable, target : Collidable) : boolean {
+        if (!this.collisionResponseLookUp[object.collisionLayer].includes(target.collisionLayer))
+            return false;
+
+        let objectO = object as unknown as GameObject;
+        let targetO = target as unknown as GameObject;
+
+        let distance : number = objectO.object3D.position.distanceTo(targetO.object3D.position);
+
+        if (distance < 5)
+            return true;
+
+        return true;
     }
 }

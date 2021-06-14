@@ -22,7 +22,7 @@ export class GamePlayer extends GameObject implements Collidable {
     targetViewAngle: number = 0;
     interpolatedViewAngle: number = 0;
 
-    collisionPrimitives: HitboxPrimitive[] = [ new CircleHitbox(new Vector2(0, 0), 25) ];
+    collisionPrimitives: HitboxPrimitive[] = [ new CircleHitbox(new Vector2(0, 0), 5) ];
     collisionLayer: number = 0;
 
     constructor(transform:Transform) {

@@ -1,4 +1,4 @@
-import { Vector3 } from "three";
+import { Vector2, Vector3 } from "three";
 import { GameObject } from "../objects/gameObject";
 import { Collidable } from "./colidable";
 import { HitboxPrimitive } from "./primitives/hitboxPrimitive";
@@ -102,9 +102,17 @@ export class CollisionSignleton {
         return false;
     }
     private doPrimitivesOverlap(prim1 : HitboxPrimitive, obj1Pos : Vector3, prim2 : HitboxPrimitive, obj2Pos : Vector3) : boolean {
-        let distance : number = obj1Pos.distanceTo(obj2Pos);
+        let prim1Pos : Vector2 = new Vector2(obj1Pos.x, obj1Pos.z);
+        prim1Pos.add(prim1.offset);
 
-        if (distance < 5)
+        let prim2Pos : Vector2 = new Vector2(obj2Pos.x, obj2Pos.z);
+        prim2Pos.add(prim2.offset);
+        
+        let distance : number = prim1Pos.distanceTo(prim2Pos);
+
+        let overlapDistance : number = prim1.dimensions.length() + prim2.dimensions.length();
+
+        if (distance < overlapDistance)
             return true;
         else
             return false;

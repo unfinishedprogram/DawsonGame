@@ -26,7 +26,7 @@ export class GameBullet extends GameObject implements Collidable {
         this.velocity = new Vector3(Math.sin(this.transform.rotation.y), 0, Math.cos(this.transform.rotation.y));
         this.velocity.multiplyScalar(this.speed);
     }
-    collisionPrimitives: HitboxPrimitive[] = [ new RectangleHitbox(new Vector2(), 10) ];
+    collisionPrimitives: HitboxPrimitive[] = [ new RectangleHitbox(new Vector2(), 1) ];
     collisionLayer: number = 1;
 
     onCollision(colliidable: Collidable): void {

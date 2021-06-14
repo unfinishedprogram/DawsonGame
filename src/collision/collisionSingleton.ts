@@ -54,21 +54,27 @@ export class CollisionSignleton {
             return;
 
         for (let collisionLayer of this.collidables) {
-            // Go through each object
+            // Go through each collision layer filled with collidables
             if (!collisionLayer)
                 continue;
 
+            // Go through each collidable inside this collision layer
             for (let collidable of collisionLayer) {
-                // Get the appropriate responses for the object
-                let response : number[] = this.collisionResponseLookUp[collidable.collisionLayer];
-                if (!response)
+                // Get the appropriate responses to other collision layers for the object
+                let responseToCollisionLayers : number[] = this.collisionResponseLookUp[collidable.collisionLayer];
+                
+                if (!responseToCollisionLayers)
                     continue;
                 
-                for (let targetLayer of response) {
-                    let targetCollisionLayer : Collidable[] = this.collidables[targetLayer];
+                // Go through each layer inside the layers that the object responses
+                for (let responseLayer of responseToCollisionLayers) {
+                    // Get all the objects that the collidable should check the collisions against
+                    let targetCollisionLayer : Collidable[] = this.collidables[responseLayer];
+                    
                     if (!targetCollisionLayer)
                         continue;
                     
+                    // Go through each object and verify collision
                     for (let targetObject of targetCollisionLayer) {
                         if (this.doesCollidableCollideWithTarget(collidable, targetObject))
                             collidable.onCollision(targetObject);

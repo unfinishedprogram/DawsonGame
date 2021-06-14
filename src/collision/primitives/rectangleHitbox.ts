@@ -1,15 +1,17 @@
 import { Vector2 } from "three";
 import { HitboxPrimitive } from "./hitboxPrimitive";
 
-export class RectangleHitbox implements HitboxPrimitive {
+export class RectangleHitbox extends HitboxPrimitive {
     offset: Vector2;
     dimensions: Vector2;
 
     constructor(offset: Vector2, dimensions: Vector2 | number) {
+        super("rectangle", offset)
         this.offset = offset;
-        if (typeof dimensions == 'number')
-            this.dimensions = new Vector2(dimensions, dimensions);
-        else
-            this.dimensions = dimensions;
+        this.dimensions = typeof dimensions == 'number' ? new Vector2(dimensions, dimensions) : dimensions;
+    }
+
+    calculateBounds() {
+        return new Vector2(this.dimensions.x, this.dimensions.y);
     }
 }

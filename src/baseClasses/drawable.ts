@@ -24,7 +24,7 @@ export abstract class Drawable {
         this.material = mesh.material;
         this.geometry = mesh.geometry;
         this.object3D = mesh;
-        return mesh
+        return mesh;
     }
 
     constructor(VOXName:string) {

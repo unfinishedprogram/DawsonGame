@@ -50,31 +50,19 @@ export class CollisionSignleton {
 
     public updateCollision() {
         // Go through each collision layer
-        if (!this.collidables)
-            return;
-
-        for (let collisionLayer of this.collidables) {
-            // Go through each collision layer filled with collidables
-            if (!collisionLayer)
-                continue;
-
+        for (let i = 0; i < this.collidables.length; i++) {
             // Go through each collidable inside this collision layer
-            for (let collidable of collisionLayer) {
-                // Get the appropriate responses to other collision layers for the object
-                let responseToCollisionLayers : number[] = this.collisionResponseLookUp[collidable.collisionLayer];
-                
-                if (!responseToCollisionLayers)
-                    continue;
-                
+
+            let responseToCollisionLayers = this.collisionResponseLookUp[i];
+
+            for (let collidable of this.collidables[i]) {
+                // Get the appropriate responses to other collision layers for the object           
                 // Go through each layer inside the layers that the object responses
                 for (let responseLayer of responseToCollisionLayers) {
                     // Get all the objects that the collidable should check the collisions against
                     let targetCollisionLayer : Collidable[] = this.collidables[responseLayer];
                     
-                    if (!targetCollisionLayer)
-                        continue;
-                    
-                    // Go through each object and verify collision
+                    // Go through each object and check for collision
                     for (let targetObject of targetCollisionLayer) {
                         if (this.doesCollidableCollideWithTarget(collidable, targetObject))
                             collidable.onCollision(targetObject);
@@ -88,8 +76,8 @@ export class CollisionSignleton {
         if (!this.collisionResponseLookUp[object.collisionLayer].includes(target.collisionLayer))
             return false;
 
-        let objectO = object as unknown as GameObject;
-        let targetO = target as unknown as GameObject;
+        let objectO = object;
+        let targetO = target;
 
         // Go through each primitive inside both objects
         for (let objectPrim of object.collisionPrimitives) {
@@ -101,6 +89,7 @@ export class CollisionSignleton {
 
         return false;
     }
+
     private doPrimitivesOverlap(prim1 : HitboxPrimitive, obj1Pos : Vector3, prim2 : HitboxPrimitive, obj2Pos : Vector3) : boolean {
         let prim1Pos : Vector2 = new Vector2(obj1Pos.x, obj1Pos.z);
         prim1Pos.add(prim1.offset);
@@ -111,10 +100,7 @@ export class CollisionSignleton {
         let distance : number = prim1Pos.distanceTo(prim2Pos);
 
         let overlapDistance : number = prim1.dimensions.length() + prim2.dimensions.length();
-
-        if (distance < overlapDistance)
-            return true;
-        else
-            return false;
+        
+        return (distance < overlapDistance);
     }
 }

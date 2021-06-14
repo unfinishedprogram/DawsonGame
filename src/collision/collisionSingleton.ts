@@ -1,3 +1,4 @@
+import { Vector3 } from "three";
 import { GameObject } from "../objects/gameObject";
 import { Collidable } from "./colidable";
 import { HitboxPrimitive } from "./primitives/hitboxPrimitive";
@@ -69,7 +70,7 @@ export class CollisionSignleton {
                         continue;
                     
                     for (let targetObject of targetCollisionLayer) {
-                        if (this.doesCollidableCollide(collidable, targetObject))
+                        if (this.doesCollidableCollideWithTarget(collidable, targetObject))
                             collidable.onCollision(targetObject);
                     }
                 }
@@ -77,18 +78,29 @@ export class CollisionSignleton {
         }
     }
 
-    public doesCollidableCollide(object : Collidable, target : Collidable) : boolean {
+    public doesCollidableCollideWithTarget(object : Collidable, target : Collidable) : boolean {
         if (!this.collisionResponseLookUp[object.collisionLayer].includes(target.collisionLayer))
             return false;
 
         let objectO = object as unknown as GameObject;
         let targetO = target as unknown as GameObject;
 
-        let distance : number = objectO.object3D.position.distanceTo(targetO.object3D.position);
+        // Go through each primitive inside both objects
+        for (let objectPrim of object.collisionPrimitives) {
+            for (let targetPrim of target.collisionPrimitives) {
+                if (this.doPrimitivesOverlap(objectPrim, objectO.object3D.position, targetPrim, targetO.object3D.position))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+    private doPrimitivesOverlap(prim1 : HitboxPrimitive, obj1Pos : Vector3, prim2 : HitboxPrimitive, obj2Pos : Vector3) : boolean {
+        let distance : number = obj1Pos.distanceTo(obj2Pos);
 
         if (distance < 5)
             return true;
-
-        return true;
+        else
+            return false;
     }
 }

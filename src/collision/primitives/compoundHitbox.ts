@@ -3,21 +3,32 @@ import { HitboxPrimitive } from "./hitboxPrimitive";
 
 export class compoundHitbox extends HitboxPrimitive {
     primatives: HitboxPrimitive[];
-    
+    bounds: { min: Vector2, max: Vector2 };
     constructor(offset: Vector2, primatives: HitboxPrimitive[]) {
         super("compound", offset);
+        
         this.primatives = primatives;
+
+        this.bounds = this.calculateBounds();
     }
 
-    calculateBounds(): Vector2{
-        let minX = 0, minY = 0, maxX = 0, maxY = 0;
-        this.primatives.forEach(primative => {
-            if (primative.bounds.x < minX) minX = primative.bounds.x;
-            if (primative.bounds.x > maxX) maxX = primative.bounds.x;
+    calculateBounds(): { min: Vector2, max: Vector2 } {
+        let newBounds = {
+            min: new Vector2(),
+            max: new Vector2()
+        };
 
-            if (primative.bounds.y < minY) minY = primative.bounds.y;
-            if (primative.bounds.y > maxY) maxY = primative.bounds.y;
+        this.primatives.forEach(primative => {
+            if (primative.bounds.min.x + primative.offset.x < newBounds.min.x)
+                newBounds.min.x = primative.bounds.min.x + primative.offset.x;
+            if (primative.bounds.max.x + primative.offset.x > newBounds.max.x)
+                newBounds.max.x = primative.bounds.max.x + primative.offset.x;
+            
+            if (primative.bounds.min.y + primative.offset.y < newBounds.min.y)
+                newBounds.min.y = primative.bounds.min.y + primative.offset.y;
+            if (primative.bounds.max.y + primative.offset.y > newBounds.max.y)
+                newBounds.max.y = primative.bounds.max.y + primative.offset.y;
         })
-        return new Vector2()
+        return newBounds;
     }
 }

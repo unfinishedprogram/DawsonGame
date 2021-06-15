@@ -80,12 +80,9 @@ export class CollisionSignleton {
         let targetO = target;
 
         // Go through each primitive inside both objects
-        for (let objectPrim of object.collisionPrimitives) {
-            for (let targetPrim of target.collisionPrimitives) {
-                if (this.doPrimitivesOverlap(objectPrim, objectO.object3D.position, targetPrim, targetO.object3D.position))
-                    return true;
-            }
-        }
+        if (this.doPrimitivesOverlap(objectO.collisionPrimitive, objectO.object3D.position, targetPrim, targetO.object3D.position))
+            return true;
+
 
         return false;
     }
